@@ -8,10 +8,7 @@ import PageLayout from "../PageLayout";
 const Header = () => {
   const { loggedInUser } = useStateContext();
   return (
-    <PageLayout
-      extra="position-fixed top-0 bg-white"
-      style={{ zIndex: 3 }}
-    >
+    <PageLayout extra="position-fixed top-0 bg-white" style={{ zIndex: 4 }}>
       <div className="p-3 d-flex justify-content-between align-items-center">
         <SidebarMobile />
         <NavLink
@@ -20,7 +17,7 @@ const Header = () => {
           title="Pinshot"
           style={{ color: "var(--dark100)" }}
         >
-          PINSHOT<sup className="fw-light">TM</sup>
+          PINTUBE
         </NavLink>
         <InputGroup className="d-none d-xl-flex w-50 rounded-pill border">
           <Form.Control

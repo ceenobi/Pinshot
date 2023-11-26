@@ -28,7 +28,7 @@ const getPinsByUser = (Pin) => async (userId, page, limit) => {
     .skip(page * limit);
 };
 const getPin = (Pin) => async (pinId) => {
-  return await Pin.findById(pinId);
+  return await Pin.findById(pinId).populate("userId", "subscribedUsers");
 };
 
 const updatePin =

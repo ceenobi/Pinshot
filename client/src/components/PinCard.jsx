@@ -12,6 +12,7 @@ const PinCard = ({ _id, title, image }) => {
           className="w-100 h-100 rounded-4 object-fit-fill"
           src={image[0]}
           alt={title}
+          loading="lazy"
         />
       </Link>
       <div className="d-none d-xl-block focus-heart p-2">

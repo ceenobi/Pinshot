@@ -13,6 +13,6 @@ router.patch('/:id', verifyAuth(Roles.All), CommentController.updateAComment)
 
 router.get('/:id', CommentController.getPinComments)
 
-router.delete('/:id', verifyAuth(Roles.All), CommentController.deleteComments)
+router.delete('/:id', verifyAuth(Roles.User), CommentController.deleteComments)
 
 export default router

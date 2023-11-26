@@ -26,6 +26,9 @@ const registerOptions = {
         "Username must contain only letters, numbers and _",
     },
   },
+  comment: {
+    required: "Cannot send empty comment",
+  },
 };
 
 export default registerOptions;

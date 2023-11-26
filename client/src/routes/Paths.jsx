@@ -1,4 +1,4 @@
-// import React, { lazy } from "react";
+import { Suspense, lazy } from "react";
 import {
   RouterProvider,
   createBrowserRouter,
@@ -6,8 +6,11 @@ import {
   Route,
 } from "react-router-dom";
 import { Root } from "../components";
-import { Home, Login, Register } from "../pages";
+import { Login, Register } from "../pages";
+import { Loading } from "../utils";
 import Protectedroutes from "./Protectedroutes";
+const Home = lazy(() => import("../pages/Home"));
+const Pindetails = lazy(() => import("../pages/Pindetails"));
 
 const Paths = () => {
   const token = localStorage.getItem("usertoken");
@@ -17,13 +20,25 @@ const Paths = () => {
         <Route
           index
           element={
-            <Protectedroutes isAuth={token}>
-              <Home />
-            </Protectedroutes>
+            <Suspense fallback={<Loading text="PINTUBE" />}>
+              <Protectedroutes isAuth={token}>
+                <Home />
+              </Protectedroutes>
+            </Suspense>
           }
         />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route
+          path="pin/:pinId"
+          element={
+            <Suspense fallback={<Loading text="PINTUBE" />}>
+              <Protectedroutes isAuth={token}>
+                <Pindetails />
+              </Protectedroutes>
+            </Suspense>
+          }
+        />
       </Route>
     )
   );

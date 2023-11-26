@@ -16,7 +16,7 @@ const SidebarMobile = () => {
     <>
       <Icon
         icon="ant-design:menu-outlined"
-        className="fs-2 d-xl-none text-secondary"
+        className="fs-2 d-xl-none text-secondary cursor"
         onClick={handleShow}
       />
       <Offcanvas show={show} onHide={handleClose}>

@@ -26,15 +26,17 @@ const Sidebar = () => {
               title={link.label}
             >
               <div className="fs-3 mb-0">{link.icon}</div>
-              <p style={{ fontSize: "12px" }}>{link.label}</p>
+              <p style={{ fontSize: "12px", }}>
+                {link.label}
+              </p>
             </NavLink>
           ))}
         </div>
         <Icon
           icon="ic:outline-power-settings-new"
-          className="fs-3 logout"
+          className="fs-2 text-secondary logout"
           title="logout"
-          onClick={()=> userService.logout()}
+          onClick={() => userService.logout()}
         />
       </div>
     </div>
