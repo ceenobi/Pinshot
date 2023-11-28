@@ -82,6 +82,18 @@ export const getAPin = tryCatch(async (req, res, next) => {
   res.status(200).json(pin);
 });
 
+export const getRelatedPins = tryCatch(async (req, res, next) => {
+  const { id: pinId } = req.params;
+  if (!mongoose.isValidObjectId(pinId)) {
+    return next(createHttpError(400, `Invalid pin id: ${pinId}`));
+  }
+  const pin = await myPinService.getRelatedPin(pinId);
+  if (!pin) {
+    return next(createHttpError(404, `Pin not found with id: ${pinId}`));
+  }
+  res.status(200).json(pin);
+});
+
 export const updateAPin = tryCatch(async (req, res, next) => {
   const pinParams = req.body;
   const { id: userId } = req.user;
@@ -164,7 +176,7 @@ export const getPinsByTags = tryCatch(async (req, res, next) => {
   if (typeof req.query.tag === "string") {
     const tags = req.query.tag.split(",").map((tag) => tag.trim());
     const pins = await myPinService.searchPinsByTags(tags);
-    if (!pins || pins.length === 0) {
+    if (!pins) {
       return next(createHttpError(404, "Pins not found"));
     }
     res.status(200).json(pins);
@@ -175,9 +187,9 @@ export const getPinsBySearch = tryCatch(async (req, res, next) => {
   if (!req.query.q) {
     return next(createHttpError(400, "Search parameter is missing"));
   }
-  const query = req.query.q.trim();
-  const pins = await myPinService.searchPins(query);
-  if (!pins || pins.length === 0) {
+  const searchQuery = req.query.q.trim();
+  const pins = await myPinService.searchPins(searchQuery);
+  if (!pins) {
     return next(createHttpError(404, "Pins not found"));
   }
   res.status(200).json(pins);

@@ -3,8 +3,28 @@ import { Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { downloadImage } from "../utils";
+import { tryCatch, useStateContext } from "../config";
+import { pinService } from "../services";
+import toast from "react-hot-toast";
+import { useFetch } from "../hooks";
 
 const PinCard = ({ _id, title, image }) => {
+  const { data, setData } = useFetch(pinService.getAPin, _id);
+  const { loggedInUser } = useStateContext();
+
+  const handleLike = tryCatch(async () => {
+    const res = await pinService.likeAPin(_id, loggedInUser._id);
+    toast.success(res.data);
+    const pin = await pinService.getAPin(_id);
+    setData(pin.data);
+  });
+  const handleDislike = tryCatch(async () => {
+    const res = await pinService.dislikeAPin(_id, loggedInUser._id);
+    toast.success(res.data);
+    const pin = await pinService.getAPin(_id);
+    setData(pin.data);
+  });
+
   return (
     <div className="cardBox w-100 h-auto rounded-4">
       <Link to={`/pin/${_id}`}>
@@ -19,7 +39,14 @@ const PinCard = ({ _id, title, image }) => {
         <Icon
           icon="mdi:cards-heart"
           className="fs-3 cursor"
-          style={{ color: "var(--cream200)" }}
+          style={{
+            color: data.likes?.includes(loggedInUser._id)
+              ? "red"
+              : "var(--cream200)",
+          }}
+          onClick={
+            data.likes?.includes(loggedInUser._id) ? handleDislike : handleLike
+          }
         />
       </div>
       <div className="d-none d-xl-block p-2 focus-content">
@@ -40,4 +67,5 @@ PinCard.propTypes = {
   _id: PropTypes.string,
   title: PropTypes.string,
   image: PropTypes.array,
+  likes: PropTypes.array,
 };

@@ -31,6 +31,14 @@ const getPin = (Pin) => async (pinId) => {
   return await Pin.findById(pinId).populate("userId", "subscribedUsers");
 };
 
+const getRelatedPin = (Pin) => async (pinId) => {
+  const getPin = await Pin.findById(pinId);
+  const getTags = getPin.tags;
+  const getRelatedPinTags = await Pin.find({ tags: { $in: getTags } });
+  return getRelatedPinTags.filter((allTags) => allTags.id !== pinId);
+};
+
+
 const updatePin =
   (Pin) =>
   async (pinId, { title, tags, description, image }) => {
@@ -69,6 +77,7 @@ const searchPins = (Pin) => async (query) => {
     },
   }).limit(20);
 };
+
 const getSubbedUserPins = (Pin) => async (subscribedPins) => {
   return await Promise.all(
     subscribedPins.map(async (pinId) => {
@@ -91,5 +100,6 @@ export default (Pin) => {
     searchPins: searchPins(Pin),
     getSubbedUserPins: getSubbedUserPins(Pin),
     getPinsByUser: getPinsByUser(Pin),
+    getRelatedPin: getRelatedPin(Pin),
   };
 };

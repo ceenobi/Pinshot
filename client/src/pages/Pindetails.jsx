@@ -2,11 +2,17 @@ import { Link, useParams } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { useFetch } from "../hooks";
 import { pinService } from "../services";
-import { Comments, MyButton, PageLayout } from "../components";
+import {
+  Comments,
+  MasonryLayout,
+  MyButton,
+  PageLayout,
+  PinCard,
+} from "../components";
 import { Col, Image, Row } from "react-bootstrap";
 import { useState } from "react";
 import { Loading, downloadImage } from "../utils";
-import { useStateContext } from "../config";
+import { tryCatch, useStateContext } from "../config";
 import toast from "react-hot-toast";
 
 const Pindetails = () => {
@@ -18,6 +24,7 @@ const Pindetails = () => {
     data: pin,
     setData,
   } = useFetch(pinService.getAPin, pinId);
+  const { data: relatedPins } = useFetch(pinService.getRelatedPins, pinId);
   const { loggedInUser } = useStateContext();
 
   const imgLength = pin?.image?.length;
@@ -30,28 +37,18 @@ const Pindetails = () => {
     setCurrent(current === 0 ? imgLength - 1 : current - 1);
   };
 
-  const handleLike = async () => {
-    try {
-      const res = await pinService.likeAPin(pinId, loggedInUser._id);
-      toast.success(res.data);
-      const pins = await pinService.getAPin(pinId);
-      setData(pins.data);
-    } catch (error) {
-      console.error(error);
-      toast.error(error.message);
-    }
-  };
-  const handleDislike = async () => {
-    try {
-      const res = await pinService.dislikeAPin(pinId, loggedInUser._id);
-      toast.success(res.data);
-      const pins = await pinService.getAPin(pinId);
-      setData(pins.data);
-    } catch (error) {
-      console.error(error);
-      toast.error(error.message);
-    }
-  };
+  const handleLike = tryCatch(async () => {
+    const res = await pinService.likeAPin(pinId, loggedInUser._id);
+    toast.success(res.data);
+    const pin = await pinService.getAPin(pinId);
+    setData(pin.data);
+  });
+  const handleDislike = tryCatch(async () => {
+    const res = await pinService.dislikeAPin(pinId, loggedInUser._id);
+    toast.success(res.data);
+    const pin = await pinService.getAPin(pinId);
+    setData(pin.data);
+  });
 
   return (
     <PageLayout extra="py-5 px-3 mt-4 mt-lg-5">
@@ -74,18 +71,20 @@ const Pindetails = () => {
                             alt={pin.title}
                             className="rounded-4 w-100 h-100 object-fit-fill"
                           />
-                          <div className="focus-arrowBox">
-                            <Icon
-                              icon="mdi:arrow-left-bold-circle-outline"
-                              className="cursor fs-2 arrowLeft activeIcon"
-                              onClick={prevSlide}
-                            />
-                            <Icon
-                              icon="mdi:arrow-right-bold-circle-outline"
-                              className="cursor fs-2 arrowRight activeIcon"
-                              onClick={nextSlide}
-                            />
-                          </div>
+                          {pin?.image?.length > 1 && (
+                            <div className="focus-arrowBox">
+                              <Icon
+                                icon="mdi:arrow-left-bold-circle-outline"
+                                className="cursor fs-2 arrowLeft activeIcon"
+                                onClick={prevSlide}
+                              />
+                              <Icon
+                                icon="mdi:arrow-right-bold-circle-outline"
+                                className="cursor fs-2 arrowRight activeIcon"
+                                onClick={nextSlide}
+                              />
+                            </div>
+                          )}
                         </>
                       )}
                     </div>
@@ -154,7 +153,7 @@ const Pindetails = () => {
                       <div>{pin.userId?.subscribedUsers?.length} followers</div>
                     </div>
                   </div>
-                  {loggedInUser._id !== pin.userId && (
+                  {loggedInUser._id !== pin.userId?._id && (
                     <MyButton
                       text={
                         loggedInUser.subscribedUsers?.includes(pin.userId)
@@ -170,6 +169,22 @@ const Pindetails = () => {
               </Col>
             </Row>
           )}
+          <div className="my-4">
+            <h1 className="text-center fs-4 fw-bold">More to explore</h1>
+            {relatedPins?.length > 0 ? (
+              <div className="mt-4">
+                <MasonryLayout>
+                  {relatedPins.map((pin) => (
+                    <PinCard key={pin._id} {...pin} />
+                  ))}
+                </MasonryLayout>
+              </div>
+            ) : (
+              <p className="mt-4">
+                Sorry we couldn&apos;t find any pins for recommendation.
+              </p>
+            )}
+          </div>
         </>
       )}
     </PageLayout>

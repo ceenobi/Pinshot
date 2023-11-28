@@ -7,6 +7,9 @@ const getAllPins = async () => {
 const getAPin = async (pinId) => {
   return await connect.get(`/api/pin/${pinId}`);
 };
+const getRelatedPins = async (pinId) => {
+  return await connect.get(`/api/pin/${pinId}/related`);
+};
 const likeAPin = async (pinId, userId) => {
   return await connect.put(`/api/pin/like/${pinId}`, userId, {
     headers: authHeader(),
@@ -17,10 +20,15 @@ const dislikeAPin = async (pinId, userId) => {
     headers: authHeader(),
   });
 };
+const searchPins = async (searchQuery) => {
+  return await connect.get(`/api/pin/search/keyword?q=${searchQuery}`);
+};
 
 export default {
   getAllPins,
   getAPin,
+  getRelatedPins,
   likeAPin,
   dislikeAPin,
+  searchPins,
 };

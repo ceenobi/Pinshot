@@ -21,7 +21,11 @@ export const StateProvider = ({ children }) => {
   console.log("user", loggedInUser);
 
   return (
-    <StateContext.Provider value={{ loggedInUser }}>
+    <StateContext.Provider
+      value={{
+        loggedInUser,
+      }}
+    >
       {children}
     </StateContext.Provider>
   );

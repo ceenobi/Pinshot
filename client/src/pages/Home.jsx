@@ -5,7 +5,6 @@ import { Loading } from "../utils";
 
 const Home = () => {
   const { error, loading, data } = useFetch(pinService.getAllPins);
-  console.log("home", data);
   return (
     <PageLayout extra="py-5 px-3 mt-4 mt-lg-5">
       {error ? (
@@ -17,7 +16,7 @@ const Home = () => {
           ) : (
             <div>
               <MasonryLayout>
-                {data.pins.map((pin) => (
+                {data?.pins?.map((pin) => (
                   <PinCard key={pin._id} {...pin} />
                 ))}
               </MasonryLayout>

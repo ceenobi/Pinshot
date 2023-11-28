@@ -62,7 +62,7 @@ const Comments = ({ pinId }) => {
     const res = await commentService.postComment(pinId, comment);
     toast.success(res.data.msg);
     const { data } = await commentService.getPinComments(pinId);
-    setData([data, ...pinComments]);
+    setData(data);
   });
 
   return (
@@ -118,8 +118,8 @@ const Comments = ({ pinId }) => {
                         </span>
                         {loggedInUser.role?.includes("user") && (
                           <Icon
-                            icon="mdi:delete-empty-outline"
-                            className="cursor mx-4"
+                            icon="mdi:delete-empty"
+                            className="cursor mx-3 text-secondary activeIcon"
                             onClick={() => deleteComment(comment?._id)}
                           />
                         )}

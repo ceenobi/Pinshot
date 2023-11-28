@@ -11,6 +11,7 @@ import { Loading } from "../utils";
 import Protectedroutes from "./Protectedroutes";
 const Home = lazy(() => import("../pages/Home"));
 const Pindetails = lazy(() => import("../pages/Pindetails"));
+const Search = lazy(() => import("../pages/Search"));
 
 const Paths = () => {
   const token = localStorage.getItem("usertoken");
@@ -35,6 +36,16 @@ const Paths = () => {
             <Suspense fallback={<Loading text="PINTUBE" />}>
               <Protectedroutes isAuth={token}>
                 <Pindetails />
+              </Protectedroutes>
+            </Suspense>
+          }
+        />
+        <Route
+          path="search"
+          element={
+            <Suspense fallback={<Loading text="PINTUBE" />}>
+              <Protectedroutes isAuth={token}>
+                <Search />
               </Protectedroutes>
             </Suspense>
           }

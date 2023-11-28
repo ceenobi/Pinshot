@@ -57,8 +57,8 @@ const CommentModal = ({
                   </span>
                   {loggedInUser.role?.includes("user") && (
                     <Icon
-                      icon="mdi:delete-empty-outline"
-                      className="cursor mx-4"
+                      icon="mdi:delete-empty"
+                      className="cursor mx-3 text-secondary  activeIcon"
                       onClick={() => deleteComment(comment?._id)}
                     />
                   )}
