@@ -5,6 +5,7 @@ import PageLayout from "./PageLayout";
 import MasonryLayout from "./MasonryLayout";
 import PinCard from "./PinCard";
 import Comments from "./Comments";
+import SearchResult from "./nav/SearchResult";
 
 export {
   Root,
@@ -14,4 +15,5 @@ export {
   MasonryLayout,
   PinCard,
   Comments,
+  SearchResult,
 };

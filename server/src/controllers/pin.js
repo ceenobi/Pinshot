@@ -169,32 +169,6 @@ export const deleteAPin = tryCatch(async (req, res, next) => {
   res.status(200).send("Pin deleted!");
 });
 
-export const getPinsByTags = tryCatch(async (req, res, next) => {
-  if (!req.query.tag) {
-    return next(createHttpError(400, "Tag parameter is missing"));
-  }
-  if (typeof req.query.tag === "string") {
-    const tags = req.query.tag.split(",").map((tag) => tag.trim());
-    const pins = await myPinService.searchPinsByTags(tags);
-    if (!pins) {
-      return next(createHttpError(404, "Pins not found"));
-    }
-    res.status(200).json(pins);
-  }
-});
-
-export const getPinsBySearch = tryCatch(async (req, res, next) => {
-  if (!req.query.q) {
-    return next(createHttpError(400, "Search parameter is missing"));
-  }
-  const searchQuery = req.query.q.trim();
-  const pins = await myPinService.searchPins(searchQuery);
-  if (!pins) {
-    return next(createHttpError(404, "Pins not found"));
-  }
-  res.status(200).json(pins);
-});
-
 export const getSubbedPins = tryCatch(async (req, res) => {
   const { id: userId } = req.user;
   if (!mongoose.isValidObjectId(userId)) {

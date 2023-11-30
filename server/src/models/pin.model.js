@@ -1,10 +1,10 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model } from "mongoose";
 
 const pinSchema = new Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
       required: true,
     },
     avatar: String,
@@ -30,11 +30,10 @@ const pinSchema = new Schema(
       type: [String],
       default: [],
     },
-   
   },
   {
     timestamps: true,
   }
-)
-pinSchema.index({ title: 'text', description: 'text' })
-export default model('Pin', pinSchema)
+);
+pinSchema.index({ title: "text", description: "text", tags: "text" });
+export default model("Pin", pinSchema);

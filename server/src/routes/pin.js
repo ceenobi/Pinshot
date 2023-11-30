@@ -16,8 +16,6 @@ router.get("/subscribed", verifyAuth(Roles.All), PinController.getSubbedPins);
 router.get("/:id", PinController.getAPin);
 router.get("/", PinController.getAllPins);
 router.get("/random", PinController.randomPins);
-router.get("/tags/search", PinController.getPinsByTags);
-router.get("/search/keyword", PinController.getPinsBySearch);
 router.get("/:id/related", PinController.getRelatedPins);
 
 export default router;

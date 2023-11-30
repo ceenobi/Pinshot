@@ -38,7 +38,6 @@ const getRelatedPin = (Pin) => async (pinId) => {
   return getRelatedPinTags.filter((allTags) => allTags.id !== pinId);
 };
 
-
 const updatePin =
   (Pin) =>
   async (pinId, { title, tags, description, image }) => {
@@ -66,17 +65,6 @@ const deletePin = (Pin) => async (pinId) => {
   const pin = await Pin.findById(pinId);
   return await pin.deleteOne();
 };
-const searchPinsByTags = (Pin) => async (tag) => {
-  return await Pin.find({ tags: { $in: tag } }).limit(20);
-};
-
-const searchPins = (Pin) => async (query) => {
-  return await Pin.find({
-    $text: {
-      $search: query,
-    },
-  }).limit(20);
-};
 
 const getSubbedUserPins = (Pin) => async (subscribedPins) => {
   return await Promise.all(
@@ -96,8 +84,6 @@ export default (Pin) => {
     likePin: likePin(Pin),
     dislikePin: dislikePin(Pin),
     deletePin: deletePin(Pin),
-    searchPinsByTags: searchPinsByTags(Pin),
-    searchPins: searchPins(Pin),
     getSubbedUserPins: getSubbedUserPins(Pin),
     getPinsByUser: getPinsByUser(Pin),
     getRelatedPin: getRelatedPin(Pin),

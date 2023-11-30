@@ -145,5 +145,6 @@ export default (User, Token) => {
     passwordReset: passwordReset(User),
     subscribeUser: subscribeUser(User),
     unSubscribeUser: unSubscribeUser(User),
+  
   };
 };

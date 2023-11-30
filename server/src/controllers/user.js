@@ -176,6 +176,7 @@ export const subAUser = tryCatch(async (req, res) => {
   await myUserService.subscribeUser(userId, sub);
   res.status(200).json("Subscription successfull.");
 });
+
 export const unSubAUser = tryCatch(async (req, res) => {
   const { id: userId } = req.user;
   const { id: sub } = req.params;
@@ -188,3 +189,4 @@ export const unSubAUser = tryCatch(async (req, res) => {
   await myUserService.unSubscribeUser(userId, sub);
   res.status(200).json("UnSubscribed successfully.");
 });
+

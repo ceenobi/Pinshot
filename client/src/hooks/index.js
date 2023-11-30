@@ -1,3 +1,4 @@
 import useFetch from './useFetch'
+import useGenerateRandomColor from './generateColors'
 
-export {useFetch}
+export { useFetch, useGenerateRandomColor };
