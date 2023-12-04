@@ -1,12 +1,25 @@
-import mongoose from "mongoose";
-import { myUserService } from "../service/index.js";
+import { isValidObjectId } from "mongoose";
 import createHttpError from "http-errors";
+import crypto from "crypto";
+import otpGenerator from "otp-generator";
+// import { v2 as cloudinary } from "cloudinary";
+import { myUserService } from "../service/index.js";
 import generateToken from "../config/generateToken.js";
 import env from "../utils/validateEnv.js";
 import sendEmail from "../config/mailVerify.js";
-import crypto from "crypto";
-import otpGenerator from "otp-generator";
 import tryCatch from "../config/tryCatch.js";
+
+// cloudinary.config({
+//   secure: true,
+// });
+
+// console.log(cloudinary.config());
+
+// const options = {
+//   use_filename: true,
+//   unique_filename: false,
+//   overwrite: true,
+// };
 
 export const signUp = tryCatch(async (req, res) => {
   const { userName, email, password } = req.body;
@@ -68,7 +81,7 @@ export const login = tryCatch(async (req, res) => {
 export const getUser = tryCatch(async (req, res) => {
   const { id: userId } = req.user;
 
-  if (!mongoose.isValidObjectId(userId)) {
+  if (!isValidObjectId(userId)) {
     throw createHttpError(400, `Invalid user id: ${userId}`);
   }
   const user = await myUserService.getAuthUser(userId);
@@ -78,28 +91,48 @@ export const getUser = tryCatch(async (req, res) => {
   res.status(200).json(user);
 });
 
-export const updateUserdata = tryCatch(async (req, res, next) => {
+export const getProfileUser = tryCatch(async (req, res) => {
+  const { userName } = req.params;
+  if (!userName) {
+    throw createHttpError(400, `Invalid params`);
+  }
+  const user = await myUserService.getUserProfile({ userName });
+  if (!user) {
+    throw createHttpError(404, `User not found: ${userName}`);
+  }
+  res.status(200).json(user);
+});
+
+export const updateUserdata = tryCatch(async (req, res) => {
   const { id: userId } = req.user;
-  const getUser = req.body;
-  if (!mongoose.isValidObjectId(userId)) {
+  const { userName, email, password, profilePhoto, bio } = req.body;
+  if (!isValidObjectId(userId)) {
     throw createHttpError(400, "Invalid user id");
   }
-  const user = await myUserService.updateUser(userId, getUser);
-  if (!user.equals(userId)) {
+  const updatedUser = await myUserService.updateUser(userId, {
+    userName,
+    email,
+    password,
+    profilePhoto,
+    bio,
+  });
+  if (!updatedUser._id.equals(userId)) {
     throw createHttpError(401, "You cannot access this user");
   }
-  if (!user) {
+  if (!updatedUser) {
     throw createHttpError(404, "User not found");
   }
-  const access_token = generateToken(user._id, user.role);
-  res.status(200).json({ access_token, user, msg: "Updated userinfo success" });
+  const access_token = generateToken(updatedUser._id, updatedUser.role);
+  res
+    .status(200)
+    .json({ access_token, user: updatedUser, msg: "Updated userinfo success" });
 });
 
 export const verifyEmail = tryCatch(async (req, res, next) => {
   const { id: userId } = req.params;
   const { token: token } = req.params;
 
-  if (!mongoose.isValidObjectId(userId)) {
+  if (!isValidObjectId(userId)) {
     throw createHttpError(400, "Invalid user id");
   }
   if (!userId) {
@@ -167,26 +200,31 @@ export const resetPassword = tryCatch(async (req, res) => {
 export const subAUser = tryCatch(async (req, res) => {
   const { id: userId } = req.user;
   const { id: sub } = req.params;
-  if (!mongoose.isValidObjectId(userId)) {
+  if (!isValidObjectId(userId)) {
     throw createHttpError(400, "Invalid user id");
   }
   if (!userId) {
-    throw createHttpError(401, "401,Unable to find this user");
+    throw createHttpError(401, "Unable to find this user");
+  }
+  if (!sub) {
+    throw createHttpError(401, "Unable to find this user");
   }
   await myUserService.subscribeUser(userId, sub);
-  res.status(200).json("Subscription successfull.");
+  res.status(200).json("Following user successfull.");
 });
 
 export const unSubAUser = tryCatch(async (req, res) => {
   const { id: userId } = req.user;
   const { id: sub } = req.params;
-  if (!mongoose.isValidObjectId(userId)) {
+  if (!isValidObjectId(userId)) {
     throw createHttpError(400, "Invalid user id");
   }
   if (!userId) {
     throw createHttpError(401, "401,Unable to find this user");
   }
+  if (!sub) {
+    throw createHttpError(401, "Unable to find this user");
+  }
   await myUserService.unSubscribeUser(userId, sub);
-  res.status(200).json("UnSubscribed successfully.");
+  res.status(200).json("Unfollowed user successfull.");
 });
-

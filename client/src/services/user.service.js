@@ -12,6 +12,40 @@ const authUser = async () => {
   return await connect.get("/api/user", { headers: authHeader() });
 };
 
+const getUserProfile = async (userName) => {
+  return await connect.get(`/api/user/profile/${userName}`, {
+    headers: authHeader(),
+  });
+};
+
+const followUser = async (pinUserId, userId) => {
+  return await connect.put(`/api/user/sub/${pinUserId}`, userId, {
+    headers: authHeader(),
+  });
+};
+
+const unFollowUser = async (pinUserId, userId) => {
+  return await connect.put(`/api/user/unsub/${pinUserId}`, userId, {
+    headers: authHeader(),
+  });
+};
+
+const updateProfile = async (userName, email, password, profilePhoto, bio) => {
+  return await connect.patch(
+    "/api/user/update",
+    {
+      userName,
+      email,
+      password,
+      profilePhoto,
+      bio,
+    },
+    {
+      headers: authHeader(),
+    }
+  );
+};
+
 const logout = async () => {
   localStorage.removeItem("usertoken");
   window.location.href = "/";
@@ -21,5 +55,9 @@ export default {
   signup,
   login,
   authUser,
+  getUserProfile,
+  followUser,
+  unFollowUser,
+  updateProfile,
   logout,
 };

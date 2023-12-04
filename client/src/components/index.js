@@ -6,6 +6,7 @@ import MasonryLayout from "./MasonryLayout";
 import PinCard from "./PinCard";
 import Comments from "./Comments";
 import SearchResult from "./nav/SearchResult";
+import EditProfileModal from "./EditProfileModal";
 
 export {
   Root,
@@ -16,4 +17,5 @@ export {
   PinCard,
   Comments,
   SearchResult,
+  EditProfileModal,
 };

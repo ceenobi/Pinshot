@@ -82,6 +82,7 @@ const SearchResult = ({ searchQuery, setResultBox }) => {
                         <div
                           key={user._id}
                           className="d-flex gap-2 align-items-center mb-2 p-2 hovershade"
+                          onClick={() => setResultBox(false)}
                         >
                           <Link to={`/profile/${user.userName}`}>
                             <Image
@@ -113,15 +114,17 @@ const SearchResult = ({ searchQuery, setResultBox }) => {
             )}
           </>
         )}
-        <p
-          className="position-absolute top-100 start-50 translate-middle cursor"
-          onClick={() => {
-            navigate(`search/?query=${searchQuery}`);
-            setResultBox(false);
-          }}
-        >
-          View all results
-        </p>
+        {result?.length > 0 && (
+          <p
+            className="position-absolute top-100 start-50 translate-middle cursor"
+            onClick={() => {
+              navigate(`search/?query=${searchQuery}`);
+              setResultBox(false);
+            }}
+          >
+            View all results
+          </p>
+        )}
       </div>
     </div>
   );
@@ -131,5 +134,5 @@ export default SearchResult;
 
 SearchResult.propTypes = {
   searchQuery: PropTypes.string,
-  setResultBox: PropTypes.string,
+  setResultBox: PropTypes.any,
 };

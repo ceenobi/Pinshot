@@ -40,8 +40,6 @@ export const createAPin = tryCatch(async (req, res, next) => {
     tags: pinParams.tags,
     description: pinParams.description,
     image: pinParams.image,
-    avatar: user.profilePhoto,
-    owner: user.userName,
   });
   res.status(201).json({ pin, msg: "Pin created successfully" });
 });
@@ -58,7 +56,6 @@ export const getAllPins = tryCatch(async (req, res, next) => {
     limit,
     pins,
   };
-
   res.status(200).json(allPins);
 });
 

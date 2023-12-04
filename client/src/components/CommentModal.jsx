@@ -55,7 +55,7 @@ const CommentModal = ({
                   <span style={{ fontSize: "14px" }}>
                     {comment?.likeCount} likes
                   </span>
-                  {loggedInUser.role?.includes("user") && (
+                  {loggedInUser.role?.includes("admin") && (
                     <Icon
                       icon="mdi:delete-empty"
                       className="cursor mx-3 text-secondary  activeIcon"
@@ -78,7 +78,7 @@ CommentModal.propTypes = {
   handleClose: PropTypes.func,
   show: PropTypes.any,
   pinComments: PropTypes.array,
-  loggedInUser: PropTypes.object,
+  loggedInUser: PropTypes.any,
   handleLike: PropTypes.any,
   handleDislike: PropTypes.any,
   deleteComment: PropTypes.any,

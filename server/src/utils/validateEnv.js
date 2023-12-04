@@ -12,5 +12,5 @@ export default cleanEnv(process.env, {
   USERMAIL: str(),
   PASS: str(),
   SERVICE: str(),
-  CLOUDINARY_URL: str(),
+  // CLOUDINARY_URL: str(),
 })

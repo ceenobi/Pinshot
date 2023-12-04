@@ -116,7 +116,7 @@ const Comments = ({ pinId }) => {
                         <span style={{ fontSize: "14px" }}>
                           {comment?.likeCount} likes
                         </span>
-                        {loggedInUser.role?.includes("user") && (
+                        {loggedInUser.role?.includes("admin") && (
                           <Icon
                             icon="mdi:delete-empty"
                             className="cursor mx-3 text-secondary activeIcon"

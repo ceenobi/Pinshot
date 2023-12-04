@@ -15,20 +15,6 @@ export const getSearch = tryCatch(async (req, res, next) => {
   res.status(200).json(result);
 });
 
-export const getPinsByTags = tryCatch(async (req, res, next) => {
-  if (!req.query.tag) {
-    return next(createHttpError(400, "Tag parameter is missing"));
-  }
-  if (typeof req.query.tag === "string") {
-    const tags = req.query.tag.split(",").map((tag) => tag.trim());
-    const pins = await mySearchService.searchPinsByTags(tags);
-    if (!pins) {
-      return next(createHttpError(404, "Pins not found"));
-    }
-    res.status(200).json(pins);
-  }
-});
-
 export const getAllTags = tryCatch(async (req, res, next) => {
   const tags = await mySearchService.getTags();
   if (!tags) {
@@ -36,3 +22,17 @@ export const getAllTags = tryCatch(async (req, res, next) => {
   }
   res.status(200).json(tags);
 });
+
+// export const getPinsByTags = tryCatch(async (req, res, next) => {
+//   if (!req.query.tag) {
+//     return next(createHttpError(400, "Tag parameter is missing"));
+//   }
+//   if (typeof req.query.tag === "string") {
+//     const tags = req.query.tag.split(",").map((tag) => tag.trim());
+//     const pins = await mySearchService.searchPinsByTags(tags);
+//     if (!pins) {
+//       return next(createHttpError(404, "Pins not found"));
+//     }
+//     res.status(200).json(pins);
+//   }
+// });

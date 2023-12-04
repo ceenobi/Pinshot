@@ -22,7 +22,7 @@ const verifyPassword = () => async (password, userPassword) => {
 const getUsers = (User) => async () => {
   return await User.find({});
 };
-// get a user
+// authenticate user
 const getAuthUser = (User) => async (id) => {
   return await User.findById(id);
 };
@@ -33,11 +33,18 @@ const getUserByUsername =
     return await User.findOne({ userName: userName }).select("+password");
   };
 
+const getUserProfile =
+  (User) =>
+  async ({ userName }) => {
+    return await User.findOne({ userName: userName });
+  };
+
 const getUserByEmail =
   (User) =>
   async ({ email }) => {
     return await User.findOne({ email: email });
   };
+
 const getUserById =
   (User) =>
   async ({ id }) => {
@@ -134,6 +141,7 @@ export default (User, Token) => {
     verifyPassword: verifyPassword(),
     getUsers: getUsers(User),
     getUserByUsername: getUserByUsername(User),
+    getUserProfile: getUserProfile(User),
     getUserByEmail: getUserByEmail(User),
     getUserById: getUserById(User),
     getAuthUser: getAuthUser(User),
@@ -145,6 +153,5 @@ export default (User, Token) => {
     passwordReset: passwordReset(User),
     subscribeUser: subscribeUser(User),
     unSubscribeUser: unSubscribeUser(User),
-  
   };
 };

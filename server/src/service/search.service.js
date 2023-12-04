@@ -6,14 +6,13 @@ const searchUserOrPinsOrTags = (User, Pin) => async (query) => {
     // $text: {
     //   $search: query,
     // },
-    title: { $regex: query, $options: "i" },
+    $or: [
+      { title: { $regex: query, $options: "i" } },
+      { description: { $regex: query, $options: "i" } },
+      { tags: { $regex: query, $options: "i" } },
+    ],
   });
-  const tags = await Pin.find({ tags: { $regex: query, $options: "i" } });
-  return users.concat(pins, tags);
-};
-
-const searchPinsByTags = (Pin) => async (tag) => {
-  return;
+  return users.concat(pins);
 };
 
 const getTags = (Pin) => async () => {
@@ -30,7 +29,6 @@ const getTags = (Pin) => async () => {
 export default (User, Pin) => {
   return {
     searchUserOrPinsOrTags: searchUserOrPinsOrTags(User, Pin),
-    searchPinsByTags: searchPinsByTags(Pin),
     getTags: getTags(Pin),
   };
 };

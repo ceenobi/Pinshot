@@ -29,7 +29,7 @@ export const verifyAuth =
       req.user = decodedToken
       next()
     } catch (error) {
-      return next(createHttpError(403, 'Broken Or Expired Token'))
+      return next(createHttpError(403, 'Broken or expired Token, pls log in'))
     }
   }
 

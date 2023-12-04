@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { Button, Form, Image, InputGroup, Fade } from "react-bootstrap";
 import SidebarMobile from "./SidebarMobile";
@@ -79,13 +79,15 @@ const Header = () => {
             icon="fluent:camera-add-24-filled"
             className="fs-2 text-secondary activeIcon"
           />
-          <Image
-            src={loggedInUser.profilePhoto}
-            roundedCircle
-            className="d-none d-md-block"
-            style={{ width: "40px", height: "40px" }}
-            title={loggedInUser.userName}
-          />
+          <Link to={`/profile/${loggedInUser.userName}`}>
+            <Image
+              src={loggedInUser.profilePhoto}
+              roundedCircle
+              className="d-none d-md-block"
+              style={{ width: "40px", height: "40px" }}
+              title={loggedInUser.userName}
+            />
+          </Link>
           <Icon
             icon="ic:round-search"
             className="fs-2 d-md-none text-secondary activeIcon"

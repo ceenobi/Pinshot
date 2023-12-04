@@ -12,6 +12,7 @@ import Protectedroutes from "./Protectedroutes";
 const Home = lazy(() => import("../pages/Home"));
 const Pindetails = lazy(() => import("../pages/Pindetails"));
 const Search = lazy(() => import("../pages/Search"));
+const Profile = lazy(() => import("../pages/Profile"));
 
 const Paths = () => {
   const token = localStorage.getItem("usertoken");
@@ -46,6 +47,16 @@ const Paths = () => {
             <Suspense fallback={<Loading text="PINTUBE" />}>
               <Protectedroutes isAuth={token}>
                 <Search />
+              </Protectedroutes>
+            </Suspense>
+          }
+        />
+        <Route
+          path="profile/:userName"
+          element={
+            <Suspense fallback={<Loading text="PINTUBE" />}>
+              <Protectedroutes isAuth={token}>
+                <Profile />
               </Protectedroutes>
             </Suspense>
           }

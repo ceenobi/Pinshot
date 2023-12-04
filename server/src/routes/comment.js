@@ -1,18 +1,26 @@
-import express from 'express'
-import * as CommentController from '../controllers/comment.js'
-import { verifyAuth, Roles } from '../middleware/authVerify.js'
+import express from "express";
+import * as CommentController from "../controllers/comment.js";
+import { verifyAuth, Roles } from "../middleware/authVerify.js";
 
-const router = express.Router()
+const router = express.Router();
 
-router.post('/:id/add', verifyAuth(Roles.All), CommentController.addAComment)
+router.post("/:id/add", verifyAuth(Roles.All), CommentController.addAComment);
 
-router.put('/:id/like', verifyAuth(Roles.All), CommentController.likeAComment)
-router.put('/:id/dislike', verifyAuth(Roles.All), CommentController.dislikeAComment)
+router.put("/:id/like", verifyAuth(Roles.All), CommentController.likeAComment);
+router.put(
+  "/:id/dislike",
+  verifyAuth(Roles.All),
+  CommentController.dislikeAComment
+);
 
-router.patch('/:id', verifyAuth(Roles.All), CommentController.updateAComment)
+router.patch("/:id", verifyAuth(Roles.All), CommentController.updateAComment);
 
-router.get('/:id', CommentController.getPinComments)
+router.get("/:id", CommentController.getPinComments);
 
-router.delete('/:id', verifyAuth(Roles.User), CommentController.deleteComments)
+router.delete(
+  "/:id",
+  verifyAuth(Roles.Admin),
+  CommentController.deleteComments
+);
 
-export default router
+export default router;

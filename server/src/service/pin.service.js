@@ -1,14 +1,12 @@
 const createPin =
   (Pin) =>
-  async ({ userId, title, tags, description, image, avatar, owner }) => {
+  async ({ userId, title, tags, description, image }) => {
     const newPin = new Pin({
       userId,
       title,
       tags,
       description,
       image,
-      avatar,
-      owner,
     });
     return newPin.save();
   };
@@ -28,7 +26,10 @@ const getPinsByUser = (Pin) => async (userId, page, limit) => {
     .skip(page * limit);
 };
 const getPin = (Pin) => async (pinId) => {
-  return await Pin.findById(pinId).populate("userId", "subscribedUsers");
+  return await Pin.findById(pinId).populate(
+    "userId",
+    "userName profilePhoto subscribers"
+  );
 };
 
 const getRelatedPin = (Pin) => async (pinId) => {

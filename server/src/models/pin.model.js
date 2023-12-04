@@ -7,8 +7,6 @@ const pinSchema = new Schema(
       ref: "User",
       required: true,
     },
-    avatar: String,
-    owner: String,
     image: {
       type: [String],
       required: true,

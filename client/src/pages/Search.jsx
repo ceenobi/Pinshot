@@ -3,8 +3,9 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { searchService } from "../services";
 import { MasonryLayout, PageLayout, PinCard } from "../components";
 import { Loading } from "../utils";
-import { Button, Image } from "react-bootstrap";
+import { Button, Col, Image, Row } from "react-bootstrap";
 import { useFetch } from "../hooks";
+import toast from "react-hot-toast";
 
 const Search = () => {
   const [searchParams] = useSearchParams();
@@ -13,7 +14,7 @@ const Search = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [tag, setTag] = useState(query);
-  const { data } = useFetch(searchService.getAllTags);
+  const { data: tags } = useFetch(searchService.getAllTags);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,6 +38,7 @@ const Search = () => {
         } catch (error) {
           setError(error);
           console.error(error);
+          toast.error(error?.response?.data?.error);
         } finally {
           setLoading(false);
         }
@@ -46,11 +48,11 @@ const Search = () => {
     return () => clearTimeout(delayDebounceFn);
   }, [query]);
 
-  //const filterProfile = result.filter((data) => data.email);
-  const filterPins = result.filter((data) => data.owner);
+  const filterProfile = result.filter((data) => data?.email);
+  const filterPins = result.filter((data) => data?.owner);
 
   const shuffleTags = () => {
-    const shuffled = [...data].sort(() => 0.5 - Math.random());
+    const shuffled = [...tags].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, 30);
   };
   const getRandomTags = shuffleTags();
@@ -67,15 +69,20 @@ const Search = () => {
             <Loading text="Searching..." />
           ) : (
             <div>
-              <div className="d-flex flex-wrap gap-3 overflow-x-scroll scrollbody mb-4">
+              <div className="d-flex gap-3 overflow-x-scroll scrollbody mb-4">
                 {getRandomTags?.map((tag, i) => (
                   <Button
                     key={i}
                     variant="none"
+                    style={{
+                      backgroundColor: query === tag ? "var(--blue200)" : "",
+                      color:
+                        query === tag ? "var(--cream200)" : "var(--dark100)",
+                    }}
                     className={
                       query === tag
-                        ? "rounded-4 link px-3 py-1 text-white"
-                        : "rounded-4 bg-secondary-subtle px-3 py-1"
+                        ? "rounded-4 px-3 py-1 fw-bold"
+                        : "rounded-4 bg-secondary-subtle px-3 py-1 activeIcon"
                     }
                     onClick={() => setTag(tag)}
                   >
@@ -90,26 +97,34 @@ const Search = () => {
                       <PinCard key={pin._id} {...pin} />
                     ))}
                   </MasonryLayout>
-                  {/* {filterProfile.map((user) => (
-                    <div
-                      key={user._id}
-                      className="d-flex gap-3 align-items-center my-3"
-                    >
-                      <Link to={`/profile/${user.userName}`}>
-                        <Image
-                          src={user.profilePhoto}
-                          thumbnail
-                          style={{ width: "100px", height: "100px" }}
-                        />
-                      </Link>
-                      <Link
-                        to={`/profile/${user.userName}`}
-                        className="text-black"
-                      >
-                        {user.userName}
-                      </Link>
-                    </div>
-                  ))} */}
+                  {filterProfile.length > 0 && (
+                    <>
+                      <hr />
+                      <Row className="my-3">
+                        {filterProfile.map((user) => (
+                          <Col key={user._id} xs={4} md={2}>
+                            <div>
+                              <Link to={`/profile/${user.userName}`}>
+                                <Image
+                                  src={user.profilePhoto}
+                                  style={{ width: "100%", height: "150px" }}
+                                  className="rounded-4"
+                                />
+                              </Link>
+                              <div className="text-center">
+                                <Link
+                                  to={`/profile/${user.userName}`}
+                                  className="text-black"
+                                >
+                                  {user.userName}
+                                </Link>
+                              </div>
+                            </div>
+                          </Col>
+                        ))}
+                      </Row>
+                    </>
+                  )}
                 </>
               ) : (
                 <p className="fs-6 mt-5">

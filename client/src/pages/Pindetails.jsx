@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { useFetch } from "../hooks";
-import { pinService } from "../services";
+import { pinService, userService } from "../services";
 import {
   Comments,
   MasonryLayout,
@@ -25,7 +25,8 @@ const Pindetails = () => {
     setData,
   } = useFetch(pinService.getAPin, pinId);
   const { data: relatedPins } = useFetch(pinService.getRelatedPins, pinId);
-  const { loggedInUser } = useStateContext();
+  const { loggedInUser, setLoggedInUser } = useStateContext();
+  console.log(pin);
 
   const imgLength = pin?.image?.length;
 
@@ -43,11 +44,30 @@ const Pindetails = () => {
     const pin = await pinService.getAPin(pinId);
     setData(pin.data);
   });
+
   const handleDislike = tryCatch(async () => {
     const res = await pinService.dislikeAPin(pinId, loggedInUser._id);
     toast.success(res.data);
     const pin = await pinService.getAPin(pinId);
     setData(pin.data);
+  });
+
+  const follow = tryCatch(async (pinUserId) => {
+    const res = await userService.followUser(pinUserId, loggedInUser._id);
+    toast.success(res.data);
+    const pin = await pinService.getAPin(pinId);
+    setData(pin.data);
+    const { data } = await userService.authUser();
+    setLoggedInUser(data);
+  });
+  
+  const unfollow = tryCatch(async (pinUserId) => {
+    const res = await userService.unFollowUser(pinUserId, loggedInUser._id);
+    toast.success(res.data);
+    const pin = await pinService.getAPin(pinId);
+    setData(pin.data);
+    const { data } = await userService.authUser();
+    setLoggedInUser(data);
   });
 
   return (
@@ -134,9 +154,9 @@ const Pindetails = () => {
                 </div>
                 <div className="d-flex align-items-center">
                   <div className="d-flex align-items-center gap-2 flex-grow-1">
-                    <Link to={`/profile/${pin.owner}`}>
+                    <Link to={`/profile/${pin.userId?.userName}`}>
                       <Image
-                        src={pin.avatar}
+                        src={pin.userId?.profilePhoto}
                         roundedCircle
                         style={{ width: "45px", height: "45px" }}
                         alt={pin.owner}
@@ -144,24 +164,29 @@ const Pindetails = () => {
                     </Link>
                     <div>
                       <Link
-                        to={`/profile/${pin.owner}`}
+                        to={`/profile/${pin.userId?.userName}`}
                         className="fs-6 fw-bold"
                         style={{ color: "var(--dark100)" }}
                       >
                         {pin.owner}
                       </Link>
-                      <div>{pin.userId?.subscribedUsers?.length} followers</div>
+                      <div>{pin.userId?.subscribers} followers</div>
                     </div>
                   </div>
                   {loggedInUser._id !== pin.userId?._id && (
                     <MyButton
                       text={
-                        loggedInUser.subscribedUsers?.includes(pin.userId)
+                        loggedInUser.subscribedUsers?.includes(pin.userId?._id)
                           ? "Unfollow"
                           : "Follow"
                       }
                       className="border-0 fw-bold"
                       style={{ backgroundColor: "var(--blue100)" }}
+                      onClick={
+                        loggedInUser.subscribedUsers?.includes(pin.userId?._id)
+                          ? () => unfollow(pin.userId?._id)
+                          : () => follow(pin.userId?._id)
+                      }
                     />
                   )}
                 </div>
