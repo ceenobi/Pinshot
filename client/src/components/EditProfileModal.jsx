@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { Form, Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -14,7 +14,8 @@ const EditProfileModal = ({ user, setData }) => {
   const [show, setShow] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [image, setImage] = useState("");
-  const [photoUrl, setPhotoUrl] = useState("");
+  const [progress, setProgress] = useState({ started: false, pc: 0 });
+
   const {
     register,
     handleSubmit,
@@ -25,7 +26,6 @@ const EditProfileModal = ({ user, setData }) => {
       email: user.email,
       password: "",
       bio: user.bio,
-      profilePhoto: undefined,
     },
   });
 
@@ -36,58 +36,28 @@ const EditProfileModal = ({ user, setData }) => {
     setShowPassword((prev) => !prev);
   };
 
-  //   const handleUploadPic = useCallback(
-  //     async (image) => {
-  //       try {
-  //         const upload = await uploadToCloudinary(image);
-  //         const uploadedImg = upload.data.secure_url;
-  //         setPhotoUrl(uploadedImg);
-  //       } catch (error) {
-  //         console.error(error);
-  //         toast.error("Error uploading image");
-  //       }
-  //     },
-  //     [uploadToCloudinary, setPhotoUrl, toast]
-  //   );
-
-  //   useEffect(() => {
-  //     if (image !== "") {
-  //       handleUploadPic(image);
-  //     }
-  //   }, [handleUploadPic, image, uploadToCloudinary, setPhotoUrl, toast]);
-
-  const onFormSubmit = async ({
-    userName,
-    email,
-    password,
-    profilePhoto,
-    bio,
-  }) => {
-    try {
-      let uploadedImg = "";
-      if (profilePhoto !== "") {
-        const upload = await uploadToCloudinary(profilePhoto.files);
-        console.log(upload);
-        uploadedImg = upload.data.secure_url;
-      }
-
-      const { status, data } = await userService.updateProfile(
-        userName,
-        email,
-        password,
-        uploadedImg,
-        bio
-      );
-      if (status === 200) {
-        localStorage.setItem("usertoken", JSON.stringify(data.access_token));
-        toast.success(data.msg);
-        handleClose();
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("Error updating profile");
+  const onFormSubmit = tryCatch(async ({ userName, email, password, bio }) => {
+    let uploadedImg = "";
+    if (image) {
+      const upload = await uploadToCloudinary(image);
+      console.log(upload);
+      uploadedImg = upload.data.secure_url;
     }
-  };
+    const { status, data } = await userService.updateProfile(
+      userName,
+      email,
+      password,
+      uploadedImg,
+      bio
+    );
+    if (status === 200) {
+      localStorage.setItem("usertoken", JSON.stringify(data.access_token));
+      toast.success(data.msg);
+      const userinfo = await userService.getUserProfile(user.userName);
+      setData(userinfo.data);
+      handleClose();
+    }
+  });
 
   return (
     <>
@@ -146,10 +116,9 @@ const EditProfileModal = ({ user, setData }) => {
               placeholder="Bio"
             />
             <ImageUpload
-              register={register}
               id="profilePhoto"
               name="profilePhoto"
-              // setImage={setImage}
+              setImage={setImage}
             />
             <MyButton
               text={isSubmitting ? <ClipLoader color="#96b6c5" /> : "Update"}
@@ -175,4 +144,5 @@ export default EditProfileModal;
 
 EditProfileModal.propTypes = {
   user: PropTypes.object,
+  setData: PropTypes.any,
 };

@@ -16,20 +16,26 @@ const SidebarMobile = () => {
     <>
       <Icon
         icon="ant-design:menu-outlined"
-        className="fs-1 d-xl-none text-secondary cursor"
+        className="display-3 d-xl-none text-secondary cursor"
         onClick={handleShow}
       />
       <Offcanvas show={show} onHide={handleClose}>
         <Offcanvas.Header closeButton>
           <Offcanvas.Title className="text-capitalize">
-            <Image
-              src={loggedInUser.profilePhoto}
-              roundedCircle
-              className="me-2"
-              style={{ width: "40px", height: "40px" }}
-              title={loggedInUser.userName}
-            />
-            Hi, {loggedInUser.userName}{" "}
+            <NavLink
+              to={`/profile/${loggedInUser.userName}`}
+              className="text-black"
+              onClick={handleClose}
+            >
+              <Image
+                src={loggedInUser.profilePhoto}
+                roundedCircle
+                className="me-2 object-fit-cover"
+                style={{ width: "40px", height: "40px" }}
+                alt={loggedInUser.userName}
+              />
+              Hi, {loggedInUser.userName}{" "}
+            </NavLink>
           </Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>

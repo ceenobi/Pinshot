@@ -60,7 +60,7 @@ const Search = () => {
   console.log(result);
 
   return (
-    <PageLayout extra="py-5 px-3 mt-4 mt-lg-5">
+    <PageLayout extra="py-5 px-3 mt-5">
       {error ? (
         <p className="mt-5">{error?.response?.data?.error}</p>
       ) : (

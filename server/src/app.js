@@ -11,8 +11,8 @@ import searchRoutes from "./routes/search.js";
 const app = express();
 app.use(morgan("dev"));
 app.use(cors());
-app.use(json());
-app.use(express.urlencoded({ extended: true }));
+app.use(json({ limit: "25mb" }));
+app.use(express.urlencoded({ limit: "25mb", extended: true }));
 
 app.get("/", (req, res) => {
   res.send("Hello world");

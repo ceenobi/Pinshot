@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import toast from "react-hot-toast";
@@ -7,7 +8,6 @@ import { userService } from "../services";
 import { Loading } from "../utils";
 import { Button, Image } from "react-bootstrap";
 import { tryCatch, useStateContext } from "../config";
-import { useEffect } from "react";
 
 const Profile = () => {
   const { userName } = useParams();
@@ -43,7 +43,7 @@ const Profile = () => {
   });
 
   return (
-    <PageLayout extra="py-5 px-3 mt-4 mt-lg-5">
+    <PageLayout extra="py-5 px-3 mt-5">
       {error ? (
         <p className="mt-5">{error}</p>
       ) : (
@@ -58,21 +58,23 @@ const Profile = () => {
                     src={user?.profilePhoto}
                     style={{ width: "120px", height: "120px" }}
                     roundedCircle
-                    className="mb-2"
+                    className="mb-2 object-fit-cover"
                   />
                   <EditProfileModal user={user} setData={setData} />
                 </div>
                 <div>
-                  <div className="mb-0 d-flex align-items-center justify-content-center justify-content-md-start gap-2">
+                  <div className="mb-0 d-flex flex-wrap align-items-center justify-content-center justify-content-md-start gap-2">
                     <span className="fs-4 fw-bold">{user?.userName}</span>
-                    <span className="text-secondary">
-                      {" "}
-                      * {user?.subscribedUsers?.length} followers
-                    </span>
-                    <span className="text-secondary">
-                      {" "}
-                      * {user?.subscribers} following
-                    </span>
+                    <div className='d-flex flex-wrap align-items-center gap-2'>
+                      <span className="text-secondary">
+                        {" "}
+                        * {user?.subscribedUsers?.length} followers
+                      </span>
+                      <span className="text-secondary">
+                        {" "}
+                        * {user?.subscribers} following
+                      </span>
+                    </div>
                   </div>
                   <p className="">{user?.email}</p>
                   <p>
@@ -101,6 +103,9 @@ const Profile = () => {
                 </div>
               </div>
               <hr />
+              <div>
+                
+              </div>
             </div>
           )}
         </>
