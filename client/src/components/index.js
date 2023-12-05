@@ -7,6 +7,8 @@ import PinCard from "./PinCard";
 import Comments from "./Comments";
 import SearchResult from "./nav/SearchResult";
 import EditProfileModal from "./EditProfileModal";
+import UserPins from "./UserPins";
+import EditPost from "./EditPost";
 
 export {
   Root,
@@ -18,4 +20,6 @@ export {
   Comments,
   SearchResult,
   EditProfileModal,
+  UserPins,
+  EditPost,
 };

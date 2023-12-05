@@ -2,24 +2,11 @@ import { isValidObjectId } from "mongoose";
 import createHttpError from "http-errors";
 import crypto from "crypto";
 import otpGenerator from "otp-generator";
-// import { v2 as cloudinary } from "cloudinary";
 import { myUserService } from "../service/index.js";
 import generateToken from "../config/generateToken.js";
 import env from "../utils/validateEnv.js";
 import sendEmail from "../config/mailVerify.js";
 import tryCatch from "../config/tryCatch.js";
-
-// cloudinary.config({
-//   secure: true,
-// });
-
-// console.log(cloudinary.config());
-
-// const options = {
-//   use_filename: true,
-//   unique_filename: false,
-//   overwrite: true,
-// };
 
 export const signUp = tryCatch(async (req, res) => {
   const { userName, email, password } = req.body;

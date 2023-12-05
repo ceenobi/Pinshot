@@ -91,6 +91,7 @@ body {
 }
 .my-masonry-grid_column > div {
   background: grey;
+  border-radius: 20px;
   margin-bottom: 30px;
 }
 
@@ -161,6 +162,12 @@ body {
   background-color: var(--cream200);
   transition: 0.2s ease-in-out;
 }
+/* .edit-pin {
+  display: flex !important;
+  position: absolute !important;
+  opacity: 1 !important;
+  z-index: 4;
+} */
 
 @media (min-width: 768px) {
   .form {

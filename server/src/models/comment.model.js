@@ -11,12 +11,6 @@ const commentSchema = new Schema(
       type: String,
       required: true,
     },
-    avatar: {
-      type: String,
-    },
-    owner: {
-      type: String,
-    },
     comment: {
       type: String,
       required: true,

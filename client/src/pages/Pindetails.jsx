@@ -4,6 +4,7 @@ import { useFetch } from "../hooks";
 import { pinService, userService } from "../services";
 import {
   Comments,
+  EditPost,
   MasonryLayout,
   MyButton,
   PageLayout,
@@ -60,7 +61,7 @@ const Pindetails = () => {
     const { data } = await userService.authUser();
     setLoggedInUser(data);
   });
-  
+
   const unfollow = tryCatch(async (pinUserId) => {
     const res = await userService.unFollowUser(pinUserId, loggedInUser._id);
     toast.success(res.data);
@@ -191,6 +192,9 @@ const Pindetails = () => {
                   )}
                 </div>
                 <Comments pinId={pinId} />
+                {loggedInUser._id === pin?.userId?._id && (
+                  <EditPost pin={pin} />
+                )}
               </Col>
             </Row>
           )}

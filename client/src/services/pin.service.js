@@ -10,6 +10,11 @@ const getAPin = async (pinId) => {
 const getRelatedPins = async (pinId) => {
   return await connect.get(`/api/pin/${pinId}/related`);
 };
+const getPinsByUser = async (userId) => {
+  return await connect.get(`/api/pin/${userId}/yourpins`, {
+    headers: authHeader(),
+  });
+};
 const likeAPin = async (pinId, userId) => {
   return await connect.put(`/api/pin/like/${pinId}`, userId, {
     headers: authHeader(),
@@ -31,4 +36,5 @@ export default {
   likeAPin,
   dislikeAPin,
   searchPins,
+  getPinsByUser,
 };

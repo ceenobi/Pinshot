@@ -2,8 +2,6 @@ import PropTypes from "prop-types";
 import { Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
-// import { Cloudinary } from "@cloudinary/url-gen";
-// import { AdvancedImage, lazyload, placeholder } from "@cloudinary/react";
 import { downloadImage } from "../utils";
 import { tryCatch, useStateContext } from "../config";
 import { pinService } from "../services";
@@ -13,14 +11,6 @@ import { useFetch } from "../hooks";
 const PinCard = ({ _id, title, image }) => {
   const { data, setData } = useFetch(pinService.getAPin, _id);
   const { loggedInUser } = useStateContext();
-
-  //  const cld = new Cloudinary({
-  //    cloud: {
-  //      cloudName: "ceenobi",
-  //    },
-  //  });
-
-  //  const myImage = cld.image(image);
 
   const handleLike = tryCatch(async () => {
     const res = await pinService.likeAPin(_id, loggedInUser._id);
@@ -41,13 +31,8 @@ const PinCard = ({ _id, title, image }) => {
         <Image
           className="w-100 h-100 rounded-4 object-fit-fill"
           src={image[0]}
-          // cldImg={myImage}
           alt={title}
           loading="lazy"
-          // plugins={[
-          //   lazyload({ rootMargin: "10px 20px 10px 30px", threshold: 0.25 }),
-          //   placeholder({ mode: "predominant-color" }),
-          // ]}
         />
       </Link>
       <div className="d-none d-xl-block focus-heart p-2">
@@ -64,7 +49,7 @@ const PinCard = ({ _id, title, image }) => {
           }
         />
       </div>
-      <div className="d-none d-xl-block p-2 focus-content">
+      <div className="d-none d-xl-flex p-2 focus-content">
         <Icon
           icon="material-symbols:download-2-outline"
           className="fs-3 cursor "

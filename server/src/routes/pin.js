@@ -12,6 +12,7 @@ router.patch("/:id", verifyAuth(Roles.User), PinController.updateAPin);
 
 router.delete("/:id", verifyAuth(Roles.All), PinController.deleteAPin);
 router.get("/subscribed", verifyAuth(Roles.All), PinController.getSubbedPins);
+router.get("/:id/yourpins", verifyAuth(Roles.All), PinController.getUserPins);
 
 router.get("/:id", PinController.getAPin);
 router.get("/", PinController.getAllPins);

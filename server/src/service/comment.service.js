@@ -7,37 +7,39 @@ const addComment =
       avatar,
       owner,
       comment,
-    })
-    return newComment.save()
-  }
+    });
+    return newComment.save();
+  };
 
 const updateComment =
   (Comment) =>
-  async (commentId, {comment }) => {
-    const existingComment = await Comment.findById(commentId)
-    existingComment.comment = comment || existingComment.comment
-    return await existingComment.save()
-  }
+  async (commentId, { comment }) => {
+    const existingComment = await Comment.findById(commentId);
+    existingComment.comment = comment || existingComment.comment;
+    return await existingComment.save();
+  };
 
 const getComments = (Comment) => async (pinId) => {
-  return await Comment.find({ pinId: pinId }).sort({ _id: -1 })
-}
+  return await Comment.find({ pinId: pinId })
+    .populate("userId", "userName profilePhoto")
+    .sort({ _id: -1 });
+};
 const deleteComment = (Comment) => async (commentId) => {
-  return await Comment.findByIdAndDelete(commentId)
-}
+  return await Comment.findByIdAndDelete(commentId);
+};
 
 const likeComment = (Comment) => async (userId, commentId) => {
   return await Comment.findByIdAndUpdate(commentId, {
     $addToSet: { likes: userId },
     $inc: { likeCount: 1 },
-  })
-}
+  });
+};
 const dislikeComment = (Comment) => async (userId, commentId) => {
   return await Comment.findByIdAndUpdate(commentId, {
     $pull: { likes: userId },
     $inc: { likeCount: -1 },
-  })
-}
+  });
+};
 // const replyComment =
 //   (Comment) =>
 //   async ({ userId, pinId, commentId }) => {
@@ -55,5 +57,5 @@ export default (Comment) => {
     likeComment: likeComment(Comment),
     dislikeComment: dislikeComment(Comment),
     updateComment: updateComment(Comment),
-  }
-}
+  };
+};

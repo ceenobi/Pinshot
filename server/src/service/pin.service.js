@@ -25,6 +25,7 @@ const getPinsByUser = (Pin) => async (userId, page, limit) => {
     .sort({ _id: -1 })
     .skip(page * limit);
 };
+
 const getPin = (Pin) => async (pinId) => {
   return await Pin.findById(pinId).populate(
     "userId",

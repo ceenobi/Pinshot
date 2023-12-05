@@ -3,20 +3,16 @@ import {
   CLOUDINARY_UPLOAD_PRESET,
   CLOUDINARY_UPLOAD_URL,
 } from "../config/connect";
-// import { tryCatch } from "../config";
 import toast from "react-hot-toast";
-// import { useState } from "react";
 
 export const uploadToCloudinary = async (file) => {
-  // const [progress, setProgress] = useState({ started: false, pc: 0 });
-
   const formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+  [...file].forEach((file, i) => {
+    formData.append(`file-${i}`, file, file.name);
+    formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+  });
+  // formData.append("file", file);
   try {
-    // setProgress(prevState => {
-    //   return {...prevState, started: true}
-    // })
     const data = await axios.post(CLOUDINARY_UPLOAD_URL, formData, {
       onUploadProgress: (progressEvent) => {
         console.log(progressEvent.progress * 100),

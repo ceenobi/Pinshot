@@ -1,12 +1,16 @@
-import { MasonryLayout, PageLayout, PinCard } from "../components";
+import PropTypes from "prop-types";
 import { useFetch } from "../hooks";
 import { pinService } from "../services";
 import { Loading } from "../utils";
+import MasonryLayout from "./MasonryLayout";
+import PinCard from "./PinCard";
 
-const Home = () => {
-  const { error, loading, data } = useFetch(pinService.getAllPins);
+const UserPins = ({ user }) => {
+  const { data, error, loading } = useFetch(pinService.getPinsByUser, user._id);
+
   return (
-    <PageLayout extra="py-5 px-3 mt-5">
+    <div>
+      <h1 className="fs-5 text-center mb-5">Created pins</h1>
       {error ? (
         <p className="mt-5">{error}</p>
       ) : (
@@ -22,8 +26,12 @@ const Home = () => {
           )}
         </>
       )}
-    </PageLayout>
+    </div>
   );
 };
 
-export default Home;
+export default UserPins;
+
+UserPins.propTypes = {
+  user: PropTypes.object,
+};

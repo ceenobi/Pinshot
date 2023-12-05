@@ -1,18 +1,7 @@
-import mongoose from "mongoose";
-import { v2 as cloudinary } from "cloudinary";
+import { isValidObjectId } from "mongoose";
 import { myPinService, myUserService } from "../service/index.js";
 import createHttpError from "http-errors";
 import tryCatch from "../config/tryCatch.js";
-
-cloudinary.config({
-  secure: true,
-});
-
-// const options = {
-//   use_filename: true,
-//   unique_filename: false,
-//   overwrite: true,
-// }
 
 export const createAPin = tryCatch(async (req, res, next) => {
   const pinParams = req.body;
@@ -59,6 +48,25 @@ export const getAllPins = tryCatch(async (req, res, next) => {
   res.status(200).json(allPins);
 });
 
+export const getUserPins = tryCatch(async (req, res, next) => {
+  const { id: userId } = req.params;
+  if (!isValidObjectId(userId)) {
+    throw createHttpError(400, "Invalid user id");
+  }
+  const page = parseInt(req.query.page) - 1 || 0;
+  const limit = parseInt(req.query.limit) || 20;
+  const pins = await myPinService.getPinsByUser(userId, page, limit);
+  if (!pins) {
+    return next(createHttpError(400, `Pins not found`));
+  }
+  const allPins = {
+    page: page + 1,
+    limit,
+    pins,
+  };
+  res.status(200).json(allPins);
+});
+
 export const randomPins = tryCatch(async (req, res) => {
   const pins = await myPinService.getRandomPins();
   if (!pins) {
@@ -69,7 +77,7 @@ export const randomPins = tryCatch(async (req, res) => {
 
 export const getAPin = tryCatch(async (req, res, next) => {
   const { id: pinId } = req.params;
-  if (!mongoose.isValidObjectId(pinId)) {
+  if (!isValidObjectId(pinId)) {
     return next(createHttpError(400, `Invalid pin id: ${pinId}`));
   }
   const pin = await myPinService.getPin(pinId);
@@ -81,7 +89,7 @@ export const getAPin = tryCatch(async (req, res, next) => {
 
 export const getRelatedPins = tryCatch(async (req, res, next) => {
   const { id: pinId } = req.params;
-  if (!mongoose.isValidObjectId(pinId)) {
+  if (!isValidObjectId(pinId)) {
     return next(createHttpError(400, `Invalid pin id: ${pinId}`));
   }
   const pin = await myPinService.getRelatedPin(pinId);
@@ -95,7 +103,7 @@ export const updateAPin = tryCatch(async (req, res, next) => {
   const pinParams = req.body;
   const { id: userId } = req.user;
   const { id: pinId } = req.params;
-  if (!mongoose.isValidObjectId(userId) || !mongoose.isValidObjectId(pinId)) {
+  if (!isValidObjectId(userId) || !isValidObjectId(pinId)) {
     return next(createHttpError(400, "Invalid user or pin id"));
   }
   if (!pinParams) {
@@ -115,7 +123,7 @@ export const likeAPin = tryCatch(async (req, res, next) => {
   const { id: userId } = req.user;
   const { id: pinId } = req.params;
 
-  if (!mongoose.isValidObjectId(userId) || !mongoose.isValidObjectId(pinId)) {
+  if (!isValidObjectId(userId) || !isValidObjectId(pinId)) {
     return next(createHttpError(400, "Invalid user or pin id"));
   }
   const pin = await myPinService.likePin(userId, pinId);
@@ -131,7 +139,7 @@ export const likeAPin = tryCatch(async (req, res, next) => {
 export const dislikeAPin = tryCatch(async (req, res) => {
   const { id: userId } = req.user;
   const { id: pinId } = req.params;
-  if (!mongoose.isValidObjectId(userId) || !mongoose.isValidObjectId(pinId)) {
+  if (!isValidObjectId(userId) || !isValidObjectId(pinId)) {
     return next(createHttpError(400, "Invalid user or pin id"));
   }
   const pin = await myPinService.getPin(pinId);
@@ -148,7 +156,7 @@ export const dislikeAPin = tryCatch(async (req, res) => {
 export const deleteAPin = tryCatch(async (req, res, next) => {
   const { id: userId } = req.user;
   const { id: pinId } = req.params;
-  if (!mongoose.isValidObjectId(userId) || !mongoose.isValidObjectId(pinId)) {
+  if (!isValidObjectId(userId) || !isValidObjectId(pinId)) {
     return next(createHttpError(400, "Invalid user or pin id"));
   }
   const user = await myUserService.getAuthUser(userId);
@@ -168,7 +176,7 @@ export const deleteAPin = tryCatch(async (req, res, next) => {
 
 export const getSubbedPins = tryCatch(async (req, res) => {
   const { id: userId } = req.user;
-  if (!mongoose.isValidObjectId(userId)) {
+  if (!isValidObjectId(userId)) {
     return next(createHttpError(400, "Invalid user id"));
   }
   const user = await myUserService.getAuthUser(userId);

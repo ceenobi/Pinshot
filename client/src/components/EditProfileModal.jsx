@@ -37,17 +37,17 @@ const EditProfileModal = ({ user, setData }) => {
   };
 
   const onFormSubmit = tryCatch(async ({ userName, email, password, bio }) => {
-    let uploadedImg = "";
+    let profilePhoto = "";
     if (image) {
       const upload = await uploadToCloudinary(image);
       console.log(upload);
-      uploadedImg = upload.data.secure_url;
+      profilePhoto = upload.data.secure_url;
     }
     const { status, data } = await userService.updateProfile(
       userName,
       email,
       password,
-      uploadedImg,
+      profilePhoto,
       bio
     );
     if (status === 200) {
@@ -118,6 +118,7 @@ const EditProfileModal = ({ user, setData }) => {
             <ImageUpload
               id="profilePhoto"
               name="profilePhoto"
+              title='Change profile image'
               setImage={setImage}
             />
             <MyButton

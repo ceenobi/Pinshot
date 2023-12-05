@@ -29,6 +29,12 @@ const registerOptions = {
   comment: {
     required: "Cannot send empty comment",
   },
+  title: {
+    required: "Title field is required",
+  },
+  description: {
+    required: "Please write a little description",
+  },
 };
 
 export default registerOptions;

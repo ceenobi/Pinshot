@@ -20,15 +20,15 @@ const CommentModal = ({
         {pinComments?.map((comment, i) => (
           <div className="d-flex gap-2 mb-3" key={i}>
             <div className="d-flex gap-2">
-              <Link to={`/profile/${comment?.owner}`}>
+              <Link to={`/profile/${comment?.userId?.userName}`}>
                 <Image
-                  src={comment?.avatar}
+                  src={comment?.userId?.profilePhoto}
                   roundedCircle
                   style={{ width: "35px", height: "35px" }}
-                  alt={comment?.owner}
+                  alt={comment?.userId?.userName}
                 />
               </Link>
-              <span className="fw-bold">{comment?.owner}</span>
+              <span className="fw-bold">{comment?.userId?.userName}</span>
             </div>
             <div>
               <span>{comment?.comment}</span>

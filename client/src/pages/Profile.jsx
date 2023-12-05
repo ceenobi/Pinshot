@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import toast from "react-hot-toast";
-import { EditProfileModal, PageLayout } from "../components";
+import { EditProfileModal, PageLayout, UserPins } from "../components";
 import { useFetch } from "../hooks";
 import { userService } from "../services";
 import { Loading } from "../utils";
@@ -65,7 +65,7 @@ const Profile = () => {
                 <div>
                   <div className="mb-0 d-flex flex-wrap align-items-center justify-content-center justify-content-md-start gap-2">
                     <span className="fs-4 fw-bold">{user?.userName}</span>
-                    <div className='d-flex flex-wrap align-items-center gap-2'>
+                    <div className="d-flex flex-wrap align-items-center gap-2">
                       <span className="text-secondary">
                         {" "}
                         * {user?.subscribedUsers?.length} followers
@@ -103,8 +103,8 @@ const Profile = () => {
                 </div>
               </div>
               <hr />
-              <div>
-                
+              <div className="mt-5">
+                <UserPins user={user} />
               </div>
             </div>
           )}
