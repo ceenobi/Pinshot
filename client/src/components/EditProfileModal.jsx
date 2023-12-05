@@ -13,8 +13,7 @@ import ImageUpload from "./ImageUpload";
 const EditProfileModal = ({ user, setData }) => {
   const [show, setShow] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [image, setImage] = useState("");
-  const [progress, setProgress] = useState({ started: false, pc: 0 });
+  const [image, setImage] = useState([]);
 
   const {
     register,
@@ -40,7 +39,6 @@ const EditProfileModal = ({ user, setData }) => {
     let profilePhoto = "";
     if (image) {
       const upload = await uploadToCloudinary(image);
-      console.log(upload);
       profilePhoto = upload.data.secure_url;
     }
     const { status, data } = await userService.updateProfile(
@@ -81,8 +79,6 @@ const EditProfileModal = ({ user, setData }) => {
               autoFocus={true}
               type="text"
               placeholder="Username"
-              showPassword={showPassword}
-              togglePassword={togglePassword}
             />
             <Formfields
               register={register}
@@ -118,7 +114,7 @@ const EditProfileModal = ({ user, setData }) => {
             <ImageUpload
               id="profilePhoto"
               name="profilePhoto"
-              title='Change profile image'
+              title="Change profile image"
               setImage={setImage}
             />
             <MyButton
@@ -132,7 +128,7 @@ const EditProfileModal = ({ user, setData }) => {
                 color: "var(--dark100)",
                 height: "50px",
               }}
-              disabled={isSubmitting}
+              disabled={isSubmitting || image.size > 100}
             />
           </Form>
         </Modal.Body>

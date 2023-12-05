@@ -9,6 +9,9 @@ import ImageUpload from "./ImageUpload";
 const EditPost = ({ pin }) => {
   const [show, setShow] = useState(false);
   const [image, setImage] = useState("");
+  const [extra, setExtra] = useState("");
+  const [extraOptions, setExtraOptions] = useState([]);
+
   const {
     register,
     handleSubmit,
@@ -24,6 +27,16 @@ const EditPost = ({ pin }) => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const addExtra = (event) => {
+    if (event.key === "Enter") {
+      if (extra !== "") {
+        setExtraOptions(extraOptions, extraOptions.push(extra));
+        setExtra("");
+      }
+    }
+  };
+
   return (
     <>
       <p className="text-end cursor" onClick={handleShow}>
@@ -67,6 +80,30 @@ const EditPost = ({ pin }) => {
               image={image}
               multiple={true}
             />
+            <div className="">
+              <Form.Group controlId="tags" className="mb-4 w-100">
+                <Form.Label>Tags</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="tags"
+                  size="lg"
+                  className="w-100"
+                  value={extra}
+                  onChange={(e) => setExtra(e.target.value)}
+                  onKeyDown={addExtra}
+                />
+              </Form.Group>
+              <div className="d-flex gap-2 mb-0">
+                {extraOptions.map((option, i) => (
+                  <p
+                    key={i}
+                    className="fs-6 bg-success p-1 rounded-2 text-white"
+                  >
+                    {option}
+                  </p>
+                ))}
+              </div>
+            </div>
           </Form>
         </Modal.Body>
       </Modal>

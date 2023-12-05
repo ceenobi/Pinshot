@@ -79,13 +79,13 @@ const Header = () => {
             icon="fluent:camera-add-24-filled"
             className="fs-2 text-secondary activeIcon"
           />
-          <Link to={`/profile/${loggedInUser.userName}`}>
+          <Link to={`/profile/${loggedInUser?.userName}`}>
             <Image
-              src={loggedInUser.profilePhoto}
+              src={loggedInUser?.profilePhoto}
               roundedCircle
               className="d-none d-md-block object-fit-cover"
               style={{ width: "40px", height: "40px" }}
-              title={loggedInUser.userName}
+              title={loggedInUser?.userName}
             />
           </Link>
           <Icon

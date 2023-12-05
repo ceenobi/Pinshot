@@ -89,6 +89,7 @@ const Comments = ({ pinId }) => {
                         roundedCircle
                         style={{ width: "25px", height: "25px" }}
                         alt={comment?.userId?.userName}
+                        className="object-fit-cover"
                       />
                     </Link>
                     <span className="fw-bold">{comment?.userId?.userName}</span>
@@ -153,7 +154,7 @@ const Comments = ({ pinId }) => {
 
       <div className="d-flex">
         <Form
-          className="w-100 d-flex align-items-center"
+          className="w-100 d-flex gap-2 align-items-center"
           onSubmit={handleSubmit(onFormSubmit)}
         >
           <Image
@@ -161,6 +162,7 @@ const Comments = ({ pinId }) => {
             roundedCircle
             style={{ width: "45px", height: "45px" }}
             alt={loggedInUser.userName}
+            className="object-fit-cover"
           />
           <Formfields
             as="textarea"

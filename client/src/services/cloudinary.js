@@ -7,23 +7,17 @@ import toast from "react-hot-toast";
 
 export const uploadToCloudinary = async (file) => {
   const formData = new FormData();
+  // for (let i = 0; i < file.length; i++) {
+  //   formData.append("file", file[i]);
+  //   formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+  // }
   [...file].forEach((file, i) => {
-    formData.append(`file-${i}`, file, file.name);
+    formData.append("file", file, file[i]);
     formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
   });
-  // formData.append("file", file);
   try {
-    const data = await axios.post(CLOUDINARY_UPLOAD_URL, formData, {
-      onUploadProgress: (progressEvent) => {
-        console.log(progressEvent.progress * 100),
-          {
-            headers: {
-              "Custom-Header": "value",
-            },
-          };
-      },
-    });
-    toast.success("Image upload succssfull");
+    const data = await axios.post(CLOUDINARY_UPLOAD_URL, formData);
+    toast.success("Image upload successfull");
     return data;
   } catch (error) {
     toast.error("There was an error uploading your image");
