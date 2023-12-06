@@ -37,6 +37,12 @@ const EditPost = ({ pin }) => {
     }
   };
 
+  const deleteTag = (index) => {
+    const newOptions = [...extraOptions];
+    newOptions.splice(index, 1);
+    setExtraOptions(newOptions);
+  };
+
   return (
     <>
       <p className="text-end cursor" onClick={handleShow}>
@@ -93,14 +99,22 @@ const EditPost = ({ pin }) => {
                   onKeyDown={addExtra}
                 />
               </Form.Group>
-              <div className="d-flex gap-2 mb-0">
-                {extraOptions.map((option, i) => (
-                  <p
+              <div className="d-flex gap-2 mb-0 flex-wrap">
+                {pin.tags?.map((option, i) => (
+                  <div
                     key={i}
-                    className="fs-6 bg-success p-1 rounded-2 text-white"
+                    className="d-flex flex-wrap align-items-center gap-3 p-2 rounded-3 text-white"
+                    style={{ backgroundColor: "var(--blue100)" }}
                   >
-                    {option}
-                  </p>
+                    <span className="fs-6 ">{option}</span>
+                    <span
+                      onClick={deleteTag}
+                      className="text-white activeIcon"
+                      title="delete tag"
+                    >
+                      x
+                    </span>
+                  </div>
                 ))}
               </div>
             </div>

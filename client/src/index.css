@@ -90,8 +90,8 @@ body {
   background-clip: padding-box;
 }
 .my-masonry-grid_column > div {
-  background: grey;
-  border-radius: 20px;
+  /* background: grey;
+  border-radius: 20px; */
   margin-bottom: 30px;
 }
 

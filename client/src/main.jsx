@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-lazy-load-image-component/src/effects/blur.css";
 import "@fontsource-variable/outfit";
 import { StateProvider } from "./config/contextStore.jsx";
 

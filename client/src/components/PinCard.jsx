@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Image } from "react-bootstrap";
+// import { Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { downloadImage } from "../utils";
@@ -7,6 +7,7 @@ import { tryCatch, useStateContext } from "../config";
 import { pinService } from "../services";
 import toast from "react-hot-toast";
 import { useFetch } from "../hooks";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const PinCard = ({ _id, title, image }) => {
   const { data, setData } = useFetch(pinService.getAPin, _id);
@@ -28,12 +29,18 @@ const PinCard = ({ _id, title, image }) => {
   return (
     <div className="cardBox w-100 h-auto rounded-4">
       <Link to={`/pin/${_id}`}>
-        <Image
+        <LazyLoadImage
+          alt={title}
+          effect="blur"
+          src={image[0]}
+          className="w-100 h-100 rounded-4 object-fit-fill"
+        />
+        {/* <Image
           className="w-100 h-100 rounded-4 object-fit-fill"
           src={image[0]}
           alt={title}
           loading="lazy"
-        />
+        /> */}
       </Link>
       <div className="d-none d-xl-block focus-heart p-2">
         <Icon

@@ -15,6 +15,7 @@ import { useState } from "react";
 import { Loading, downloadImage } from "../utils";
 import { tryCatch, useStateContext } from "../config";
 import toast from "react-hot-toast";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Pindetails = () => {
   const { pinId } = useParams();
@@ -87,11 +88,17 @@ const Pindetails = () => {
                     <div key={i} className="position-relative pinId-Img">
                       {i === current && (
                         <>
-                          <Image
+                          <LazyLoadImage
+                            effect="blur"
                             src={img}
                             alt={pin.title}
                             className="rounded-4 w-100 h-100 object-fit-fill"
                           />
+                          {/* <Image
+                            src={img}
+                            alt={pin.title}
+                            className="rounded-4 w-100 h-100 object-fit-fill"
+                          /> */}
                           {pin?.image?.length > 1 && (
                             <div className="focus-arrowBox">
                               <Icon
