@@ -3,21 +3,15 @@ import { useState } from "react";
 import { Form, Image } from "react-bootstrap";
 import toast from "react-hot-toast";
 
-export default function ImageUpload({
-  id,
-  name,
-  setImage,
-  title,
-  ...props
-}) {
+export default function ImageUpload({ id, name, setImage, title, ...props }) {
   const [preview, setPreview] = useState();
 
   const onChangePicture = (e) => {
     let images = [];
     for (let i = 0; i < e.target.files.length; i++) {
       if (e.target.files && e.target.files[i]) {
-        if (e.target.files[i].size > 1 * 1000 * 1024) {
-          toast.error("File with maximum size of 1MB is allowed");
+        if (e.target.files[i].size > 1 * 1000 * 5012) {
+          toast.error("File with maximum size of 5MB is allowed");
           return false;
         }
         images.push(URL.createObjectURL(e.target.files[i]));
@@ -30,7 +24,7 @@ export default function ImageUpload({
   return (
     <div>
       {" "}
-      <Form.Group controlId={id} className="mb-4">
+      <Form.Group controlId={id} className="mb-2">
         <Form.Label>{title}</Form.Label>
         <Form.Control
           type="file"

@@ -25,9 +25,6 @@ const dislikeAPin = async (pinId, userId) => {
     headers: authHeader(),
   });
 };
-const searchPins = async (searchQuery) => {
-  return await connect.get(`/api/pin/search/keyword?q=${searchQuery}`);
-};
 
 export default {
   getAllPins,
@@ -35,6 +32,5 @@ export default {
   getRelatedPins,
   likeAPin,
   dislikeAPin,
-  searchPins,
   getPinsByUser,
 };

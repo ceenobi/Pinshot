@@ -8,7 +8,7 @@ import ImageUpload from "./ImageUpload";
 
 const EditPost = ({ pin }) => {
   const [show, setShow] = useState(false);
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState([]);
   const [extra, setExtra] = useState("");
   const [extraOptions, setExtraOptions] = useState([]);
 

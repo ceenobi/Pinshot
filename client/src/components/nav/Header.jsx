@@ -75,10 +75,18 @@ const Header = () => {
           </InputGroup>
         </Form>
         <div className="d-flex align-items-center gap-3">
-          <Icon
-            icon="fluent:camera-add-24-filled"
-            className="fs-2 text-secondary activeIcon"
-          />
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "activeIcon" : "no-activeIcon"
+            }
+            to="/create"
+          >
+            <Icon
+              icon="fluent:camera-add-24-filled"
+              className="fs-2"
+            />
+          </NavLink>
+
           <Link to={`/profile/${loggedInUser?.userName}`}>
             <Image
               src={loggedInUser?.profilePhoto}
