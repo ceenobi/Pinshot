@@ -3,7 +3,16 @@ import { useState } from "react";
 import { Form, Image } from "react-bootstrap";
 import toast from "react-hot-toast";
 
-export default function ImageUpload({ id, name, setImage, title, ...props }) {
+export default function ImageUpload({
+  register,
+  registerOptions,
+  id,
+  name,
+  // setImage,
+  title,
+  errors,
+  ...props
+}) {
   const [preview, setPreview] = useState();
 
   const onChangePicture = (e) => {
@@ -15,25 +24,30 @@ export default function ImageUpload({ id, name, setImage, title, ...props }) {
           return false;
         }
         images.push(URL.createObjectURL(e.target.files[i]));
-        setImage(e.target.files);
+        // setImage(e.target.files);
         setPreview(images);
       }
     }
   };
 
   return (
-    <div>
+    <div className="mb-4">
       {" "}
       <Form.Group controlId={id} className="mb-2">
         <Form.Label>{title}</Form.Label>
         <Form.Control
           type="file"
           name={name}
+          {...register(name, registerOptions)}
           size="lg"
           accept="image/png, image/jpeg, image/webp"
           {...props}
           onChange={onChangePicture}
+          isInvalid={!!errors}
         />
+        <Form.Control.Feedback type="invalid" className="mb-4">
+          {errors?.message}
+        </Form.Control.Feedback>
       </Form.Group>
       {preview && (
         <div>
@@ -61,4 +75,7 @@ ImageUpload.propTypes = {
   url: PropTypes.string,
   title: PropTypes.string,
   setImage: PropTypes.any,
+  register: PropTypes.func,
+  registerOptions: PropTypes.object,
+  errors: PropTypes.object,
 };

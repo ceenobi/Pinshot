@@ -25,6 +25,15 @@ const dislikeAPin = async (pinId, userId) => {
     headers: authHeader(),
   });
 };
+const createAPin = async (title, description, image, tags) => {
+  return await connect.post(
+    `/api/pin/create`,
+    { title, description, image, tags },
+    {
+      headers: authHeader(),
+    }
+  );
+};
 
 export default {
   getAllPins,
@@ -33,4 +42,5 @@ export default {
   likeAPin,
   dislikeAPin,
   getPinsByUser,
+  createAPin,
 };

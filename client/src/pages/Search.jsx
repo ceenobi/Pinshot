@@ -57,8 +57,6 @@ const Search = () => {
   };
   const getRandomTags = shuffleTags();
 
-  console.log(result);
-
   return (
     <PageLayout extra="py-5 px-3 mt-5">
       {error ? (
@@ -101,27 +99,32 @@ const Search = () => {
                     <>
                       <hr />
                       <Row className="my-3">
-                        {filterProfile.map((user) => (
-                          <Col key={user._id} xs={4} md={2}>
-                            <div>
-                              <Link to={`/profile/${user.userName}`}>
-                                <Image
-                                  src={user.profilePhoto}
-                                  style={{ width: "100%", height: "150px" }}
-                                  className="rounded-4"
-                                />
-                              </Link>
-                              <div className="text-center">
-                                <Link
-                                  to={`/profile/${user.userName}`}
-                                  className="text-black"
-                                >
-                                  {user.userName}
+                        <Col xs={4} md={2}>
+                          <div className="d-flex gap-4">
+                            {filterProfile.map((user) => (
+                              <div
+                                style={{ width: "80px", height: "80px" }}
+                                key={user._id}
+                              >
+                                <Link to={`/profile/${user.userName}`}>
+                                  <Image
+                                    src={user.profilePhoto}
+                                    className="rounded-4 object-fit-cover w-100 h-100"
+                                    roundedCircle
+                                  />
                                 </Link>
+                                <div className="text-center">
+                                  <Link
+                                    to={`/profile/${user.userName}`}
+                                    className="text-black"
+                                  >
+                                    {user.userName}
+                                  </Link>
+                                </div>
                               </div>
-                            </div>
-                          </Col>
-                        ))}
+                            ))}
+                          </div>
+                        </Col>
                       </Row>
                     </>
                   )}

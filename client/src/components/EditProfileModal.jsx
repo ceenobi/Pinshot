@@ -128,7 +128,7 @@ const EditProfileModal = ({ user, setData }) => {
                 color: "var(--dark100)",
                 height: "50px",
               }}
-              disabled={isSubmitting || image.size > 100}
+              disabled={isSubmitting}
             />
           </Form>
         </Modal.Body>

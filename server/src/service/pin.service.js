@@ -1,12 +1,12 @@
 const createPin =
   (Pin) =>
-  async ({ userId, title, tags, description, image }) => {
+  async ({ userId, title, description, image, tags }) => {
     const newPin = new Pin({
       userId,
       title,
-      tags,
       description,
       image,
+      tags,
     });
     return newPin.save();
   };

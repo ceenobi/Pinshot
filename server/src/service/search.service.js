@@ -20,7 +20,7 @@ const getTags = (Pin) => async () => {
   const filterTags = getPins.flatMap((pin) => pin.tags);
   const removeDuplicates = [
     ...filterTags.filter((item, i) => {
-      return filterTags.indexOf(item) === i && item.length > 0;
+      return filterTags.indexOf(item) === i && item?.length > 0;
     }),
   ];
   return removeDuplicates;

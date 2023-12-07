@@ -35,6 +35,9 @@ const registerOptions = {
   description: {
     required: "Please write a little description",
   },
+  image: {
+    required: "Image is required",
+  },
 };
 
 export default registerOptions;

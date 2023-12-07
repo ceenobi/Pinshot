@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-// import { Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { downloadImage } from "../utils";
@@ -35,12 +34,6 @@ const PinCard = ({ _id, title, image }) => {
           src={image[0]}
           className="w-100 h-100 rounded-4 object-fit-fill"
         />
-        {/* <Image
-          className="w-100 h-100 rounded-4 object-fit-fill"
-          src={image[0]}
-          alt={title}
-          loading="lazy"
-        /> */}
       </Link>
       <div className="d-none d-xl-block focus-heart p-2">
         <Icon

@@ -6,19 +6,12 @@ import tryCatch from "../config/tryCatch.js";
 export const createAPin = tryCatch(async (req, res, next) => {
   const pinParams = req.body;
   const { id: userId } = req.user;
-  // let pinImgs = []
   if (!pinParams) {
     return next(createHttpError(400, "Parameters missing"));
   }
   if (!userId) {
     return next(createHttpError(401, "401,Unable to find this user"));
   }
-  // for (let i = 0; i < pinParams.image.length; i++) {
-  //   const upload = await cloudinary.uploader.upload(pinParams.image[i], options)
-  //   console.log('iuii', upload.data.secure_url)
-  //   const url = upload.data.secure_url
-  //   pinImgs.push(url)
-  // }
   const user = await myUserService.getAuthUser(userId);
   if (!user) {
     return next(createHttpError(400, "Invalid user"));
@@ -26,9 +19,9 @@ export const createAPin = tryCatch(async (req, res, next) => {
   const pin = await myPinService.createPin({
     userId: user._id,
     title: pinParams.title,
-    tags: pinParams.tags,
     description: pinParams.description,
     image: pinParams.image,
+    tags: pinParams.tags,
   });
   res.status(201).json({ pin, msg: "Pin created successfully" });
 });
