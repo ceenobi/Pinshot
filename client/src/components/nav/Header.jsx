@@ -8,10 +8,10 @@ import { useEffect, useState } from "react";
 import SearchResult from "./SearchResult";
 
 const Header = () => {
+  const { loggedInUser } = useStateContext() || {};
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [resultBox, setResultBox] = useState(false);
-  const { loggedInUser } = useStateContext();
 
   useEffect(() => {
     if (searchQuery.length > 0) {
@@ -81,10 +81,7 @@ const Header = () => {
             }
             to="/create"
           >
-            <Icon
-              icon="fluent:camera-add-24-filled"
-              className="fs-2"
-            />
+            <Icon icon="fluent:camera-add-24-filled" className="fs-2" />
           </NavLink>
 
           <Link to={`/profile/${loggedInUser?.userName}`}>

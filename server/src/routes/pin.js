@@ -8,7 +8,7 @@ router.post("/create", verifyAuth(Roles.All), PinController.createAPin);
 router.put("/like/:id", verifyAuth(Roles.All), PinController.likeAPin);
 router.put("/dislike/:id", verifyAuth(Roles.All), PinController.dislikeAPin);
 
-router.patch("/:id", verifyAuth(Roles.User), PinController.updateAPin);
+router.patch("/:id", verifyAuth(Roles.All), PinController.updateAPin);
 
 router.delete("/:id", verifyAuth(Roles.All), PinController.deleteAPin);
 router.get("/subscribed", verifyAuth(Roles.All), PinController.getSubbedPins);

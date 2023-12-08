@@ -18,4 +18,9 @@ const links = [
   },
 ];
 
+ // [...file].forEach((file, i) => {
+  //   formData.append("file", file, file[i]);
+  //   formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+  // });
+
 export default links;

@@ -94,11 +94,6 @@ const Pindetails = () => {
                             alt={pin.title}
                             className="rounded-4 w-100 h-100 object-fit-fill"
                           />
-                          {/* <Image
-                            src={img}
-                            alt={pin.title}
-                            className="rounded-4 w-100 h-100 object-fit-fill"
-                          /> */}
                           {pin?.image?.length > 1 && (
                             <div className="focus-arrowBox">
                               <Icon
@@ -200,7 +195,7 @@ const Pindetails = () => {
                 </div>
                 <Comments pinId={pinId} />
                 {loggedInUser._id === pin?.userId?._id && (
-                  <EditPost pin={pin} />
+                  <EditPost pin={pin} setData ={setData}/>
                 )}
               </Col>
             </Row>

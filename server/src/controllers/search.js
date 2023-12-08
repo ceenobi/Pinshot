@@ -1,5 +1,6 @@
-import { mySearchService } from "../service/index.js";
+import { isValidObjectId } from "mongoose";
 import createHttpError from "http-errors";
+import { mySearchService } from "../service/index.js";
 import tryCatch from "../config/tryCatch.js";
 
 export const getSearch = tryCatch(async (req, res, next) => {
@@ -21,6 +22,15 @@ export const getAllTags = tryCatch(async (req, res, next) => {
     return next(createHttpError(404, "tags not found"));
   }
   res.status(200).json(tags);
+});
+
+export const deleteTags = tryCatch(async (req, res, next) => {
+  const { id: pinId } = req.params;
+  if (!isValidObjectId(pinId)) {
+    return next(createHttpError(400, `Invalid pin id: ${pinId}`));
+  }
+  await mySearchService.deleteATag(pinId);
+  res.status(200).send("Tag deleted!");
 });
 
 // export const getPinsByTags = tryCatch(async (req, res, next) => {

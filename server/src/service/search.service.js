@@ -26,9 +26,19 @@ const getTags = (Pin) => async () => {
   return removeDuplicates;
 };
 
+const deleteATag = (Pin) => async (pinId, index) => {
+  const pin = await Pin.findById(pinId);
+  const getTags = pin.tags;
+  const editTags = [...getTags];
+  editTags.splice(index, 1);
+  await Pin.findByIdAndUpdate(pinId, { tags: editTags });
+  return editTags;
+};
+
 export default (User, Pin) => {
   return {
     searchUserOrPinsOrTags: searchUserOrPinsOrTags(User, Pin),
     getTags: getTags(Pin),
+    deleteATag: deleteATag(Pin),
   };
 };

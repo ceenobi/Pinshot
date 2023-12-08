@@ -30,8 +30,6 @@ const Comments = ({ pinId }) => {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  console.log(pinComments);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 

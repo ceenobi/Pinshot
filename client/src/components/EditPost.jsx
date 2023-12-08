@@ -5,12 +5,13 @@ import PropTypes from "prop-types";
 import Formfields from "./Formfields";
 import { registerOptions } from "../utils";
 import ImageUpload from "./ImageUpload";
+import { pinService, searchService } from "../services";
+import { tryCatch } from "../config";
 
-const EditPost = ({ pin }) => {
+const EditPost = ({ pin, setData }) => {
   const [show, setShow] = useState(false);
-  const [image, setImage] = useState([]);
-  const [extra, setExtra] = useState("");
-  const [extraOptions, setExtraOptions] = useState([]);
+  const [tag, setTag] = useState("");
+  const [tagArray, setTagArray] = useState([]);
 
   const {
     register,
@@ -28,20 +29,20 @@ const EditPost = ({ pin }) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const addExtra = (event) => {
-    if (event.key === "Enter") {
-      if (extra !== "") {
-        setExtraOptions(extraOptions, extraOptions.push(extra));
-        setExtra("");
-      }
+  const addTag = () => {
+    if (tag !== "") {
+      setTagArray(tagArray, tagArray.push(tag));
+      setTag("");
     }
   };
 
-  const deleteTag = (index) => {
-    const newOptions = [...extraOptions];
-    newOptions.splice(index, 1);
-    setExtraOptions(newOptions);
-  };
+  const deleteTag = tryCatch(async () => {
+    await searchService.deleteATag(pin._id);
+    const { data } = await pinService.getAPin(pin._id);
+    setData(data);
+  });
+
+  const populateTags = [...tagArray, ...pin.tags];
 
   return (
     <>
@@ -82,31 +83,36 @@ const EditPost = ({ pin }) => {
               id="image"
               name="image"
               title="Upload images"
-              setImage={setImage}
-              image={image}
               multiple={true}
+              register={register}
+              errors={errors?.image}
+              registerOptions={registerOptions?.image}
             />
-            <div className="">
-              <Form.Group controlId="tags" className="mb-4 w-100">
-                <Form.Label>Tags</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="tags"
-                  size="lg"
-                  className="w-100"
-                  value={extra}
-                  onChange={(e) => setExtra(e.target.value)}
-                  onKeyDown={addExtra}
-                />
-              </Form.Group>
-              <div className="d-flex gap-2 mb-0 flex-wrap">
-                {pin.tags?.map((option, i) => (
+            <div>
+              <div className="w-100 d-flex gap-4 align-items-center">
+                <Form.Group controlId="tags" className="mb-4 w-100">
+                  <Form.Label>Tags</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="tags"
+                    size="lg"
+                    className="w-100"
+                    value={tag}
+                    onChange={(e) => setTag(e.target.value)}
+                  />
+                </Form.Group>
+                <span onClick={addTag} className="fw-bold cursor">
+                  Add
+                </span>
+              </div>
+              <div className="d-flex gap-2 mb-3 flex-wrap">
+                {populateTags?.map((tag, i) => (
                   <div
                     key={i}
-                    className="d-flex flex-wrap align-items-center gap-3 p-2 rounded-3 text-white"
-                    style={{ backgroundColor: "var(--blue100)" }}
+                    className="d-flex flex-wrap align-items-center gap-3 py-2 px-3 rounded-4 text-white"
+                    style={{ backgroundColor: "var(--dark100)" }}
                   >
-                    <span className="fs-6 ">{option}</span>
+                    <span className="fs-6">{tag}</span>
                     <span
                       onClick={deleteTag}
                       className="text-white activeIcon"
@@ -129,4 +135,5 @@ export default EditPost;
 
 EditPost.propTypes = {
   pin: PropTypes.object,
+  setData: PropTypes.any,
 };

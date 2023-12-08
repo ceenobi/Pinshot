@@ -43,12 +43,11 @@ const getRelatedPin = (Pin) => async (pinId) => {
 const updatePin =
   (Pin) =>
   async (pinId, { title, tags, description, image }) => {
-    const pin = await Pin.findById(pinId)((pin.title = title || pin.title))(
-      (pin.tags = tags || pin.tags)
-    )((pin.description = description || pin.description))(
-      (pin.image = image || pin.image)
-    );
-
+    const pin = await Pin.findById(pinId)
+    ((pin.title = title || pin.title))
+    ((pin.description = description || pin.description))
+    ((pin.image = image || pin.image));
+    ((pin.tags = tags || pin.tags))
     return await pin.save();
   };
 

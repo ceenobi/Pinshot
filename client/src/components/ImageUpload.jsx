@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
 import { useState } from "react";
 import { Form, Image } from "react-bootstrap";
+import PropTypes from "prop-types";
 import toast from "react-hot-toast";
 
 export default function ImageUpload({
@@ -8,7 +8,6 @@ export default function ImageUpload({
   registerOptions,
   id,
   name,
-  // setImage,
   title,
   errors,
   ...props
@@ -24,14 +23,13 @@ export default function ImageUpload({
           return false;
         }
         images.push(URL.createObjectURL(e.target.files[i]));
-        // setImage(e.target.files);
         setPreview(images);
       }
     }
   };
 
   return (
-    <div className="mb-4">
+    <>
       {" "}
       <Form.Group controlId={id} className="mb-2">
         <Form.Label>{title}</Form.Label>
@@ -65,7 +63,7 @@ export default function ImageUpload({
           })}
         </div>
       )}
-    </div>
+    </>
   );
 }
 
@@ -74,7 +72,6 @@ ImageUpload.propTypes = {
   name: PropTypes.string,
   url: PropTypes.string,
   title: PropTypes.string,
-  setImage: PropTypes.any,
   register: PropTypes.func,
   registerOptions: PropTypes.object,
   errors: PropTypes.object,

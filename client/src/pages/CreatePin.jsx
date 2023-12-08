@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import { Icon } from "@iconify/react";
 import { ClipLoader } from "react-spinners";
@@ -19,7 +19,6 @@ const CreatePin = () => {
   const [tagArray, setTagArray] = useState([]);
   const [selectTag, setSelectTag] = useState(null);
   const navigate = useNavigate();
-  console.log(fetchTags);
 
   const {
     register,
@@ -27,13 +26,14 @@ const CreatePin = () => {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const addTag = (event) => {
-    event.preventDefault();
-    if (event.key === "Enter") {
-      if (tag !== "") {
-        setTagArray(tagArray, tagArray.push(tag));
-        setTag("");
-      }
+  useEffect(() => {
+    document.title = "Create post";
+  }, []);
+
+  const addTag = () => {
+    if (tag !== "") {
+      setTagArray(tagArray, tagArray.push(tag));
+      setTag("");
     }
   };
 
@@ -47,10 +47,14 @@ const CreatePin = () => {
 
   const onFormSubmit = tryCatch(async ({ title, description, image }) => {
     setLoading(true);
-    let pinImages = "";
+    let pinImages = [];
     if (image) {
-      const upload = await uploadToCloudinary(image);
-      pinImages = upload.data.secure_url;
+      const uploadPromises = Array.from(image).map(async (singleImage) => {
+        const upload = await uploadToCloudinary(singleImage);
+        return upload.data.secure_url;
+      });
+      const uploadedUrls = await Promise.all(uploadPromises);
+      pinImages.push(...uploadedUrls);
     }
     const { status, data } = await pinService.createAPin(
       title,
@@ -67,9 +71,7 @@ const CreatePin = () => {
 
   return (
     <PageLayout extra="py-5 px-3 mt-5">
-      <h1 className="fs-5 fw-bold border-bottom pb-3 w-100 bg-white">
-        Create Pin
-      </h1>
+      <h1 className="fs-5 fw-bold">Create Pin</h1>
       {loading ? (
         <Loading text="Posting pin..." />
       ) : (
@@ -77,9 +79,9 @@ const CreatePin = () => {
           <Form
             id="createPostForm"
             onSubmit={handleSubmit(onFormSubmit)}
-            className="my-4"
+            className="my-4 border p-4"
           >
-            <Row className="g-3">
+            <Row className="g-3 align-items-center">
               <Col lg={6} className="my-4">
                 <div
                   className="position-relative mx-auto rounded-5 cursor"
@@ -149,26 +151,30 @@ const CreatePin = () => {
                   </Form.Group>
                 )}
                 <p className="text-center">OR create your tags</p>
-                <Form.Group controlId="tags" className="mb-4 w-100">
-                  <Form.Label>Tags</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="tags"
-                    size="lg"
-                    className="w-100"
-                    value={tag}
-                    onChange={(e) => setTag(e.target.value)}
-                    onKeyDown={addTag}
-                  />
-                </Form.Group>
+                <div className="w-100 d-flex gap-4 align-items-center">
+                  <Form.Group controlId="tags" className="mb-4 w-100">
+                    <Form.Label>Tags</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="tags"
+                      size="lg"
+                      className="w-100"
+                      value={tag}
+                      onChange={(e) => setTag(e.target.value)}
+                    />
+                  </Form.Group>
+                  <span onClick={addTag} className="fw-bold cursor">
+                    Add
+                  </span>
+                </div>
                 <div className="d-flex gap-2 mb-3 flex-wrap">
-                  {tagArray?.map((option, i) => (
+                  {tagArray?.map((tag, i) => (
                     <div
                       key={i}
-                      className="d-flex flex-wrap align-items-center gap-3 p-2 rounded-3 text-white"
-                      style={{ backgroundColor: "var(--blue100)" }}
+                      className="d-flex flex-wrap align-items-center gap-3 py-2 px-3 rounded-4 text-white"
+                      style={{ backgroundColor: "var(--dark100)" }}
                     >
-                      <span className="fs-6">{option}</span>
+                      <span className="fs-6">{tag}</span>
                       <span
                         onClick={deleteTag}
                         className="text-white activeIcon"

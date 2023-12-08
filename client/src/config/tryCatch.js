@@ -6,7 +6,7 @@ const tryCatch = (fn) => {
       await fn(param);
     } catch (error) {
       console.error(error);
-      toast.error(error.response?.data?.error);
+      toast.error(error.message);
     }
   };
 };

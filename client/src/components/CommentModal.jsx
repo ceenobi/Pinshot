@@ -58,7 +58,7 @@ const CommentModal = ({
                   {loggedInUser.role?.includes("admin") && (
                     <Icon
                       icon="mdi:delete-empty"
-                      className="cursor mx-3 text-secondary  activeIcon"
+                      className="cursor mx-3 text-secondary activeIcon"
                       onClick={() => deleteComment(comment?._id)}
                     />
                   )}
