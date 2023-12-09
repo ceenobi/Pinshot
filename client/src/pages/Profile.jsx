@@ -11,7 +11,7 @@ import { tryCatch, useStateContext } from "../config";
 
 const Profile = () => {
   const { userName } = useParams();
-  const { loggedInUser, setLoggedInUser } = useStateContext();
+  const { loggedInUser, setLoggedInUser } = useStateContext() || {};
   const {
     data: user,
     error,

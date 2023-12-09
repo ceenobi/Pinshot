@@ -8,7 +8,7 @@ import { userService } from "../../services";
 
 const SidebarMobile = () => {
   const [show, setShow] = useState(false);
-  const { loggedInUser } = useStateContext();
+  const { loggedInUser } = useStateContext() || {};
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -23,18 +23,18 @@ const SidebarMobile = () => {
         <Offcanvas.Header closeButton>
           <Offcanvas.Title className="text-capitalize">
             <NavLink
-              to={`/profile/${loggedInUser.userName}`}
+              to={`/profile/${loggedInUser?.userName}`}
               className="text-black"
               onClick={handleClose}
             >
               <Image
-                src={loggedInUser.profilePhoto}
+                src={loggedInUser?.profilePhoto}
                 roundedCircle
                 className="me-2 object-fit-cover"
                 style={{ width: "40px", height: "40px" }}
-                alt={loggedInUser.userName}
+                alt={loggedInUser?.userName}
               />
-              Hi, {loggedInUser.userName}{" "}
+              Hi, {loggedInUser?.userName}{" "}
             </NavLink>
           </Offcanvas.Title>
         </Offcanvas.Header>

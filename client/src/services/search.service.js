@@ -1,5 +1,4 @@
-import { connect } from "../config";
-import authHeader from "./authHeader";
+import { authHeader, connect } from "../config";
 
 const searchUserOrPins = async (searchQuery) => {
   return await connect.get(`/api/search?q=${searchQuery}`);

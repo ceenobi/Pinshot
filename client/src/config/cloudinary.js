@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import {
   CLOUDINARY_UPLOAD_PRESET,
   CLOUDINARY_UPLOAD_URL,
-} from "../config/connect";
+} from "./connect";
 
 export const uploadToCloudinary = async (files) => {
   const formData = new FormData();

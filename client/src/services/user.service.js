@@ -1,5 +1,4 @@
-import { connect } from "../config";
-import authHeader from "./authHeader";
+import { authHeader, connect } from "../config";
 
 const signup = async (userName, email, password) => {
   return await connect.post("/api/user/signup", { userName, email, password });

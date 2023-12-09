@@ -5,13 +5,20 @@ const addUser =
   async ({ userName, email, password }) => {
     const salt = await bcrypt.genSalt(10);
     const passwordHashed = await bcrypt.hash(password, salt);
-    const user = new User({
-      userName,
-      email,
-      password: passwordHashed,
-    });
-    return user.save();
+    return await User.create({ userName, email, password: passwordHashed });
   };
+// const addUser =
+//   (User) =>
+//   async ({ userName, email, password }) => {
+//     const salt = await bcrypt.genSalt(10);
+//     const passwordHashed = await bcrypt.hash(password, salt);
+//     const user = new User({
+//       userName,
+//       email,
+//       password: passwordHashed,
+//     });
+//     return user.save();
+//   };
 
 //verify password to login user
 const verifyPassword = () => async (password, userPassword) => {
@@ -59,25 +66,33 @@ const updateUser =
     if (password) {
       const salt = await bcrypt.genSalt(10);
       const passwordHashed = await bcrypt.hash(password, salt);
-      user.password = passwordHashed || user.password;
+      user.password = passwordHashed;
     }
-    user.userName = userName || user.userName;
-    user.email = email || user.email;
-    user.profilePhoto = profilePhoto || user.profilePhoto;
-    user.bio = bio || user.bio;
+    Object.assign(user, { userName, email, profilePhoto, bio });
     return await user.save();
   };
+// const updateUser =
+//   (User) =>
+//   async (id, { userName, email, password, profilePhoto, bio }) => {
+//     const user = await User.findById(id);
+//     if (password) {
+//       const salt = await bcrypt.genSalt(10);
+//       const passwordHashed = await bcrypt.hash(password, salt);
+//       user.password = passwordHashed || user.password;
+//     }
+//     user.userName = userName || user.userName;
+//     user.email = email || user.email;
+//     user.profilePhoto = profilePhoto || user.profilePhoto;
+//     user.bio = bio || user.bio;
+//     return await user.save();
+//   };
 
 //reset user password
 const passwordReset =
   (User) =>
   async ({ userName, password }) => {
     const passwordHashed = await bcrypt.hash(password, 10);
-    const updatePassword = await User.updateOne(
-      { userName },
-      { password: passwordHashed }
-    );
-    return updatePassword;
+    return await User.updateOne({ userName }, { password: passwordHashed });
   };
 
 //create token to verify user registration
@@ -103,12 +118,7 @@ const verifyToken =
 
 //update user verification status to true
 const updateVerifyUserStatus = (User) => async (id) => {
-  const updatedUser = await User.findByIdAndUpdate(
-    id,
-    { isVerified: true },
-    { new: true }
-  );
-  return updatedUser;
+  return await User.findByIdAndUpdate(id, { isVerified: true }, { new: true });
 };
 //delete token after verification
 const removeTokenAfterVerified = (Token) => async (id) => {

@@ -6,15 +6,13 @@ import PropTypes from "prop-types";
 import { Formfields, MyButton } from "../components";
 import { registerOptions } from "../utils";
 import { ClipLoader } from "react-spinners";
-import { tryCatch } from "../config";
-import { uploadToCloudinary, userService } from "../services";
+import { tryCatch, uploadToCloudinary } from "../config";
+import { userService } from "../services";
 import ImageUpload from "./ImageUpload";
 
 const EditProfileModal = ({ user, setData }) => {
   const [show, setShow] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [image, setImage] = useState([]);
-
   const {
     register,
     handleSubmit,
@@ -24,6 +22,7 @@ const EditProfileModal = ({ user, setData }) => {
       userName: user.userName,
       email: user.email,
       password: "",
+      profileImage: user.profilePhoto,
       bio: user.bio,
     },
   });
@@ -35,27 +34,29 @@ const EditProfileModal = ({ user, setData }) => {
     setShowPassword((prev) => !prev);
   };
 
-  const onFormSubmit = tryCatch(async ({ userName, email, password, bio }) => {
-    let profilePhoto = "";
-    if (image) {
-      const upload = await uploadToCloudinary(image);
-      profilePhoto = upload.data.secure_url;
+  const onFormSubmit = tryCatch(
+    async ({ userName, email, password, profileImage, bio }) => {
+      let profilePhoto = "";
+      if (profileImage) {
+        const uploadResponse = await uploadToCloudinary(profileImage[0]);
+        profilePhoto = uploadResponse.data.secure_url;
+      }
+      const { status, data } = await userService.updateProfile(
+        userName,
+        email,
+        password,
+        profilePhoto,
+        bio
+      );
+      if (status === 200) {
+        localStorage.setItem("usertoken", JSON.stringify(data.access_token));
+        toast.success(data.msg);
+        const userinfo = await userService.getUserProfile(user.userName);
+        setData(userinfo.data);
+        handleClose();
+      }
     }
-    const { status, data } = await userService.updateProfile(
-      userName,
-      email,
-      password,
-      profilePhoto,
-      bio
-    );
-    if (status === 200) {
-      localStorage.setItem("usertoken", JSON.stringify(data.access_token));
-      toast.success(data.msg);
-      const userinfo = await userService.getUserProfile(user.userName);
-      setData(userinfo.data);
-      handleClose();
-    }
-  });
+  );
 
   return (
     <>
@@ -112,14 +113,16 @@ const EditProfileModal = ({ user, setData }) => {
               placeholder="Bio"
             />
             <ImageUpload
-              id="profilePhoto"
-              name="profilePhoto"
+              id="profileImage"
+              name="profileImage"
               title="Change profile image"
-              setImage={setImage}
+              register={register}
+              errors={errors?.image}
+              registerOptions={registerOptions}
             />
             <MyButton
               text={isSubmitting ? <ClipLoader color="#96b6c5" /> : "Update"}
-              className="w-100 border-0 p-2"
+              className="w-100 border-0 p-2 mt-4"
               size="lg"
               type="submit"
               variant="none"

@@ -8,8 +8,8 @@ import { Formfields, MyButton, PageLayout } from "../components";
 import ImageUpload from "../components/ImageUpload";
 import { Loading, registerOptions } from "../utils";
 import { useFetch } from "../hooks";
-import { pinService, searchService, uploadToCloudinary } from "../services";
-import { tryCatch } from "../config";
+import { pinService, searchService } from "../services";
+import { tryCatch, uploadToCloudinary } from "../config";
 import { useNavigate } from "react-router-dom";
 
 const CreatePin = () => {
@@ -176,7 +176,7 @@ const CreatePin = () => {
                     >
                       <span className="fs-6">{tag}</span>
                       <span
-                        onClick={deleteTag}
+                        onClick={()=>deleteTag(i)}
                         className="text-white activeIcon"
                         title="delete tag"
                       >

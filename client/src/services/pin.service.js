@@ -1,5 +1,4 @@
-import { connect } from "../config";
-import authHeader from "./authHeader";
+import { authHeader, connect } from "../config";
 
 const getAllPins = async () => {
   return await connect.get("/api/pin");

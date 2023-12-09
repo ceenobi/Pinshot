@@ -102,14 +102,14 @@ export const updateAPin = tryCatch(async (req, res, next) => {
   if (!pinParams) {
     throw createHttpError(404, "Parameters missing");
   }
-  const pin = await myPinService.updatePin(pinId, pinParams);
-  if (!pin.userId.equals(userId)) {
+  const updatedPin = await myPinService.updatePin(pinId, pinParams);
+  if (!updatedPin.userId._id.equals(userId)) {
     return next(createHttpError(401, "You can only update your pin"));
   }
-  if (!pin) {
-    return next(createHttpError(404, "Pin not found"));
+  if (!updatedPin) {
+    return next(createHttpError(404, "Could not update pin"));
   }
-  res.status(200).json({ pin, msg: "Pin updated successfully" });
+  res.status(200).json({ pin: updatedPin, msg: "Pin updated successfully" });
 });
 
 export const likeAPin = tryCatch(async (req, res, next) => {
@@ -160,7 +160,7 @@ export const deleteAPin = tryCatch(async (req, res, next) => {
   if (!pin) {
     return next(createHttpError(404, "Pin not found"));
   }
-  if (pin.userId.toString() !== user._id.toString()) {
+  if (pin.userId.id.toString() !== user._id.toString()) {
     return next(createHttpError(401, "You can only delete your pin"));
   }
   await myPinService.deletePin(pinId);

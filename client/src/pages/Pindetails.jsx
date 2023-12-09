@@ -11,7 +11,7 @@ import {
   PinCard,
 } from "../components";
 import { Col, Image, Row } from "react-bootstrap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Loading, downloadImage } from "../utils";
 import { tryCatch, useStateContext } from "../config";
 import toast from "react-hot-toast";
@@ -28,7 +28,10 @@ const Pindetails = () => {
   } = useFetch(pinService.getAPin, pinId);
   const { data: relatedPins } = useFetch(pinService.getRelatedPins, pinId);
   const { loggedInUser, setLoggedInUser } = useStateContext();
-  console.log(pin);
+
+  useEffect(() => {
+    document.title = pin?.title;
+  }, [pin?.title]);
 
   const imgLength = pin?.image?.length;
 
@@ -195,7 +198,7 @@ const Pindetails = () => {
                 </div>
                 <Comments pinId={pinId} />
                 {loggedInUser._id === pin?.userId?._id && (
-                  <EditPost pin={pin} setData ={setData}/>
+                  <EditPost pin={pin} setData={setData} />
                 )}
               </Col>
             </Row>

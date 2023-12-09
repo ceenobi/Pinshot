@@ -1,15 +1,9 @@
 const createPin =
   (Pin) =>
   async ({ userId, title, description, image, tags }) => {
-    const newPin = new Pin({
-      userId,
-      title,
-      description,
-      image,
-      tags,
-    });
-    return newPin.save();
+    return await Pin.create({ userId, title, description, image, tags });
   };
+
 const getRandomPins = (Pin) => async () => {
   return await Pin.aggregate([{ $sample: { size: 40 } }]);
 };
@@ -40,14 +34,21 @@ const getRelatedPin = (Pin) => async (pinId) => {
   return getRelatedPinTags.filter((allTags) => allTags.id !== pinId);
 };
 
+// const updatePin =
+//   (Pin) =>
+//   async (pinId, { title, tags, description, image }) => {
+//     const pin = await Pin.findById(pinId);
+//     pin.title = title || pin.title;
+//     pin.description = description || pin.description;
+//     pin.image = image || pin.image;
+//     pin.tags = tags || pin.tags;
+//     return await pin.save();
+//   };
 const updatePin =
   (Pin) =>
   async (pinId, { title, tags, description, image }) => {
-    const pin = await Pin.findById(pinId)
-    ((pin.title = title || pin.title))
-    ((pin.description = description || pin.description))
-    ((pin.image = image || pin.image));
-    ((pin.tags = tags || pin.tags))
+    const pin = await Pin.findById(pinId);
+    Object.assign(pin, { title, tags, description, image });
     return await pin.save();
   };
 
