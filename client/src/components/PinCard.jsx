@@ -1,16 +1,16 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import toast from "react-hot-toast";
 import { downloadImage } from "../utils";
 import { tryCatch, useStateContext } from "../config";
 import { pinService } from "../services";
-import toast from "react-hot-toast";
 import { useFetch } from "../hooks";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const PinCard = ({ _id, title, image }) => {
   const { data, setData } = useFetch(pinService.getAPin, _id);
-  const { loggedInUser } = useStateContext();
+  const { loggedInUser } = useStateContext() || {};
 
   const handleLike = tryCatch(async () => {
     const res = await pinService.likeAPin(_id, loggedInUser._id);
@@ -32,7 +32,7 @@ const PinCard = ({ _id, title, image }) => {
           alt={title}
           effect="blur"
           src={image[0]}
-          className="w-100 h-100 rounded-4 object-fit-fill"
+          className="w-100 h-100 rounded-4 object-fit-cover"
         />
       </Link>
       <div className="d-none d-xl-block focus-heart p-2">

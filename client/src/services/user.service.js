@@ -29,6 +29,12 @@ const unFollowUser = async (pinUserId, userId) => {
   });
 };
 
+const getSubscribedUsers = async (userId) => {
+  return await connect.get(`/api/user/${userId}/subbedusers`, {
+    headers: authHeader(),
+  });
+};
+
 const updateProfile = async (userName, email, password, profilePhoto, bio) => {
   return await connect.patch(
     "/api/user/update",
@@ -58,5 +64,6 @@ export default {
   followUser,
   unFollowUser,
   updateProfile,
+  getSubscribedUsers,
   logout,
 };

@@ -3,16 +3,18 @@ import { Form, Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import PropTypes from "prop-types";
-import { Formfields, MyButton } from "../components";
-import { registerOptions } from "../utils";
+import Formfields from "../Formfields";
+import MyButton from "../MyButton";
+import { registerOptions } from "../../utils";
 import { ClipLoader } from "react-spinners";
-import { tryCatch, uploadToCloudinary } from "../config";
-import { userService } from "../services";
-import ImageUpload from "./ImageUpload";
+import { tryCatch, uploadToCloudinary } from "../../config";
+import { userService } from "../../services";
+import ImageUpload from "../ImageUpload";
 
 const EditProfileModal = ({ user, setData }) => {
   const [show, setShow] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showImgUpload, setShowImgUpload] = useState(false);
   const {
     register,
     handleSubmit,
@@ -22,7 +24,6 @@ const EditProfileModal = ({ user, setData }) => {
       userName: user.userName,
       email: user.email,
       password: "",
-      profileImage: user.profilePhoto,
       bio: user.bio,
     },
   });
@@ -37,9 +38,11 @@ const EditProfileModal = ({ user, setData }) => {
   const onFormSubmit = tryCatch(
     async ({ userName, email, password, profileImage, bio }) => {
       let profilePhoto = "";
-      if (profileImage) {
+      if (profileImage && profileImage?.length > 0) {
+        setShowImgUpload(true);
         const uploadResponse = await uploadToCloudinary(profileImage[0]);
         profilePhoto = uploadResponse.data.secure_url;
+        setShowImgUpload(false);
       }
       const { status, data } = await userService.updateProfile(
         userName,
@@ -51,8 +54,8 @@ const EditProfileModal = ({ user, setData }) => {
       if (status === 200) {
         localStorage.setItem("usertoken", JSON.stringify(data.access_token));
         toast.success(data.msg);
-        const userinfo = await userService.getUserProfile(user.userName);
-        setData(userinfo.data);
+        const res = await userService.getUserProfile(user.userName);
+        setData(res.data);
         handleClose();
       }
     }
@@ -111,18 +114,24 @@ const EditProfileModal = ({ user, setData }) => {
               label="Bio"
               type="text"
               placeholder="Bio"
+              registerOptions={registerOptions?.bio}
             />
-            <ImageUpload
-              id="profileImage"
-              name="profileImage"
-              title="Change profile image"
-              register={register}
-              errors={errors?.image}
-              registerOptions={registerOptions}
-            />
+            <p onClick={() => setShowImgUpload((prev) => !prev)}>
+              {showImgUpload ? "Close this" : "Change profile image?"}
+            </p>
+            {showImgUpload && (
+              <ImageUpload
+                id="profileImage"
+                name="profileImage"
+                title="Upload images"
+                register={register}
+                errors={errors?.image}
+                registerOptions={registerOptions?.image}
+              />
+            )}
             <MyButton
               text={isSubmitting ? <ClipLoader color="#96b6c5" /> : "Update"}
-              className="w-100 border-0 p-2 mt-4"
+              className="w-100 border-0 p-2 mt-2"
               size="lg"
               type="submit"
               variant="none"

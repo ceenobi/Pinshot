@@ -38,6 +38,9 @@ const registerOptions = {
   image: {
     required: "Image is required",
   },
+  bio: {
+    required: "Bio is required",
+  },
 };
 
 export default registerOptions;

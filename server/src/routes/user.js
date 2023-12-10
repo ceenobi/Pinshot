@@ -22,6 +22,11 @@ router.get(
   verifyAuth(Roles.All),
   AuthController.getProfileUser
 );
+router.get(
+  "/:id/subbedusers",
+  verifyAuth(Roles.All),
+  AuthController.getSubcribedUsers
+);
 router.put("/sub/:id", verifyAuth(Roles.All), AuthController.subAUser);
 router.put("/unsub/:id", verifyAuth(Roles.All), AuthController.unSubAUser);
 

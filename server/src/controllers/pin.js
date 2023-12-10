@@ -52,12 +52,31 @@ export const getUserPins = tryCatch(async (req, res, next) => {
   if (!pins) {
     return next(createHttpError(400, `Pins not found`));
   }
-  const allPins = {
+  const userPins = {
     page: page + 1,
     limit,
     pins,
   };
-  res.status(200).json(allPins);
+  res.status(200).json(userPins);
+});
+
+export const getUserLikedPins = tryCatch(async (req, res, next) => {
+  const { id: userId } = req.user;
+  if (!isValidObjectId(userId)) {
+    throw createHttpError(400, "Invalid user id");
+  }
+  const page = parseInt(req.query.page) - 1 || 0;
+  const limit = parseInt(req.query.limit) || 20;
+  const pins = await myPinService.getPinsLikedByUser(userId, page, limit);
+  if (!pins) {
+    return next(createHttpError(400, `Pins not found`));
+  }
+  const likedPins = {
+    page: page + 1,
+    limit,
+    pins,
+  };
+  res.status(200).json(likedPins);
 });
 
 export const randomPins = tryCatch(async (req, res) => {
@@ -160,7 +179,7 @@ export const deleteAPin = tryCatch(async (req, res, next) => {
   if (!pin) {
     return next(createHttpError(404, "Pin not found"));
   }
-  if (pin.userId.id.toString() !== user._id.toString()) {
+  if (!pin.userId.id.equals(userId)) {
     return next(createHttpError(401, "You can only delete your pin"));
   }
   await myPinService.deletePin(pinId);
@@ -172,11 +191,20 @@ export const getSubbedPins = tryCatch(async (req, res) => {
   if (!isValidObjectId(userId)) {
     return next(createHttpError(400, "Invalid user id"));
   }
-  const user = await myUserService.getAuthUser(userId);
+  const page = parseInt(req.query.page) - 1 || 0;
+  const limit = parseInt(req.query.limit) || 20;
+  const user = await myUserService.getAuthUser(userId, page, limit);
   if (!user) {
     return next(createHttpError(400, "Invalid user"));
   }
   const subscribedFeeds = user.subscribedUsers;
-  const list = await myPinService.subToUserPins(subscribedFeeds);
-  res.status(200).json(list.flat().sort((a, b) => b.createdAt - a.createdAt));
+  const pin = await myPinService.getSubbedUserPins(subscribedFeeds);
+  pin.flat().sort((a, b) => b.createdAt - a.createdAt);
+  const pins = pin.flatMap((pin) => pin);
+  const subbedPins = {
+    page: page + 1,
+    limit,
+    pins,
+  };
+  res.status(200).json(subbedPins);
 });

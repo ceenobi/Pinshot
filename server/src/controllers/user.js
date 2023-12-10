@@ -215,3 +215,15 @@ export const unSubAUser = tryCatch(async (req, res) => {
   await myUserService.unSubscribeUser(userId, sub);
   res.status(200).json("Unfollowed user successfull.");
 });
+
+export const getSubcribedUsers = tryCatch(async (req, res) => {
+  const { id: userId } = req.params;
+  if (!isValidObjectId(userId)) {
+    return next(createHttpError(400, "Invalid user id"));
+  }
+  const user = await myUserService.getSubbedUsers(userId);
+  if (!user) {
+    return next(createHttpError(400, "Invalid user"));
+  }
+  res.status(200).json(user);
+});

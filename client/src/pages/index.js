@@ -4,5 +4,6 @@ import Register from "./auth/Register";
 import Pindetails from "./Pindetails";
 import Search from "./Search";
 import Profile from "./Profile";
+import Following from "./Following";
 
-export { Home, Login, Register, Pindetails, Search , Profile};
+export { Home, Login, Register, Pindetails, Search , Profile, Following};

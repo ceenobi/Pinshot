@@ -14,6 +14,7 @@ const Pindetails = lazy(() => import("../pages/Pindetails"));
 const Search = lazy(() => import("../pages/Search"));
 const Profile = lazy(() => import("../pages/Profile"));
 const CreatePin = lazy(() => import("../pages/CreatePin"));
+const Following = lazy(() => import("../pages/Following"));
 
 const Paths = () => {
   const token = localStorage.getItem("usertoken");
@@ -68,6 +69,16 @@ const Paths = () => {
             <Suspense fallback={<Loading text="PINTUBE" />}>
               <Protectedroutes isAuth={token}>
                 <CreatePin />
+              </Protectedroutes>
+            </Suspense>
+          }
+        />
+        <Route
+          path="following"
+          element={
+            <Suspense fallback={<Loading text="PINTUBE" />}>
+              <Protectedroutes isAuth={token}>
+                <Following />
               </Protectedroutes>
             </Suspense>
           }

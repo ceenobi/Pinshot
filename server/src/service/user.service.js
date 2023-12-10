@@ -7,18 +7,6 @@ const addUser =
     const passwordHashed = await bcrypt.hash(password, salt);
     return await User.create({ userName, email, password: passwordHashed });
   };
-// const addUser =
-//   (User) =>
-//   async ({ userName, email, password }) => {
-//     const salt = await bcrypt.genSalt(10);
-//     const passwordHashed = await bcrypt.hash(password, salt);
-//     const user = new User({
-//       userName,
-//       email,
-//       password: passwordHashed,
-//     });
-//     return user.save();
-//   };
 
 //verify password to login user
 const verifyPassword = () => async (password, userPassword) => {
@@ -68,24 +56,14 @@ const updateUser =
       const passwordHashed = await bcrypt.hash(password, salt);
       user.password = passwordHashed;
     }
-    Object.assign(user, { userName, email, profilePhoto, bio });
+    Object.assign(user, {
+      userName: userName || user.userName,
+      email: email || user.email,
+      profilePhoto: profilePhoto || user.profilePhoto,
+      bio: bio || user.bio,
+    });
     return await user.save();
   };
-// const updateUser =
-//   (User) =>
-//   async (id, { userName, email, password, profilePhoto, bio }) => {
-//     const user = await User.findById(id);
-//     if (password) {
-//       const salt = await bcrypt.genSalt(10);
-//       const passwordHashed = await bcrypt.hash(password, salt);
-//       user.password = passwordHashed || user.password;
-//     }
-//     user.userName = userName || user.userName;
-//     user.email = email || user.email;
-//     user.profilePhoto = profilePhoto || user.profilePhoto;
-//     user.bio = bio || user.bio;
-//     return await user.save();
-//   };
 
 //reset user password
 const passwordReset =
@@ -135,6 +113,7 @@ const subscribeUser = (User) => async (userId, sub) => {
   });
   return;
 };
+
 const unSubscribeUser = (User) => async (userId, sub) => {
   await User.findByIdAndUpdate(userId, {
     $pull: { subscribedUsers: sub },
@@ -143,6 +122,11 @@ const unSubscribeUser = (User) => async (userId, sub) => {
     $inc: { subscribers: -1 },
   });
   return;
+};
+const getSubbedUsers = (User) => async (userId) => {
+  const findUser = await User.findById(userId);
+  const getSubbedIds = findUser.subscribedUsers.map((user) => user);
+  return await User.find({ _id: getSubbedIds });
 };
 
 export default (User, Token) => {
@@ -163,5 +147,6 @@ export default (User, Token) => {
     passwordReset: passwordReset(User),
     subscribeUser: subscribeUser(User),
     unSubscribeUser: unSubscribeUser(User),
+    getSubbedUsers: getSubbedUsers(User),
   };
 };

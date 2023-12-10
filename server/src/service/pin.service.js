@@ -20,6 +20,12 @@ const getPinsByUser = (Pin) => async (userId, page, limit) => {
     .skip(page * limit);
 };
 
+const getPinsLikedByUser = (Pin) => async (userId, page, limit) => {
+  return await Pin.find({ likes: userId })
+    .sort({ _id: -1 })
+    .skip(page * limit);
+};
+
 const getPin = (Pin) => async (pinId) => {
   return await Pin.findById(pinId).populate(
     "userId",
@@ -34,21 +40,16 @@ const getRelatedPin = (Pin) => async (pinId) => {
   return getRelatedPinTags.filter((allTags) => allTags.id !== pinId);
 };
 
-// const updatePin =
-//   (Pin) =>
-//   async (pinId, { title, tags, description, image }) => {
-//     const pin = await Pin.findById(pinId);
-//     pin.title = title || pin.title;
-//     pin.description = description || pin.description;
-//     pin.image = image || pin.image;
-//     pin.tags = tags || pin.tags;
-//     return await pin.save();
-//   };
 const updatePin =
   (Pin) =>
   async (pinId, { title, tags, description, image }) => {
     const pin = await Pin.findById(pinId);
-    Object.assign(pin, { title, tags, description, image });
+    Object.assign(pin, {
+      title: title || pin.title,
+      description: description || pin.description,
+      image: image || pin.image,
+      tags: tags || pin.tags,
+    });
     return await pin.save();
   };
 
@@ -68,10 +69,12 @@ const deletePin = (Pin) => async (pinId) => {
   return await pin.deleteOne();
 };
 
-const getSubbedUserPins = (Pin) => async (subscribedPins) => {
+const getSubbedUserPins = (Pin) => async (subscribedPins, page, limit) => {
   return await Promise.all(
     subscribedPins.map(async (pinId) => {
-      return Pin.find({ userId: pinId });
+      return Pin.find({ userId: pinId })
+        .sort({ _id: -1 })
+        .skip(page * limit);
     })
   );
 };
@@ -89,5 +92,6 @@ export default (Pin) => {
     getSubbedUserPins: getSubbedUserPins(Pin),
     getPinsByUser: getPinsByUser(Pin),
     getRelatedPin: getRelatedPin(Pin),
+    getPinsLikedByUser: getPinsLikedByUser(Pin),
   };
 };

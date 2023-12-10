@@ -30,8 +30,7 @@ export default function ImageUpload({
 
   return (
     <>
-      {" "}
-      <Form.Group controlId={id} className="mb-2">
+      <Form.Group controlId={id} className="mb-3">
         <Form.Label>{title}</Form.Label>
         <Form.Control
           type="file"
@@ -48,20 +47,18 @@ export default function ImageUpload({
         </Form.Control.Feedback>
       </Form.Group>
       {preview && (
-        <div>
-          {preview.map((img, i) => {
-            return (
-              <Image
-                src={img}
-                alt={"image-" + i}
-                key={i}
-                style={{ width: "50px", height: "50px" }}
-                roundedCircle
-                className="object-fit-cover mb-3 me-2"
-              />
-            );
-          })}
-        </div>
+        <>
+          {preview.map((img, i) => (
+            <Image
+              src={img}
+              alt={"image-" + i}
+              key={i}
+              style={{ width: "50px", height: "50px" }}
+              roundedCircle
+              className="object-fit-cover mb-3 me-2"
+            />
+          ))}
+        </>
       )}
     </>
   );

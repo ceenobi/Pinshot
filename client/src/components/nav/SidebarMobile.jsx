@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Icon } from "@iconify/react";
-import { Image, Offcanvas } from "react-bootstrap";
+import { Image, Offcanvas, Stack } from "react-bootstrap";
 import { links } from "../../utils";
 import { NavLink } from "react-router-dom";
 import { useStateContext } from "../../config";
@@ -22,11 +22,7 @@ const SidebarMobile = () => {
       <Offcanvas show={show} onHide={handleClose}>
         <Offcanvas.Header closeButton>
           <Offcanvas.Title className="text-capitalize">
-            <NavLink
-              to={`/profile/${loggedInUser?.userName}`}
-              className="text-black"
-              onClick={handleClose}
-            >
+            <Stack direction="horizontal" className="align-items-center">
               <Image
                 src={loggedInUser?.profilePhoto}
                 roundedCircle
@@ -34,8 +30,8 @@ const SidebarMobile = () => {
                 style={{ width: "40px", height: "40px" }}
                 alt={loggedInUser?.userName}
               />
-              Hi, {loggedInUser?.userName}{" "}
-            </NavLink>
+              <span>Hi, {loggedInUser?.userName}</span>
+            </Stack>
           </Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
@@ -51,9 +47,19 @@ const SidebarMobile = () => {
                 onClick={handleClose}
               >
                 <div className="fs-2 mb-0">{link.icon}</div>
-                <p style={{ fontSize: "14px" }}>{link.label}</p>
+                <p style={{ fontSize: "18px" }}>{link.label}</p>
               </NavLink>
             ))}
+            <NavLink
+              to={`/profile/${loggedInUser?.userName}`}
+              className={({ isActive }) =>
+                isActive ? "activeIcon mt-4" : "no-activeIcon mt-4"
+              }
+              onClick={handleClose}
+            >
+              <Icon icon="ic:round-person-2" className="fs-1" />
+              <p style={{ fontSize: "18px" }}>Profile</p>
+            </NavLink>
             <Icon
               icon="ic:outline-power-settings-new"
               className="fs-1 mt-4 logout"

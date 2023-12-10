@@ -2,13 +2,13 @@ import { useState } from "react";
 import { Modal, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
-import Formfields from "./Formfields";
-import { registerOptions } from "../utils";
-import ImageUpload from "./ImageUpload";
-import { pinService, searchService } from "../services";
-import { tryCatch, uploadToCloudinary } from "../config";
+import Formfields from "../Formfields";
+import { registerOptions } from "../../utils";
+import ImageUpload from "../ImageUpload";
+import { pinService, searchService } from "../../services";
+import { tryCatch, uploadToCloudinary } from "../../config";
 import toast from "react-hot-toast";
-import MyButton from "./MyButton";
+import MyButton from "../MyButton";
 import { ClipLoader } from "react-spinners";
 
 const EditPost = ({ pin, setData }) => {
@@ -23,7 +23,6 @@ const EditPost = ({ pin, setData }) => {
     defaultValues: {
       title: pin.title,
       description: pin.description,
-      image: pin.image,
       tags: pin.tags,
     },
   });
@@ -54,7 +53,7 @@ const EditPost = ({ pin, setData }) => {
 
   const onFormSubmit = tryCatch(async ({ title, description, image }) => {
     let pinImages = [];
-    if (image && image.length > 0) {
+    if (image) {
       const uploadPromises = Array.from(image).map(async (singleImage) => {
         const upload = await uploadToCloudinary(singleImage);
         return upload.data.secure_url;

@@ -1,16 +1,15 @@
 import PropTypes from "prop-types";
-import { useFetch } from "../hooks";
-import { pinService } from "../services";
-import { Loading } from "../utils";
-import MasonryLayout from "./MasonryLayout";
-import PinCard from "./PinCard";
+import { useFetch } from "../../hooks";
+import { pinService } from "../../services";
+import { Loading } from "../../utils";
+import MasonryLayout from "../MasonryLayout";
+import PinCard from "../PinCard";
 
 const UserPins = ({ user }) => {
   const { data, error, loading } = useFetch(pinService.getPinsByUser, user._id);
 
   return (
-    <div>
-      <h1 className="fs-5 text-center mb-5">Created pins</h1>
+    <div className="mt-5">
       {error ? (
         <p className="mt-5">{error}</p>
       ) : (

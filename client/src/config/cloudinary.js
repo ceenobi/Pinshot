@@ -1,9 +1,6 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-import {
-  CLOUDINARY_UPLOAD_PRESET,
-  CLOUDINARY_UPLOAD_URL,
-} from "./connect";
+import { CLOUDINARY_UPLOAD_PRESET, CLOUDINARY_UPLOAD_URL } from "./connect";
 
 export const uploadToCloudinary = async (files) => {
   const formData = new FormData();

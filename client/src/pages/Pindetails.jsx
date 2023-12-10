@@ -1,5 +1,8 @@
 import { Link, useParams } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { Col, Image, Row } from "react-bootstrap";
 import { Icon } from "@iconify/react";
+import toast from "react-hot-toast";
 import { useFetch } from "../hooks";
 import { pinService, userService } from "../services";
 import {
@@ -10,12 +13,9 @@ import {
   PageLayout,
   PinCard,
 } from "../components";
-import { Col, Image, Row } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { Loading, downloadImage } from "../utils";
 import { tryCatch, useStateContext } from "../config";
-import toast from "react-hot-toast";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Pindetails = () => {
   const { pinId } = useParams();
@@ -86,7 +86,7 @@ const Pindetails = () => {
           ) : (
             <Row className="g-3">
               <Col lg={6} className="mb-4">
-                <div className="w-100 h-75">
+                <div className="w-100">
                   {pin?.image?.map((img, i) => (
                     <div key={i} className="position-relative pinId-Img">
                       {i === current && (
@@ -95,8 +95,11 @@ const Pindetails = () => {
                             effect="blur"
                             src={img}
                             alt={pin.title}
-                            className="rounded-4 w-100 h-100 object-fit-fill"
+                            className="rounded-4 object-fit-cover"
+                            width="100%"
+                            height="100%"
                           />
+
                           {pin?.image?.length > 1 && (
                             <div className="focus-arrowBox">
                               <Icon

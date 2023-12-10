@@ -2,11 +2,11 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import toast from "react-hot-toast";
-import { EditProfileModal, PageLayout, UserPins } from "../components";
+import { EditProfileModal, PageLayout, SubscribedUsers, UserLikedPins, UserPins } from "../components";
 import { useFetch } from "../hooks";
 import { userService } from "../services";
 import { Loading } from "../utils";
-import { Button, Image } from "react-bootstrap";
+import { Button, Image, Tab, Tabs } from "react-bootstrap";
 import { tryCatch, useStateContext } from "../config";
 
 const Profile = () => {
@@ -102,10 +102,22 @@ const Profile = () => {
                   )}
                 </div>
               </div>
-              <hr />
-              <div className="mt-5">
-                <UserPins user={user} />
-              </div>
+              <Tabs
+                defaultActiveKey="user"
+                id="user-profile-tab"
+                className="mt-5"
+                justify
+              >
+                <Tab eventKey="user" title="Your pins">
+                  <UserPins user={user} />
+                </Tab>
+                <Tab eventKey="likedpins" title="Your liked pins">
+                  <UserLikedPins />
+                </Tab>
+                <Tab eventKey="Subscribedusers" title="Followers">
+                  <SubscribedUsers user={user} />
+                </Tab>
+              </Tabs>
             </div>
           )}
         </>

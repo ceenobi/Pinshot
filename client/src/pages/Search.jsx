@@ -49,11 +49,11 @@ const Search = () => {
   }, [query]);
 
   const filterProfile = result.filter((data) => data?.email);
-  const filterPins = result.filter((data) => data?.owner);
+  const filterPins = result.filter((data) => data?.title);
 
   const shuffleTags = () => {
     const shuffled = [...tags].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, 30);
+    return shuffled.slice(0, 40);
   };
   const getRandomTags = shuffleTags();
 
@@ -73,14 +73,14 @@ const Search = () => {
                     key={i}
                     variant="none"
                     style={{
-                      backgroundColor: query === tag ? "var(--blue200)" : "",
+                      backgroundColor: query === tag ? "var(--dark100)" : "",
                       color:
                         query === tag ? "var(--cream200)" : "var(--dark100)",
                     }}
                     className={
                       query === tag
-                        ? "rounded-4 px-3 py-1 fw-bold"
-                        : "rounded-4 bg-secondary-subtle px-3 py-1 activeIcon"
+                        ? "rounded-4 px-3 py-1 fw-bold text-capitalize"
+                        : "rounded-4 bg-secondary-subtle px-3 py-1 activeIcon text-capitalize"
                     }
                     onClick={() => setTag(tag)}
                   >
@@ -95,7 +95,7 @@ const Search = () => {
                       <PinCard key={pin._id} {...pin} />
                     ))}
                   </MasonryLayout>
-                  {filterProfile.length > 0 && (
+                  {filterProfile?.length > 0 && (
                     <>
                       <hr />
                       <Row className="my-3">
