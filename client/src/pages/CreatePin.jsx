@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import { Icon } from "@iconify/react";
 import { ClipLoader } from "react-spinners";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Formfields, MyButton, PageLayout } from "../components";
 import ImageUpload from "../components/ImageUpload";
 import { Loading, registerOptions } from "../utils";
-import { useFetch } from "../hooks";
+import { useFetch, useTitle } from "../hooks";
 import { pinService, searchService } from "../services";
 import { tryCatch, uploadToCloudinary } from "../config";
-import { useNavigate } from "react-router-dom";
 
 const CreatePin = () => {
   const { data: fetchTags } = useFetch(searchService.getAllTags);
@@ -19,16 +19,12 @@ const CreatePin = () => {
   const [tagArray, setTagArray] = useState([]);
   const [selectTag, setSelectTag] = useState(null);
   const navigate = useNavigate();
-
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm();
-
-  useEffect(() => {
-    document.title = "Create post";
-  }, []);
+  useTitle("Create pin");
 
   const addTag = () => {
     if (tag !== "") {
@@ -176,7 +172,7 @@ const CreatePin = () => {
                     >
                       <span className="fs-6">{tag}</span>
                       <span
-                        onClick={()=>deleteTag(i)}
+                        onClick={() => deleteTag(i)}
                         className="text-white activeIcon"
                         title="delete tag"
                       >

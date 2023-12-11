@@ -9,7 +9,7 @@ const Sidebar = () => {
       className="d-none d-xl-block desktop-width position-fixed top-0 bg-white"
       style={{ zIndex: 5 }}
     >
-      <div className="d-flex justify-content-between flex-column align-items-center py-4 px-3 min-vh-100">
+      <div className="d-flex justify-content-between flex-column align-items-center py-3 px-3 min-vh-100">
         <NavLink to="/">
           <h1 className="logo fs-5" title="Pinshot">
             P
@@ -26,9 +26,7 @@ const Sidebar = () => {
               title={link.label}
             >
               <div className="fs-3 mb-0">{link.icon}</div>
-              <p style={{ fontSize: "12px", }}>
-                {link.label}
-              </p>
+              <p style={{ fontSize: "12px" }}>{link.label}</p>
             </NavLink>
           ))}
         </div>

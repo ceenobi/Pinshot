@@ -5,13 +5,14 @@ import Sidebar from "./nav/Sidebar";
 
 const Root = () => {
   const location = useLocation();
-  const hideComponent =
-    location.pathname !== "/login" && location.pathname !== "/register";
+  const paths = ["/login", "/register"];
+  const matchPaths = paths.map((path) => path);
+
   return (
     <Container fluid className="m-0 p-0">
-      {hideComponent && <Sidebar />}
+      {!matchPaths.includes(location.pathname) && <Sidebar />}
       <main>
-        {hideComponent && <Header />}
+        {!matchPaths.includes(location.pathname) && <Header />}
         <Outlet />
       </main>
     </Container>

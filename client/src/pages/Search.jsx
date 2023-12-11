@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
+import { Col, Image, Row } from "react-bootstrap";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import toast from "react-hot-toast";
 import { searchService } from "../services";
 import { MasonryLayout, PageLayout, PinCard } from "../components";
 import { Loading } from "../utils";
-import { Button, Col, Image, Row } from "react-bootstrap";
-import { useFetch } from "../hooks";
-import toast from "react-hot-toast";
+import { useTitle } from "../hooks";
 
 const Search = () => {
   const [searchParams] = useSearchParams();
@@ -13,24 +13,22 @@ const Search = () => {
   const [result, setResult] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [tag, setTag] = useState(query);
-  const { data: tags } = useFetch(searchService.getAllTags);
   const navigate = useNavigate();
+  useTitle(`Search result for "${query}"`);
 
   useEffect(() => {
     const params = new URLSearchParams();
-    if (tag) {
-      params.append("query", tag);
+    if (query) {
+      params.append("query", query);
     } else {
       params.delete("query");
     }
     navigate({ search: params.toString() });
-  }, [tag, navigate]);
+  }, [query, navigate]);
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       const searchRequest = async () => {
-        document.title = `Search result for "${query}"`;
         try {
           setLoading(true);
           const { data } = await searchService.searchUserOrPins(query);
@@ -51,14 +49,8 @@ const Search = () => {
   const filterProfile = result.filter((data) => data?.email);
   const filterPins = result.filter((data) => data?.title);
 
-  const shuffleTags = () => {
-    const shuffled = [...tags].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, 40);
-  };
-  const getRandomTags = shuffleTags();
-
   return (
-    <PageLayout extra="py-5 px-3 mt-5">
+    <PageLayout extra="px-3" style={{ paddingTop: "9rem" }}>
       {error ? (
         <p className="mt-5">{error?.response?.data?.error}</p>
       ) : (
@@ -67,28 +59,7 @@ const Search = () => {
             <Loading text="Searching..." />
           ) : (
             <div>
-              <div className="d-flex gap-3 overflow-x-scroll scrollbody mb-4">
-                {getRandomTags?.map((tag, i) => (
-                  <Button
-                    key={i}
-                    variant="none"
-                    style={{
-                      backgroundColor: query === tag ? "var(--dark100)" : "",
-                      color:
-                        query === tag ? "var(--cream200)" : "var(--dark100)",
-                    }}
-                    className={
-                      query === tag
-                        ? "rounded-4 px-3 py-1 fw-bold text-capitalize"
-                        : "rounded-4 bg-secondary-subtle px-3 py-1 activeIcon text-capitalize"
-                    }
-                    onClick={() => setTag(tag)}
-                  >
-                    {tag}
-                  </Button>
-                ))}
-              </div>
-              {result?.length > 0 ? (
+              {result && result?.length > 0 ? (
                 <>
                   <MasonryLayout>
                     {filterPins.map((pin) => (
@@ -103,7 +74,7 @@ const Search = () => {
                           <div className="d-flex gap-4">
                             {filterProfile.map((user) => (
                               <div
-                                style={{ width: "80px", height: "80px" }}
+                                style={{ width: "50px", height: "50px" }}
                                 key={user._id}
                               >
                                 <Link to={`/profile/${user.userName}`}>

@@ -3,7 +3,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Col, Image, Row } from "react-bootstrap";
 import { Icon } from "@iconify/react";
 import toast from "react-hot-toast";
-import { useFetch } from "../hooks";
+import { useFetch, useTitle } from "../hooks";
 import { pinService, userService } from "../services";
 import {
   Comments,
@@ -13,7 +13,7 @@ import {
   PageLayout,
   PinCard,
 } from "../components";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Loading, downloadImage } from "../utils";
 import { tryCatch, useStateContext } from "../config";
 
@@ -28,10 +28,7 @@ const Pindetails = () => {
   } = useFetch(pinService.getAPin, pinId);
   const { data: relatedPins } = useFetch(pinService.getRelatedPins, pinId);
   const { loggedInUser, setLoggedInUser } = useStateContext();
-
-  useEffect(() => {
-    document.title = pin?.title;
-  }, [pin?.title]);
+  useTitle(pin?.title);
 
   const imgLength = pin?.image?.length;
 

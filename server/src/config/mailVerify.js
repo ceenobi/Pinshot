@@ -11,14 +11,12 @@ const sendEmail = async ({ from, to, subject, text }) => {
     }
     const transporter = nodemailer.createTransport({
       host: env.HOST,
-      service: env.SERVICE,
       port: 587,
-      secure: false,
       auth: {
         user: env.USERMAIL,
-        pass: env.PASS,
+        pass: env.BREVOMAILKEY,
       },
-    })
+    });
     await transporter.sendMail(mailOptions)
     console.log('email sent sucessfully')
   } catch (error) {

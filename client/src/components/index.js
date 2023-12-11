@@ -1,5 +1,5 @@
 import Root from "./Root";
-import Formfields from "./Formfields";
+import Formfields from "./form/Formfields";
 import MyButton from "./MyButton";
 import PageLayout from "./PageLayout";
 import MasonryLayout from "./MasonryLayout";
@@ -11,6 +11,8 @@ import UserPins from "./profile/UserPins";
 import EditPost from "./pindetails/EditPost";
 import UserLikedPins from "./profile/UserLikedPins";
 import SubscribedUsers from "./profile/SubscribedUsers";
+import LoginRegister from "./form/LoginRegister";
+import SearchTags from "./nav/SearchTags";
 
 export {
   Root,
@@ -26,4 +28,6 @@ export {
   EditPost,
   UserLikedPins,
   SubscribedUsers,
+  LoginRegister,
+  SearchTags,
 };

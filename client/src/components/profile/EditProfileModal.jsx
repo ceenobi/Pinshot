@@ -3,7 +3,7 @@ import { Form, Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import PropTypes from "prop-types";
-import Formfields from "../Formfields";
+import Formfields from "../form/Formfields";
 import MyButton from "../MyButton";
 import { registerOptions } from "../../utils";
 import { ClipLoader } from "react-spinners";

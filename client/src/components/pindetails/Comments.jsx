@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Icon } from "@iconify/react";
 import toast from "react-hot-toast";
 import PropTypes from "prop-types";
-import Formfields from "../Formfields";
+import Formfields from "../form/Formfields";
 import { registerOptions } from "../../utils";
 import { tryCatch, useStateContext } from "../../config";
 import MyButton from "../MyButton";

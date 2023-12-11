@@ -1,5 +1,5 @@
-import { cleanEnv } from 'envalid'
-import { str, port } from 'envalid/dist/validators.js'
+import { cleanEnv } from "envalid";
+import { str, port } from "envalid/dist/validators.js";
 
 export default cleanEnv(process.env, {
   MONGO_URI: str(),
@@ -12,5 +12,5 @@ export default cleanEnv(process.env, {
   USERMAIL: str(),
   PASS: str(),
   SERVICE: str(),
-  // CLOUDINARY_URL: str(),
-})
+  BREVOMAILKEY: str(),
+});

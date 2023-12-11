@@ -1,12 +1,14 @@
 import { MasonryLayout, PageLayout, PinCard } from "../components";
-import { useFetch } from "../hooks";
+import { useFetch, useTitle } from "../hooks";
 import { pinService } from "../services";
 import { Loading } from "../utils";
 
 const Home = () => {
   const { error, loading, data } = useFetch(pinService.getAllPins);
+  useTitle("Pinshot Home");
+
   return (
-    <PageLayout extra="py-5 px-3 mt-5">
+    <PageLayout extra="px-3" style={{paddingTop:'9rem'}}>
       {error ? (
         <p className="mt-5">{error}</p>
       ) : (

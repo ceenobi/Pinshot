@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Modal, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
-import Formfields from "../Formfields";
+import Formfields from "../form/Formfields";
 import { registerOptions } from "../../utils";
 import ImageUpload from "../ImageUpload";
 import { pinService, searchService } from "../../services";

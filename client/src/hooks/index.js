@@ -1,4 +1,4 @@
-import useFetch from './useFetch'
-import useGenerateRandomColor from './generateColors'
+import useFetch from "./useFetch";
+import useTitle from "./useTitle";
 
-export { useFetch, useGenerateRandomColor };
+export { useFetch, useTitle };

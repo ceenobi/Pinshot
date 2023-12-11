@@ -1,9 +1,15 @@
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import toast from "react-hot-toast";
-import { EditProfileModal, PageLayout, SubscribedUsers, UserLikedPins, UserPins } from "../components";
-import { useFetch } from "../hooks";
+import { format } from "timeago.js";
+import {
+  EditProfileModal,
+  PageLayout,
+  SubscribedUsers,
+  UserLikedPins,
+  UserPins,
+} from "../components";
+import { useFetch, useTitle } from "../hooks";
 import { userService } from "../services";
 import { Loading } from "../utils";
 import { Button, Image, Tab, Tabs } from "react-bootstrap";
@@ -18,11 +24,7 @@ const Profile = () => {
     loading,
     setData,
   } = useFetch(userService.getUserProfile, userName);
-  console.log(user);
-
-  useEffect(() => {
-    document.title = `${user?.userName} profile`;
-  }, [user?.userName]);
+  useTitle(`${user?.userName} profile`);
 
   const follow = tryCatch(async (userId) => {
     const res = await userService.followUser(userId, loggedInUser._id);
@@ -76,9 +78,12 @@ const Profile = () => {
                       </span>
                     </div>
                   </div>
-                  <p className="">{user?.email}</p>
-                  <p>
+                  <p>{user?.email}</p>
+                  <p className="mb-0">
                     <b>bio:</b> {user?.bio}
+                  </p>
+                  <p>
+                    <b>member since:</b> {format(user?.createdAt)}
                   </p>
                   {loggedInUser._id !== user?._id && (
                     <Button

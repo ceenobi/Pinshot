@@ -1,4 +1,3 @@
-import "dotenv/config";
 import express, { json } from "express";
 import createHttpError, { isHttpError } from "http-errors";
 import cors from "cors";

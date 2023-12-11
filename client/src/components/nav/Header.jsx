@@ -1,17 +1,22 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { Icon } from "@iconify/react";
+import { useEffect, useState } from "react";
 import { Button, Form, Image, InputGroup, Fade } from "react-bootstrap";
 import SidebarMobile from "./SidebarMobile";
 import { useStateContext } from "../../config";
 import PageLayout from "../PageLayout";
-import { useEffect, useState } from "react";
 import SearchResult from "./SearchResult";
+import SearchTags from "./SearchTags";
 
 const Header = () => {
   const { loggedInUser } = useStateContext() || {};
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [resultBox, setResultBox] = useState(false);
+  const location = useLocation();
+
+  const paths = ["/", "/following", "/search/"];
+  const matchPaths = paths.map((path) => path);
 
   useEffect(() => {
     if (searchQuery.length > 0) {
@@ -29,80 +34,86 @@ const Header = () => {
   };
 
   return (
-    <PageLayout extra="position-fixed top-0 bg-white" style={{ zIndex: 4 }}>
-      <div className="position-relative p-3 d-flex justify-content-between align-items-center">
-        <SidebarMobile />
-        <NavLink
-          to="/"
-          className="fs-4 fw-bold mx-4 mx-xl-0"
-          title="Pinshot"
-          style={{ color: "var(--dark100)" }}
-        >
-          PINTUBE
-        </NavLink>
-
-        <Form className="w-100" onSubmit={handleSubmit}>
-          <InputGroup className="d-none d-md-flex mx-auto w-50 rounded-pill border">
-            <Form.Control
-              placeholder="Search"
-              aria-label="Search bar for pins"
-              className="rounded-start-pill"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            {resultBox ? (
-              <Button
-                variant="none"
-                type="submit"
-                onClick={() => {
-                  setResultBox(false);
-                  setSearchQuery("");
-                }}
-              >
-                <Icon
-                  icon="material-symbols:close-small"
-                  className="fs-2 text-secondary activeIcon"
-                />
-              </Button>
-            ) : (
-              <Button variant="none" type="submit">
-                <Icon
-                  icon="ic:round-search"
-                  className="fs-2 text-secondary activeIcon"
-                />
-              </Button>
-            )}
-          </InputGroup>
-        </Form>
-        <div className="d-flex align-items-center gap-3">
+    <PageLayout extra="position-fixed top-0 bg-white" style={{ zIndex: 5 }}>
+      <>
+        <div className="position-relative py-2 px-3 d-flex justify-content-between align-items-center">
+          <SidebarMobile />
           <NavLink
-            className={({ isActive }) =>
-              isActive ? "activeIcon" : "no-activeIcon"
-            }
-            to="/create"
+            to="/"
+            className="fs-4 fw-bold mx-4 mx-xl-0"
+            title="Pinshot"
+            style={{ color: "var(--dark100)" }}
           >
-            <Icon icon="fluent:camera-add-24-filled" className="fs-2" />
+            PINSHOT
           </NavLink>
 
-          <Link to={`/profile/${loggedInUser?.userName}`}>
-            <Image
-              src={loggedInUser?.profilePhoto}
-              roundedCircle
-              className="d-none d-md-block object-fit-cover"
-              style={{ width: "40px", height: "40px" }}
-              title={loggedInUser?.userName}
+          <Form className="w-100" onSubmit={handleSubmit}>
+            <InputGroup className="d-none d-md-flex mx-auto w-50 rounded-pill border">
+              <Form.Control
+                placeholder="Search"
+                aria-label="Search bar for pins"
+                className="rounded-start-pill"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              {resultBox ? (
+                <Button
+                  variant="none"
+                  type="submit"
+                  onClick={() => {
+                    setResultBox(false);
+                    setSearchQuery("");
+                  }}
+                >
+                  <Icon
+                    icon="material-symbols:close-small"
+                    className="fs-2 text-secondary activeIcon"
+                  />
+                </Button>
+              ) : (
+                <Button variant="none" type="submit">
+                  <Icon
+                    icon="ic:round-search"
+                    className="fs-2 text-secondary activeIcon"
+                  />
+                </Button>
+              )}
+            </InputGroup>
+          </Form>
+          <div className="d-flex align-items-center gap-3">
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "activeIcon" : "no-activeIcon"
+              }
+              to="/create"
+            >
+              <Icon icon="fluent:camera-add-24-filled" className="fs-2" />
+            </NavLink>
+
+            <Link to={`/profile/${loggedInUser?.userName}`}>
+              <Image
+                src={loggedInUser?.profilePhoto}
+                roundedCircle
+                className="d-none d-md-block object-fit-cover"
+                style={{ width: "40px", height: "40px" }}
+                title={loggedInUser?.userName}
+              />
+            </Link>
+            <Icon
+              icon="ic:round-search"
+              className="fs-2 d-md-none text-secondary activeIcon"
+              onClick={() => setShowSearch(!showSearch)}
             />
-          </Link>
-          <Icon
-            icon="ic:round-search"
-            className="fs-2 d-md-none text-secondary activeIcon"
-            onClick={() => setShowSearch(!showSearch)}
-          />
+          </div>
+          {resultBox && (
+            <SearchResult
+              searchQuery={searchQuery}
+              setResultBox={setResultBox}
+            />
+          )}
         </div>
-        {resultBox && (
-          <SearchResult searchQuery={searchQuery} setResultBox={setResultBox} />
-        )}
-      </div>
+        {matchPaths.includes(location.pathname) && <SearchTags />}
+      </>
       {showSearch && (
         <>
           <Form

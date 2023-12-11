@@ -19,7 +19,6 @@ export const StateProvider = ({ children }) => {
     getUser();
   }, []);
 
-  console.log("user", loggedInUser);
   return (
     <StateContext.Provider
       value={{
