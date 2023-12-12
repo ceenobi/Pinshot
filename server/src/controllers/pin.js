@@ -1,28 +1,34 @@
 import { isValidObjectId } from "mongoose";
-import { myPinService, myUserService } from "../service/index.js";
 import createHttpError from "http-errors";
+import { myPinService, myUserService } from "../service/index.js";
 import tryCatch from "../config/tryCatch.js";
 
 export const createAPin = tryCatch(async (req, res, next) => {
   const pinParams = req.body;
   const { id: userId } = req.user;
-  if (!pinParams) {
-    return next(createHttpError(400, "Parameters missing"));
+
+  if (!pinParams || !userId) {
+    return next(createHttpError(400, "Invalid parameters or user"));
   }
-  if (!userId) {
-    return next(createHttpError(401, "401,Unable to find this user"));
-  }
+
   const user = await myUserService.getAuthUser(userId);
   if (!user) {
     return next(createHttpError(400, "Invalid user"));
   }
-  const pin = await myPinService.createPin({
+
+  const pinData = {
     userId: user._id,
     title: pinParams.title,
     description: pinParams.description,
     image: pinParams.image,
     tags: pinParams.tags,
-  });
+  };
+
+  const pin = await myPinService.createPin(pinData);
+  if (!pin) {
+    return next(createHttpError(500, "Failed to create pin"));
+  }
+
   res.status(201).json({ pin, msg: "Pin created successfully" });
 });
 
@@ -44,7 +50,7 @@ export const getAllPins = tryCatch(async (req, res, next) => {
 export const getUserPins = tryCatch(async (req, res, next) => {
   const { id: userId } = req.params;
   if (!isValidObjectId(userId)) {
-    throw createHttpError(400, "Invalid user id");
+    return next(createHttpError(400, "Invalid user id"));
   }
   const page = parseInt(req.query.page) - 1 || 0;
   const limit = parseInt(req.query.limit) || 20;
@@ -63,7 +69,7 @@ export const getUserPins = tryCatch(async (req, res, next) => {
 export const getUserLikedPins = tryCatch(async (req, res, next) => {
   const { id: userId } = req.user;
   if (!isValidObjectId(userId)) {
-    throw createHttpError(400, "Invalid user id");
+    return next(createHttpError(400, "Invalid user id"));
   }
   const page = parseInt(req.query.page) - 1 || 0;
   const limit = parseInt(req.query.limit) || 20;
@@ -119,14 +125,14 @@ export const updateAPin = tryCatch(async (req, res, next) => {
     return next(createHttpError(400, "Invalid user or pin id"));
   }
   if (!pinParams) {
-    throw createHttpError(404, "Parameters missing");
+    return next(createHttpError(404, "Parameters missing"));
   }
   const updatedPin = await myPinService.updatePin(pinId, pinParams);
-  if (!updatedPin.userId._id.equals(userId)) {
-    return next(createHttpError(401, "You can only update your pin"));
-  }
   if (!updatedPin) {
     return next(createHttpError(404, "Could not update pin"));
+  }
+  if (!updatedPin.userId._id.equals(userId)) {
+    return next(createHttpError(401, "You can only update your pin"));
   }
   res.status(200).json({ pin: updatedPin, msg: "Pin updated successfully" });
 });

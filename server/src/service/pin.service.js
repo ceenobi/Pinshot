@@ -40,6 +40,16 @@ const getRelatedPin = (Pin) => async (pinId) => {
   return getRelatedPinTags.filter((allTags) => allTags.id !== pinId);
 };
 
+// const updatePin =
+//   (Pin) =>
+//   async (pinId, { title, tags, description, image }) => {
+//     const updatedPin = await Pin.findByIdAndUpdate(
+//       pinId,
+//       { title, tags, description, image },
+//       { new: true }
+//     );
+//     return updatedPin;
+//   };
 const updatePin =
   (Pin) =>
   async (pinId, { title, tags, description, image }) => {

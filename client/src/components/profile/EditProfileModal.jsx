@@ -10,11 +10,12 @@ import { ClipLoader } from "react-spinners";
 import { tryCatch, uploadToCloudinary } from "../../config";
 import { userService } from "../../services";
 import ImageUpload from "../ImageUpload";
+import { useNavigate } from "react-router-dom";
 
 const EditProfileModal = ({ user, setData }) => {
   const [show, setShow] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [showImgUpload, setShowImgUpload] = useState(false);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -39,10 +40,8 @@ const EditProfileModal = ({ user, setData }) => {
     async ({ userName, email, password, profileImage, bio }) => {
       let profilePhoto = "";
       if (profileImage && profileImage?.length > 0) {
-        setShowImgUpload(true);
         const uploadResponse = await uploadToCloudinary(profileImage[0]);
         profilePhoto = uploadResponse.data.secure_url;
-        setShowImgUpload(false);
       }
       const { status, data } = await userService.updateProfile(
         userName,
@@ -56,6 +55,7 @@ const EditProfileModal = ({ user, setData }) => {
         toast.success(data.msg);
         const res = await userService.getUserProfile(userName);
         setData(res.data);
+        navigate(`/profile/${res.data.userName}`);
         handleClose();
       }
     }
@@ -116,22 +116,16 @@ const EditProfileModal = ({ user, setData }) => {
               placeholder="Bio"
               registerOptions={registerOptions?.bio}
             />
-            <p
-              className="cursor"
-              onClick={() => setShowImgUpload((prev) => !prev)}
-            >
-              {showImgUpload ? "Close this" : "Change profile image?"}
-            </p>
-            {showImgUpload && (
-              <ImageUpload
-                id="profileImage"
-                name="profileImage"
-                title="Upload images"
-                register={register}
-                errors={errors?.image}
-                registerOptions={registerOptions?.image}
-              />
-            )}
+
+            <ImageUpload
+              id="profileImage"
+              name="profileImage"
+              title="Upload images"
+              register={register}
+              // errors={errors?.image}
+              // registerOptions={registerOptions}
+            />
+
             <MyButton
               text={isSubmitting ? <ClipLoader color="#96b6c5" /> : "Update"}
               className="w-100 border-0 p-2 mt-2"

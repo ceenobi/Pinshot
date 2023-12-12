@@ -40,6 +40,7 @@ const CreatePin = () => {
   };
 
   const populateTags = [...tagArray, selectTag];
+  const filterTags = populateTags.filter((tag) => tag !== null);
 
   const onFormSubmit = tryCatch(async ({ title, description, image }) => {
     setLoading(true);
@@ -56,7 +57,7 @@ const CreatePin = () => {
       title,
       description,
       pinImages,
-      populateTags
+      filterTags
     );
     if (status === 201) {
       toast.success(data.msg);

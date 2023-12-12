@@ -50,10 +50,11 @@ const EditPost = ({ pin, setData }) => {
   };
 
   const populateTags = [...tagArray, ...pin.tags];
+  const filterTags = populateTags.filter((tag) => tag !== null);
 
   const onFormSubmit = tryCatch(async ({ title, description, image }) => {
     let pinImages = [];
-    if (image) {
+    if (image && image?.length > 0) {
       const uploadPromises = Array.from(image).map(async (singleImage) => {
         const upload = await uploadToCloudinary(singleImage);
         return upload.data.secure_url;
@@ -66,7 +67,7 @@ const EditPost = ({ pin, setData }) => {
       title,
       description,
       pinImages,
-      populateTags
+      filterTags
     );
     if (status === 200) {
       toast.success(data.msg);
@@ -117,8 +118,8 @@ const EditPost = ({ pin, setData }) => {
               title="Upload images"
               multiple={true}
               register={register}
-              errors={errors?.image}
-              registerOptions={registerOptions}
+              // errors={errors?.image}
+              // registerOptions={registerOptions}
             />
             <div className="my-4">
               <div className="w-100 d-flex gap-4 align-items-center">
@@ -138,10 +139,10 @@ const EditPost = ({ pin, setData }) => {
                 </span>
               </div>
               <div className="d-flex gap-2 mb-3 flex-wrap">
-                {populateTags?.map((tag, i) => (
+                {filterTags?.map((tag, i) => (
                   <div
                     key={i}
-                    className="d-flex flex-wrap align-items-center gap-3 py-2 px-3 rounded-4 text-white"
+                    className="d-flex flex-wrap align-items-center gap-3 py-2 px-3 rounded-3 text-white"
                     style={{ backgroundColor: "var(--dark100)" }}
                   >
                     <span className="fs-6">{tag}</span>

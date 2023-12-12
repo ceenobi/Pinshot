@@ -4,12 +4,10 @@ import { AuthProvider } from "./config/contextStore";
 
 function App() {
   return (
-    <>
-      <AuthProvider>
-        <Toaster position="bottom-center" reverseOrder={false} />
-        <Paths />
-      </AuthProvider>
-    </>
+    <AuthProvider>
+      <Toaster position="bottom-center" reverseOrder={false} />
+      <Paths />
+    </AuthProvider>
   );
 }
 
