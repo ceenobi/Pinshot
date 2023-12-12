@@ -2,16 +2,21 @@ import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from "react";
 import { userService } from "../services";
 
-export const StateContext = createContext();
+export const AuthContext = createContext();
 
-export const StateProvider = ({ children }) => {
+export const AuthProvider = ({ children }) => {
   const [loggedInUser, setLoggedInUser] = useState("");
 
   useEffect(() => {
     async function getUser() {
       try {
         const { data } = await userService.authUser();
-        setLoggedInUser(data);
+        setLoggedInUser((prevUser) => {
+          if (prevUser !== data) {
+            return data;
+          }
+          return prevUser;
+        });
       } catch (error) {
         console.error(error);
       }
@@ -20,17 +25,17 @@ export const StateProvider = ({ children }) => {
   }, []);
 
   return (
-    <StateContext.Provider
+    <AuthContext.Provider
       value={{
         loggedInUser,
         setLoggedInUser,
       }}
     >
       {children}
-    </StateContext.Provider>
+    </AuthContext.Provider>
   );
 };
 
-StateProvider.propTypes = {
+AuthProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };

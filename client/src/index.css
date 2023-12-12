@@ -67,10 +67,6 @@ a:hover {
   transition: 0.2s ease-in-out;
 }
 
-body {
-  min-height: 100vh;
-}
-
 .form {
   width: 90%;
   padding: 2rem;
@@ -118,6 +114,7 @@ body {
   transform: translate(-50%, -50%);
   z-index: 2;
   color: var(--cream100);
+  transition: all 0.5s ease;
 }
 .arrowRight {
   position: absolute;
@@ -126,6 +123,7 @@ body {
   transform: translate(-50%, -50%);
   z-index: 2;
   color: var(--cream100);
+  transition: all 0.5s ease;
 }
 
 .searchbox {

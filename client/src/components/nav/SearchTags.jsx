@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { useFetch } from "../../hooks";
+import { Icon } from "@iconify/react";
+import { useFetch, useScroll } from "../../hooks";
 import { searchService } from "../../services";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const SearchTags = () => {
   const [tagQuery, setTagQuery] = useState("");
   const { data: tags } = useFetch(searchService.getAllTags);
+  const { scroll, scrollRef } = useScroll();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const shuffleTags = () => {
     const shuffled = [...tags].sort(() => 0.5 - Math.random());
@@ -15,29 +18,59 @@ const SearchTags = () => {
   };
   const getRandomTags = shuffleTags();
 
+  const handleTagClick = (tag) => {
+    setTagQuery(tag);
+    navigate(`search/?query=${tag}`);
+  };
+
+  useEffect(() => {
+    if (location.pathname != "/search/") {
+      setTagQuery("");
+    }
+  }, [location.pathname]);
+
   return (
-    <div className="d-flex gap-3 overflow-x-scroll overflow-y-hidden scrollbody p-3">
-      {getRandomTags?.map((tag, i) => (
-        <Button
-          key={i}
-          variant="none"
-          style={{
-            backgroundColor: tag === tagQuery ? "var(--blue100)" : "#000",
-            color: tag === tagQuery ? "var(--cream200)" : "#fff",
-          }}
-          className={
-            tag === tagQuery
-              ? "rounded-4 px-3 py-1 fw-bold text-capitalize"
-              : "rounded-4 px-3 py-1 activeIcon text-capitalize"
-          }
-          onClick={() => {
-            setTagQuery(tag);
-            navigate(`search/?query=${tag}`);
-          }}
+    <div className="position-relative">
+      <div
+        className="overflow-x-scroll overflow-y-hidden scrollbody"
+        style={{ width: "90vw" }}
+        ref={scrollRef}
+      >
+        <div
+          className="d-flex align-items-center gap-2 px-3"
+          style={{ width: "1800px" }}
         >
-          {tag}
-        </Button>
-      ))}
+          {getRandomTags?.map((tag, i) => (
+            <Button
+              key={i}
+              variant="none"
+              style={{
+                backgroundColor: tag === tagQuery ? "var(--dark100)" : "",
+                color: tag === tagQuery ? "var(--cream200)" : "var(--dark100)",
+              }}
+              size="sm"
+              className={`rounded-3 ${
+                tag === tagQuery ? "fw-bold" : "activeIcon bg-secondary-subtle"
+              } text-capitalize fs-6`}
+              onClick={() => handleTagClick(tag)}
+            >
+              {tag}
+            </Button>
+          ))}
+        </div>
+      </div>
+      <Icon
+        icon="mdi:arrow-left-bold-circle-outline"
+        className="cursor fs-3  activeIcon focus-arrowBox position-absolute top-50 start-0 translate-middle z-2"
+        onClick={() => scroll(-400)}
+        style={{ transition: "all 0.5s ease" }}
+      />
+      <Icon
+        icon="mdi:arrow-right-bold-circle-outline"
+        className="cursor fs-3 activeIcon position-absolute top-50 start-100 translate-middle z-2"
+        onClick={() => scroll(400)}
+        style={{ transition: "all 0.5s ease" }}
+      />
     </div>
   );
 };

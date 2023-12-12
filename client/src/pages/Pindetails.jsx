@@ -15,7 +15,7 @@ import {
 } from "../components";
 import { useState } from "react";
 import { Loading, downloadImage } from "../utils";
-import { tryCatch, useStateContext } from "../config";
+import { tryCatch, useAuthContext } from "../config";
 
 const Pindetails = () => {
   const { pinId } = useParams();
@@ -27,7 +27,7 @@ const Pindetails = () => {
     setData,
   } = useFetch(pinService.getAPin, pinId);
   const { data: relatedPins } = useFetch(pinService.getRelatedPins, pinId);
-  const { loggedInUser, setLoggedInUser } = useStateContext();
+  const { loggedInUser, setLoggedInUser } = useAuthContext();
   useTitle(pin?.title);
 
   const imgLength = pin?.image?.length;

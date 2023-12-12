@@ -13,11 +13,11 @@ import { useFetch, useTitle } from "../hooks";
 import { userService } from "../services";
 import { Loading } from "../utils";
 import { Button, Image, Tab, Tabs } from "react-bootstrap";
-import { tryCatch, useStateContext } from "../config";
+import { tryCatch, useAuthContext } from "../config";
 
 const Profile = () => {
   const { userName } = useParams();
-  const { loggedInUser, setLoggedInUser } = useStateContext() || {};
+  const { loggedInUser, setLoggedInUser } = useAuthContext();
   const {
     data: user,
     error,
@@ -62,7 +62,7 @@ const Profile = () => {
                     roundedCircle
                     className="mb-2 object-fit-cover"
                   />
-                  <EditProfileModal user={user} setData={setData} />
+                  <EditProfileModal user={user} setData={setData}/>
                 </div>
                 <div>
                   <div className="mb-0 d-flex flex-wrap align-items-center justify-content-center justify-content-md-start gap-2">

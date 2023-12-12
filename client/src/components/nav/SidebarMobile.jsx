@@ -3,12 +3,12 @@ import { Icon } from "@iconify/react";
 import { Image, Offcanvas, Stack } from "react-bootstrap";
 import { links } from "../../utils";
 import { NavLink } from "react-router-dom";
-import { useStateContext } from "../../config";
+import { useAuthContext } from "../../config";
 import { userService } from "../../services";
 
 const SidebarMobile = () => {
   const [show, setShow] = useState(false);
-  const { loggedInUser } = useStateContext() || {};
+  const { loggedInUser } = useAuthContext() || {};
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);

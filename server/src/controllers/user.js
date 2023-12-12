@@ -32,11 +32,15 @@ export const signUp = tryCatch(async (req, res) => {
       throw createHttpError(400, "Token not created");
     }
     const message = `${env.BASE_URL}/api/user/verify/${user.id}/${setToken.token}`;
+    if (!message) {
+      throw createHttpError(400, "Verification message not sent");
+    }
     await sendEmail({
+      userName: userName,
       from: env.USERMAIL,
       to: user.email,
       subject: "Account Verification Link",
-      text: `Hello, ${userName}, Please verify your email by clicking this link : ${message}`,
+      text: `Welcome, ${userName}, Please verify your email by clicking this link : ${message}`,
     });
     res.status(201).json({
       access_token,
@@ -139,11 +143,11 @@ export const verifyEmail = tryCatch(async (req, res, next) => {
     return res.status(200).send("User has been already verified. Please Login");
   }
   const getToken = await myUserService.verifyToken({
-    userId: user._id,
+    userId: user.id,
     token: token,
   });
-  await myUserService.updateVerifyUserStatus(user._id);
-  await myUserService.removeTokenAfterVerified(getToken._id);
+  await myUserService.updateVerifyUserStatus(user.id);
+  await myUserService.removeTokenAfterVerified(getToken.id);
   res.send("email verified sucessfully");
 });
 

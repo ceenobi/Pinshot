@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { Formfields, LoginRegister } from "../../components";
 import { registerOptions } from "../../utils";
 import { userService } from "../../services";
-import { tryCatch, useStateContext } from "../../config";
+import { tryCatch, useAuthContext } from "../../config";
 import { useTitle } from "../../hooks";
 
 const Login = () => {
@@ -17,7 +17,7 @@ const Login = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm();
-  const { loggedInUser } = useStateContext();
+  const { loggedInUser } = useAuthContext();
   useTitle("Login to Pinshot");
 
   const from = location.state?.from || "/";

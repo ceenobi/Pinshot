@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import PropTypes from "prop-types";
 import Formfields from "../form/Formfields";
 import { registerOptions } from "../../utils";
-import { tryCatch, useStateContext } from "../../config";
+import { tryCatch, useAuthContext } from "../../config";
 import MyButton from "../MyButton";
 import { ClipLoader } from "react-spinners";
 import { commentService } from "../../services";
@@ -17,7 +17,7 @@ import TimeAgo from "timeago-react";
 
 const Comments = ({ pinId }) => {
   const [show, setShow] = useState(false);
-  const { loggedInUser } = useStateContext();
+  const { loggedInUser } = useAuthContext();
   const {
     error,
     loading,

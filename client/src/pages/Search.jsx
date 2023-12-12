@@ -50,7 +50,7 @@ const Search = () => {
   const filterPins = result.filter((data) => data?.title);
 
   return (
-    <PageLayout extra="px-3" style={{ paddingTop: "9rem" }}>
+    <PageLayout extra="px-3" style={{ paddingTop: "8rem" }}>
       {error ? (
         <p className="mt-5">{error?.response?.data?.error}</p>
       ) : (

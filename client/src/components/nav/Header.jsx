@@ -3,13 +3,13 @@ import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
 import { Button, Form, Image, InputGroup, Fade } from "react-bootstrap";
 import SidebarMobile from "./SidebarMobile";
-import { useStateContext } from "../../config";
+import { useAuthContext } from "../../config";
 import PageLayout from "../PageLayout";
 import SearchResult from "./SearchResult";
 import SearchTags from "./SearchTags";
 
 const Header = () => {
-  const { loggedInUser } = useStateContext() || {};
+  const { loggedInUser } = useAuthContext();
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [resultBox, setResultBox] = useState(false);
@@ -34,9 +34,12 @@ const Header = () => {
   };
 
   return (
-    <PageLayout extra="position-fixed top-0 bg-white" style={{ zIndex: 5 }}>
+    <PageLayout
+      extra="position-fixed top-0 bg-white py-2 px-3"
+      style={{ zIndex: 5 }}
+    >
       <>
-        <div className="position-relative py-2 px-3 d-flex justify-content-between align-items-center">
+        <div className="position-relative d-flex justify-content-between align-items-center mb-3">
           <SidebarMobile />
           <NavLink
             to="/"

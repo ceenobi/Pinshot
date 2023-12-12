@@ -2,14 +2,14 @@ import { useState } from "react";
 import { Modal, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
+import toast from "react-hot-toast";
+import { ClipLoader } from "react-spinners";
 import Formfields from "../form/Formfields";
 import { registerOptions } from "../../utils";
 import ImageUpload from "../ImageUpload";
 import { pinService, searchService } from "../../services";
 import { tryCatch, uploadToCloudinary } from "../../config";
-import toast from "react-hot-toast";
 import MyButton from "../MyButton";
-import { ClipLoader } from "react-spinners";
 
 const EditPost = ({ pin, setData }) => {
   const [show, setShow] = useState(false);

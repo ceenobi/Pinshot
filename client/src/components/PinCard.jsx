@@ -4,13 +4,13 @@ import { Icon } from "@iconify/react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import toast from "react-hot-toast";
 import { downloadImage } from "../utils";
-import { tryCatch, useStateContext } from "../config";
+import { tryCatch, useAuthContext } from "../config";
 import { pinService } from "../services";
 import { useFetch } from "../hooks";
 
 const PinCard = ({ _id, title, image }) => {
   const { data, setData } = useFetch(pinService.getAPin, _id);
-  const { loggedInUser } = useStateContext() || {};
+  const { loggedInUser } = useAuthContext() || {};
 
   const handleLike = tryCatch(async () => {
     const res = await pinService.likeAPin(_id, loggedInUser._id);

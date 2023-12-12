@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { Formfields, LoginRegister } from "../../components";
 import { registerOptions } from "../../utils";
 import { useEffect, useState } from "react";
-import { tryCatch, useStateContext } from "../../config";
+import { tryCatch, useAuthContext } from "../../config";
 import { userService } from "../../services";
 import { useTitle } from "../../hooks";
 
@@ -12,7 +12,7 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { loggedInUser } = useStateContext();
+  const { loggedInUser } = useAuthContext();
   const {
     register,
     handleSubmit,

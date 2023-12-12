@@ -54,7 +54,7 @@ const EditProfileModal = ({ user, setData }) => {
       if (status === 200) {
         localStorage.setItem("usertoken", JSON.stringify(data.access_token));
         toast.success(data.msg);
-        const res = await userService.getUserProfile(user.userName);
+        const res = await userService.getUserProfile(userName);
         setData(res.data);
         handleClose();
       }
@@ -116,7 +116,10 @@ const EditProfileModal = ({ user, setData }) => {
               placeholder="Bio"
               registerOptions={registerOptions?.bio}
             />
-            <p onClick={() => setShowImgUpload((prev) => !prev)}>
+            <p
+              className="cursor"
+              onClick={() => setShowImgUpload((prev) => !prev)}
+            >
               {showImgUpload ? "Close this" : "Change profile image?"}
             </p>
             {showImgUpload && (
