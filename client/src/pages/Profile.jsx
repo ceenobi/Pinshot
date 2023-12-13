@@ -62,7 +62,7 @@ const Profile = () => {
                     roundedCircle
                     className="mb-2 object-fit-cover"
                   />
-                  <EditProfileModal user={user} setData={setData}/>
+                  <EditProfileModal user={user} setData={setData} />
                 </div>
                 <div>
                   <div className="mb-0 d-flex flex-wrap align-items-center justify-content-center justify-content-md-start gap-2">
@@ -113,11 +113,11 @@ const Profile = () => {
                 className="mt-5"
                 justify
               >
-                <Tab eventKey="user" title="Your pins">
+                <Tab eventKey="user" title="Pins">
                   <UserPins user={user} />
                 </Tab>
-                <Tab eventKey="likedpins" title="Your liked pins">
-                  <UserLikedPins />
+                <Tab eventKey="likedpins" title="Liked pins">
+                  <UserLikedPins user={user} />
                 </Tab>
                 <Tab eventKey="Subscribedusers" title="Followers">
                   <SubscribedUsers user={user} />

@@ -67,7 +67,7 @@ export const getUserPins = tryCatch(async (req, res, next) => {
 });
 
 export const getUserLikedPins = tryCatch(async (req, res, next) => {
-  const { id: userId } = req.user;
+  const { id: userId } = req.params;
   if (!isValidObjectId(userId)) {
     return next(createHttpError(400, "Invalid user id"));
   }

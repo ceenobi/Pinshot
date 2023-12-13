@@ -24,8 +24,8 @@ const getSubscribedPins = async () => {
   });
 };
 
-const getPinsLikedByUser = async () => {
-  return await connect.get(`/api/pin/likedpins`, {
+const getPinsLikedByUser = async (userId) => {
+  return await connect.get(`/api/pin/${userId}/likedpins`, {
     headers: authHeader(),
   });
 };

@@ -14,7 +14,7 @@ router.delete("/:id", verifyAuth(Roles.All), PinController.deleteAPin);
 router.get("/subscribed", verifyAuth(Roles.All), PinController.getSubbedPins);
 router.get("/:id/userpins", verifyAuth(Roles.All), PinController.getUserPins);
 router.get(
-  "/likedpins",
+  "/:id/likedpins",
   verifyAuth(Roles.All),
   PinController.getUserLikedPins
 );

@@ -10,7 +10,7 @@ import { useFetch } from "../hooks";
 
 const PinCard = ({ _id, title, image }) => {
   const { data, setData } = useFetch(pinService.getAPin, _id);
-  const { loggedInUser } = useAuthContext() || {};
+  const { loggedInUser } = useAuthContext();
 
   const handleLike = tryCatch(async () => {
     const res = await pinService.likeAPin(_id, loggedInUser._id);
@@ -38,7 +38,7 @@ const PinCard = ({ _id, title, image }) => {
       <div className="d-none d-xl-block focus-heart p-2">
         <Icon
           icon="mdi:cards-heart"
-          className="fs-3 cursor"
+          className="fs-5 cursor"
           style={{
             color: data.likes?.includes(loggedInUser._id)
               ? "red"
@@ -49,10 +49,11 @@ const PinCard = ({ _id, title, image }) => {
           }
         />
       </div>
-      <div className="d-none d-xl-flex p-2 focus-content">
+
+      <div className="d-none d-xl-flex p-3 focus-content">
         <Icon
           icon="material-symbols:download-2-outline"
-          className="fs-3 cursor "
+          className="fs-5 cursor"
           style={{ color: "var(--cream200)" }}
           onClick={() => downloadImage(_id, image[0])}
         />

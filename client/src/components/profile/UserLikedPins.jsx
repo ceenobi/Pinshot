@@ -1,11 +1,15 @@
+import PropTypes from "prop-types";
 import { useFetch } from "../../hooks";
 import { pinService } from "../../services";
 import { Loading } from "../../utils";
 import MasonryLayout from "../MasonryLayout";
 import PinCard from "../PinCard";
 
-const UserLikedPins = () => {
-  const { data, error, loading } = useFetch(pinService.getPinsLikedByUser);
+const UserLikedPins = ({ user }) => {
+  const { data, error, loading } = useFetch(
+    pinService.getPinsLikedByUser,
+    user._id
+  );
 
   return (
     <div className="mt-5">
@@ -29,3 +33,7 @@ const UserLikedPins = () => {
 };
 
 export default UserLikedPins;
+
+UserLikedPins.propTypes = {
+  user: PropTypes.string,
+};
