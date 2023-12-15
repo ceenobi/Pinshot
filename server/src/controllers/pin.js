@@ -185,7 +185,7 @@ export const deleteAPin = tryCatch(async (req, res, next) => {
   if (!pin) {
     return next(createHttpError(404, "Pin not found"));
   }
-  if (!pin.userId.id.equals(userId)) {
+  if (!pin.userId.equals(userId)) {
     return next(createHttpError(401, "You can only delete your pin"));
   }
   await myPinService.deletePin(pinId);

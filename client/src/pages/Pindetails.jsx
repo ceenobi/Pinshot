@@ -3,7 +3,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Col, Image, Row } from "react-bootstrap";
 import { Icon } from "@iconify/react";
 import toast from "react-hot-toast";
-import { useFetch, useTitle } from "../hooks";
+import { useFetch, useTitle, useCurentSlide } from "../hooks";
 import { pinService, userService } from "../services";
 import {
   Comments,
@@ -19,7 +19,7 @@ import { tryCatch, useAuthContext } from "../config";
 
 const Pindetails = () => {
   const { pinId } = useParams();
-  const [current, setCurrent] = useState(0);
+  // const [current, setCurrent] = useState(0);
   const {
     error,
     loading,
@@ -28,17 +28,18 @@ const Pindetails = () => {
   } = useFetch(pinService.getAPin, pinId);
   const { data: relatedPins } = useFetch(pinService.getRelatedPins, pinId);
   const { loggedInUser, setLoggedInUser } = useAuthContext();
+  const { prevSlide, nextSlide, current } = useCurentSlide()
   useTitle(pin?.title);
-
+ console.log(current);
   const imgLength = pin?.image?.length;
 
-  const nextSlide = () => {
-    setCurrent(current === imgLength - 1 ? 0 : current + 1);
-  };
+  // const nextSlide = () => {
+  //   setCurrent(current === imgLength - 1 ? 0 : current + 1);
+  // };
 
-  const prevSlide = () => {
-    setCurrent(current === 0 ? imgLength - 1 : current - 1);
-  };
+  // const prevSlide = () => {
+  //   setCurrent(current === 0 ? imgLength - 1 : current - 1);
+  // };
 
   const handleLike = tryCatch(async () => {
     const res = await pinService.likeAPin(pinId, loggedInUser._id);
@@ -102,12 +103,12 @@ const Pindetails = () => {
                               <Icon
                                 icon="mdi:arrow-left-bold-circle-outline"
                                 className="cursor fs-2 arrowLeft activeIcon"
-                                onClick={prevSlide}
+                                onClick={() => prevSlide(imgLength)}
                               />
                               <Icon
                                 icon="mdi:arrow-right-bold-circle-outline"
                                 className="cursor fs-2 arrowRight activeIcon"
-                                onClick={nextSlide}
+                                onClick={() => nextSlide(imgLength)}
                               />
                             </div>
                           )}

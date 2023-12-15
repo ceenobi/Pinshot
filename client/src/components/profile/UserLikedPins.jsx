@@ -20,11 +20,17 @@ const UserLikedPins = ({ user }) => {
           {loading ? (
             <Loading text="Fetching liked pins..." />
           ) : (
-            <MasonryLayout>
-              {data?.pins?.map((pin) => (
-                <PinCard key={pin._id} {...pin} />
-              ))}
-            </MasonryLayout>
+            <>
+              {data?.pins?.length > 0 ? (
+                <MasonryLayout>
+                  {data?.pins?.map((pin) => (
+                    <PinCard key={pin._id} {...pin} />
+                  ))}
+                </MasonryLayout>
+              ) : (
+                <p>You have no pin posted yet.</p>
+              )}
+            </>
           )}
         </>
       )}
@@ -35,5 +41,5 @@ const UserLikedPins = ({ user }) => {
 export default UserLikedPins;
 
 UserLikedPins.propTypes = {
-  user: PropTypes.string,
+  user: PropTypes.object,
 };

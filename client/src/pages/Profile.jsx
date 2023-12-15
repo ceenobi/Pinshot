@@ -54,7 +54,7 @@ const Profile = () => {
             <Loading text="Fetching user..." />
           ) : (
             <div>
-              <div className="d-md-flex gap-3 align-items-center text-center text-md-start">
+              <div className="d-md-flex justify-content-center gap-3 align-items-center text-center text-md-start">
                 <div>
                   <Image
                     src={user?.profilePhoto}

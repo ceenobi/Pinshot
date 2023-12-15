@@ -13,6 +13,7 @@ import UserLikedPins from "./profile/UserLikedPins";
 import SubscribedUsers from "./profile/SubscribedUsers";
 import LoginRegister from "./form/LoginRegister";
 import SearchTags from "./nav/SearchTags";
+import ImageModal from "./profile/ImageModal";
 
 export {
   Root,
@@ -30,4 +31,5 @@ export {
   SubscribedUsers,
   LoginRegister,
   SearchTags,
+  ImageModal
 };

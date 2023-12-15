@@ -120,10 +120,8 @@ const EditProfileModal = ({ user, setData }) => {
             <ImageUpload
               id="profileImage"
               name="profileImage"
-              title="Upload images"
+              title="Change profile image"
               register={register}
-              // errors={errors?.image}
-              // registerOptions={registerOptions}
             />
 
             <MyButton

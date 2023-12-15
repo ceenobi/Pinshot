@@ -25,21 +25,24 @@ const SubscribedUsers = ({ user }) => {
               <>
                 {followers && followers?.length > 0 ? (
                   <Row className="g-3">
-                    {followers?.map((follow) => (
-                      <Col key={follow._id} xs={2} md={2}>
-                        <div>
-                          <div style={{ width: "100px", height: "100px" }}>
-                            <Link to={`/profile/${follow.userName}`}>
-                              <Image
-                                src={follow.profilePhoto}
-                                className="w-100 h-100 object-fit-cover"
-                                roundedCircle
-                                alt={follow.userName}
-                              />
-                            </Link>
-                            <p className="text-center">{follow.userName}</p>
-                          </div>
+                    {followers?.map((follower) => (
+                      <Col key={follower._id} xs={6} md={2}>
+                        <div
+                          style={{ width: "80px", height: "80px" }}
+                          className="mx-auto"
+                        >
+                          <Link to={`/profile/${follower.userName}`}>
+                            <Image
+                              src={follower.profilePhoto}
+                              className="w-100 h-100 object-fit-cover"
+                              roundedCircle
+                              alt={follower.userName}
+                            />
+                          </Link>
                         </div>
+                        <p className="text-center text-black">
+                          {follower.userName}
+                        </p>
                       </Col>
                     ))}
                   </Row>

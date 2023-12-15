@@ -61,6 +61,12 @@ const updateAPin = async (pinId, title, description, image, tags) => {
   );
 };
 
+const deleteAPin = async (pinId) => {
+  return await connect.delete(`/api/pin/${pinId}`, {
+    headers: authHeader(),
+  });
+};
+
 export default {
   getAllPins,
   getAPin,
@@ -72,4 +78,5 @@ export default {
   updateAPin,
   getPinsLikedByUser,
   getSubscribedPins,
+  deleteAPin,
 };

@@ -49,7 +49,6 @@ const PinCard = ({ _id, title, image }) => {
           }
         />
       </div>
-
       <div className="d-none d-xl-flex p-3 focus-content">
         <Icon
           icon="material-symbols:download-2-outline"
