@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 
 const useFetch = (api, params) => {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null || "");
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const useFetch = (api, params) => {
     const fetchdata = async () => {
       try {
         setLoading(true);
-        const res = await api(params,{ signal });
+        const res = await api(params, { signal });
         setData(res.data);
       } catch (error) {
         console.error(error);

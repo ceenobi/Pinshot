@@ -15,7 +15,7 @@ const Header = () => {
   const [resultBox, setResultBox] = useState(false);
   const location = useLocation();
 
-  const paths = ["/", "/following", "/search/"];
+  const paths = ["/", "/trending", "/search/"];
   const matchPaths = paths.map((path) => path);
 
   useEffect(() => {

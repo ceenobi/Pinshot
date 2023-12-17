@@ -13,13 +13,11 @@ import {
   PageLayout,
   PinCard,
 } from "../components";
-import { useState } from "react";
 import { Loading, downloadImage } from "../utils";
 import { tryCatch, useAuthContext } from "../config";
 
 const Pindetails = () => {
   const { pinId } = useParams();
-  // const [current, setCurrent] = useState(0);
   const {
     error,
     loading,
@@ -28,18 +26,8 @@ const Pindetails = () => {
   } = useFetch(pinService.getAPin, pinId);
   const { data: relatedPins } = useFetch(pinService.getRelatedPins, pinId);
   const { loggedInUser, setLoggedInUser } = useAuthContext();
-  const { prevSlide, nextSlide, current } = useCurentSlide()
+  const { prevSlide, nextSlide, current } = useCurentSlide(pin?.image?.length);
   useTitle(pin?.title);
- console.log(current);
-  const imgLength = pin?.image?.length;
-
-  // const nextSlide = () => {
-  //   setCurrent(current === imgLength - 1 ? 0 : current + 1);
-  // };
-
-  // const prevSlide = () => {
-  //   setCurrent(current === 0 ? imgLength - 1 : current - 1);
-  // };
 
   const handleLike = tryCatch(async () => {
     const res = await pinService.likeAPin(pinId, loggedInUser._id);
@@ -103,12 +91,12 @@ const Pindetails = () => {
                               <Icon
                                 icon="mdi:arrow-left-bold-circle-outline"
                                 className="cursor fs-2 arrowLeft activeIcon"
-                                onClick={() => prevSlide(imgLength)}
+                                onClick={prevSlide}
                               />
                               <Icon
                                 icon="mdi:arrow-right-bold-circle-outline"
                                 className="cursor fs-2 arrowRight activeIcon"
-                                onClick={() => nextSlide(imgLength)}
+                                onClick={nextSlide}
                               />
                             </div>
                           )}

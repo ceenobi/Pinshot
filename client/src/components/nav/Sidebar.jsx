@@ -10,12 +10,12 @@ const Sidebar = () => {
       style={{ zIndex: 5 }}
     >
       <div className="d-flex justify-content-between flex-column align-items-center py-3 px-3 min-vh-100">
-        <NavLink to="/">
-          <h1 className="logo fs-5" title="Pinshot">
-            P
-          </h1>
-        </NavLink>
         <div className="text-center">
+          <NavLink to="/">
+            <h1 className="logo fs-5 mb-4" title="Pinshot">
+              P
+            </h1>
+          </NavLink>
           {links.map((link, i) => (
             <NavLink
               to={`/${link.path}`}

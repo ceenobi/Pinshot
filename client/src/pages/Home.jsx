@@ -4,11 +4,11 @@ import { pinService } from "../services";
 import { Loading } from "../utils";
 
 const Home = () => {
-  const { error, loading, data } = useFetch(pinService.getAllPins);
+  const { error, loading, data } = useFetch(pinService.getSubscribedPins);
   useTitle("Pinshot Home");
 
   return (
-    <PageLayout extra="px-3" style={{paddingTop:'8rem'}}>
+    <PageLayout extra="px-3" style={{ paddingTop: "8rem" }}>
       {error ? (
         <p className="mt-5">{error}</p>
       ) : (
@@ -16,11 +16,20 @@ const Home = () => {
           {loading ? (
             <Loading text="Fetching pins..." />
           ) : (
-            <MasonryLayout>
-              {data?.pins?.map((pin) => (
-                <PinCard key={pin._id} {...pin} />
-              ))}
-            </MasonryLayout>
+            <>
+              {data?.pins?.length > 0 ? (
+                <MasonryLayout>
+                  {data?.pins?.map((pin) => (
+                    <PinCard key={pin._id} {...pin} />
+                  ))}
+                </MasonryLayout>
+              ) : (
+                <p className="mt-5">
+                  No pins to show. You are not following anyone yet. View a pin
+                  to follow a user.
+                </p>
+              )}
+            </>
           )}
         </>
       )}

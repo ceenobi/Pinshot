@@ -6,7 +6,7 @@ import {
   Route,
 } from "react-router-dom";
 import { Root } from "../components";
-import { Login, Register } from "../pages";
+import { ForgotPassword, Login, Register, ResetPassword } from "../pages";
 import { Loading } from "../utils";
 import Protectedroutes from "./Protectedroutes";
 const Home = lazy(() => import("../pages/Home"));
@@ -14,7 +14,7 @@ const Pindetails = lazy(() => import("../pages/Pindetails"));
 const Search = lazy(() => import("../pages/Search"));
 const Profile = lazy(() => import("../pages/Profile"));
 const CreatePin = lazy(() => import("../pages/CreatePin"));
-const Following = lazy(() => import("../pages/Following"));
+const Trending = lazy(() => import("../pages/Trending"));
 
 const Paths = () => {
   const token = localStorage.getItem("usertoken");
@@ -33,6 +33,8 @@ const Paths = () => {
         />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="forgot-password" element={<ForgotPassword />} />
+        <Route path="reset-password/:id/:token" element={<ResetPassword />} />
         <Route
           path="pin/:pinId"
           element={
@@ -74,11 +76,11 @@ const Paths = () => {
           }
         />
         <Route
-          path="following"
+          path="trending"
           element={
             <Suspense fallback={<Loading text="PINTUBE" />}>
               <Protectedroutes isAuth={token}>
-                <Following />
+                <Trending />
               </Protectedroutes>
             </Suspense>
           }

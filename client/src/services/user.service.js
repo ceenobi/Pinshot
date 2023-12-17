@@ -17,6 +17,16 @@ const getUserProfile = async (userName) => {
   });
 };
 
+const recoverPassword = async (email) => {
+  return await connect.post("/api/user/verify-email/", { email });
+};
+
+const resetPassword = async (userId, token, password) => {
+  return await connect.patch(`/api/user/reset-password/${userId}/${token}`, {
+    password,
+  });
+};
+
 const followUser = async (pinUserId, userId) => {
   return await connect.put(`/api/user/sub/${pinUserId}`, userId, {
     headers: authHeader(),
@@ -65,5 +75,7 @@ export default {
   unFollowUser,
   updateProfile,
   getSubscribedUsers,
+  recoverPassword,
+  resetPassword,
   logout,
 };

@@ -204,7 +204,7 @@ export const getSubbedPins = tryCatch(async (req, res) => {
     return next(createHttpError(400, "Invalid user"));
   }
   const subscribedFeeds = user.subscribedUsers;
-  const pin = await myPinService.getSubbedUserPins(subscribedFeeds);
+  const pin = await myPinService.getSubbedUserPins(subscribedFeeds, userId);
   pin.flat().sort((a, b) => b.createdAt - a.createdAt);
   const pins = pin.flatMap((pin) => pin);
   const subbedPins = {

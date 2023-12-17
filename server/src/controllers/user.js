@@ -1,7 +1,6 @@
 import { isValidObjectId } from "mongoose";
 import createHttpError from "http-errors";
 import crypto from "crypto";
-import otpGenerator from "otp-generator";
 import { myUserService } from "../service/index.js";
 import generateToken from "../config/generateToken.js";
 import env from "../utils/validateEnv.js";
@@ -31,7 +30,7 @@ export const signUp = tryCatch(async (req, res) => {
     if (!setToken) {
       throw createHttpError(400, "Token not created");
     }
-    const message = `${env.BASE_URL}/api/user/verify/${user.id}/${setToken.token}`;
+    const message = `${env.BASE_URL}/api/user/verify/${user._id}/${setToken.token}`;
     if (!message) {
       throw createHttpError(400, "Verification message not sent");
     }
@@ -40,7 +39,7 @@ export const signUp = tryCatch(async (req, res) => {
       from: env.USERMAIL,
       to: user.email,
       subject: "Account Verification Link",
-      text: `Welcome, ${userName}, Please verify your email by clicking this link : ${message}`,
+      text: `Welcome, ${userName}, Please verify your email by clicking this link : ${message}. Token expires in 30mins`,
     });
     res.status(201).json({
       access_token,
@@ -69,7 +68,7 @@ export const login = tryCatch(async (req, res) => {
   res.status(200).json({ access_token, msg: "Login success" });
 });
 
-export const getUser = tryCatch(async (req, res) => {
+export const authenticateUser = tryCatch(async (req, res) => {
   const { id: userId } = req.user;
 
   if (!isValidObjectId(userId)) {
@@ -120,85 +119,91 @@ export const updateUserdata = tryCatch(async (req, res) => {
 });
 
 export const verifyEmail = tryCatch(async (req, res, next) => {
-  const { id: userId } = req.params;
-  const { token: token } = req.params;
+  const { id: userId, token: token } = req.params;
 
   if (!isValidObjectId(userId)) {
     throw createHttpError(400, "Invalid user id");
   }
-  if (!userId) {
-    throw createHttpError(401, "401,Unable to find this user");
-  }
-  if (!token) {
-    throw createHttpError(
-      400,
-      "Your verification link may have expired. Please click on resend for verify your Email."
-    );
+  if (!userId || !token) {
+    return next(createHttpError(401, "Invalid params, token may be broken"));
   }
   const user = await myUserService.getUserById({ id: userId });
   if (!user) {
     throw createHttpError(400, "Invalid user");
   }
   if (user.isVerified) {
-    return res.status(200).send("User has been already verified. Please Login");
+    return res.status(200).send("User has been already verified.");
   }
-  const getToken = await myUserService.verifyToken({
-    userId: user.id,
+  const getToken = await myUserService.verifyToken({ userId, token });
+  if (!getToken.token) {
+    return next(createHttpError(401, "Invalid or expired token"));
+  } else {
+    await myUserService.updateVerifyUserStatus(user._id);
+    res.send("Email verified sucessfully");
+  }
+});
+
+export const recoverPasswordLink = tryCatch(async (req, res, next) => {
+  const { email } = req.body;
+  if (!email) {
+    throw createHttpError(400, `Invalid params`);
+  }
+  const user = await myUserService.getUserByEmail({ email });
+  if (!user) {
+    return next(createHttpError(404, `Email not found: ${email}`));
+  }
+  const token = crypto.randomBytes(32).toString("hex");
+  const setToken = await myUserService.createVerifyToken({
+    userId: user._id,
     token: token,
   });
-  await myUserService.updateVerifyUserStatus(user.id);
-  await myUserService.removeTokenAfterVerified(getToken.id);
-  res.send("email verified sucessfully");
+  if (!setToken) {
+    return next(createHttpError(400, "Token not created"));
+  }
+  const message = `${env.BASE_URL}/reset-password/${user._id}/${token}`;
+  await sendEmail({
+    userName: user.userName,
+    from: env.USERMAIL,
+    to: user.email,
+    subject: "Password recovery Link",
+    text: `Hi, ${user.userName}, click on the link to recover your password: ${message}. Token expires in 30mins.`,
+  });
+  res.status(200).send("Recover password link sent to your email");
 });
 
-export const generateOTP = async (req, res) => {
-  req.app.locals.OTP = otpGenerator.generate(6, {
-    lowerCaseAlphabets: false,
-    upperCaseAlphabets: false,
-    specialChars: false,
-  });
-  res.status(201).json({ code: req.app.locals.OTP });
-};
-export const verifyOTP = async (req, res) => {
-  const { code } = req.query;
-  if (parseInt(req.app.locals.OTP) === parseInt(code)) {
-    req.app.locals.OTP = null; // reset the OTP value
-    req.app.locals.resetSession = true; // start session for reset password
-    return res.status(201).json({ msg: "Verified Successsfully!" });
+export const resetUserPassword = tryCatch(async (req, res, next) => {
+  const { id: userId, token: token } = req.params;
+  const { password } = req.body;
+  if (!isValidObjectId(userId)) {
+    return next(createHttpError(400, "Invalid user id"));
   }
-  return res.status(400).json({ error: "Invalid OTP" });
-};
-
-export const createResetSession = async (req, res) => {
-  if (req.app.locals.resetSession) {
-    return res.status(201).json({ flag: req.app.locals.resetSession });
+  if (!password || !token) {
+    return next(createHttpError(401, "Password or token missing"));
   }
-  return res.status(440).json({ error: "Session expired!" });
-};
-
-export const resetPassword = tryCatch(async (req, res) => {
-  const { userName, password } = req.body;
-  const user = await myUserService.getUserByUsername(userName);
-  if (!user) throw createHttpError(401, "User not found");
-  const updatePassword = await myUserService.passwordReset({
-    userName,
-    password,
-  });
-  req.app.locals.resetSession = false;
-  return res.status(201).json({ updatePassword, msg: "Password Updated...!" });
+  const user = await myUserService.getUserById({ id: userId });
+  if (!user) {
+    return next(createHttpError(404, "User not found"));
+  }
+  const getToken = await myUserService.verifyToken({ userId, token });
+  if (!getToken.token) {
+    return next(createHttpError(401, "Invalid or expired token"));
+  } else {
+    await myUserService.passwordReset(userId, { password });
+    res.status(200).send("Password Updated...!");
+  }
 });
 
-export const subAUser = tryCatch(async (req, res) => {
+export const subAUser = tryCatch(async (req, res, next) => {
   const { id: userId } = req.user;
   const { id: sub } = req.params;
   if (!isValidObjectId(userId)) {
     throw createHttpError(400, "Invalid user id");
   }
   if (!userId) {
-    throw createHttpError(401, "Unable to find this user");
+    return next(createHttpError(401, "Unable to find this user"));
   }
   if (!sub) {
-    throw createHttpError(401, "Unable to find this user");
+    return next(createHttpError(401, "Unable to find this user"));
   }
   await myUserService.subscribeUser(userId, sub);
   res.status(200).json("Following user successfull.");
@@ -208,13 +213,13 @@ export const unSubAUser = tryCatch(async (req, res) => {
   const { id: userId } = req.user;
   const { id: sub } = req.params;
   if (!isValidObjectId(userId)) {
-    throw createHttpError(400, "Invalid user id");
+    return next(createHttpError(400, "Invalid user id"));
   }
   if (!userId) {
-    throw createHttpError(401, "401,Unable to find this user");
+    return next(createHttpError(401, "401,Unable to find this user"));
   }
   if (!sub) {
-    throw createHttpError(401, "Unable to find this user");
+    return next(createHttpError(401, "Unable to find this user"));
   }
   await myUserService.unSubscribeUser(userId, sub);
   res.status(200).json("Unfollowed user successfull.");

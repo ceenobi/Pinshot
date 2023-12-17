@@ -39,7 +39,6 @@ const getRelatedPin = (Pin) => async (pinId) => {
   const getRelatedPinTags = await Pin.find({ tags: { $in: getTags } });
   return getRelatedPinTags.filter((allTags) => allTags.id !== pinId);
 };
-
 // const updatePin =
 //   (Pin) =>
 //   async (pinId, { title, tags, description, image }) => {
@@ -50,6 +49,7 @@ const getRelatedPin = (Pin) => async (pinId) => {
 //     );
 //     return updatedPin;
 //   };
+
 const updatePin =
   (Pin) =>
   async (pinId, { title, tags, description, image }) => {
@@ -79,15 +79,19 @@ const deletePin = (Pin) => async (pinId) => {
   return await pin.deleteOne();
 };
 
-const getSubbedUserPins = (Pin) => async (subscribedPins, page, limit) => {
-  return await Promise.all(
-    subscribedPins.map(async (pinId) => {
-      return Pin.find({ userId: pinId })
-        .sort({ _id: -1 })
-        .skip(page * limit);
+const getSubbedUserPins =
+  (Pin) => async (subscribedPins, userId, page, limit) => {
+    const pinIds = [...new Set(subscribedPins)]; // Remove duplicate pinIds
+    const allPins = await Pin.find({
+      $or: [{ userId: { $in: pinIds } }, { userId: userId }],
     })
-  );
-};
+      .sort({ _id: -1 })
+      .skip(page * limit);
+    const uniquePins = allPins.filter(
+      (pin, index, self) => index === self.findIndex((p) => p.id === pin.id)
+    ); // Remove duplicate pins
+    return uniquePins;
+  };
 
 export default (Pin) => {
   return {

@@ -2,7 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import toast from "react-hot-toast";
-import { useFetch } from "../../hooks";
+import { useCurentSlide, useFetch } from "../../hooks";
 import { pinService } from "../../services";
 import { Loading } from "../../utils";
 import MasonryLayout from "../MasonryLayout";
@@ -14,7 +14,10 @@ const UserPins = ({ user }) => {
     pinService.getPinsByUser,
     user._id
   );
-  const [current, setCurrent] = useState(0);
+  const imgSlide = data.pins?.map((item) => item.image);
+  const imgLength = imgSlide?.length;
+  const { prevSlide, nextSlide, current, setCurrent } =
+    useCurentSlide(imgLength);
   const [showPicModal, setShowPicModal] = useState(false);
 
   const openModal = (i) => {
@@ -39,14 +42,14 @@ const UserPins = ({ user }) => {
             <Loading text="Fetching pins..." />
           ) : (
             <>
-              {data?.pins?.length > 0 ? (
+              {data.pins?.length > 0 ? (
                 <MasonryLayout>
                   {data?.pins?.map((pin, i) => (
                     <div key={pin._id} className="w-100 h-auto rounded-4">
                       <LazyLoadImage
                         alt={pin.title}
                         effect="blur"
-                        src={pin?.image}
+                        src={pin?.image[0]}
                         className="rounded-4 object-fit-cover cursor"
                         width={"100%"}
                         height={"100%"}
@@ -56,8 +59,9 @@ const UserPins = ({ user }) => {
                         <ImageModal
                           setShowPicModal={setShowPicModal}
                           showPicModal={showPicModal}
+                          prevSlide={prevSlide}
+                          nextSlide={nextSlide}
                           current={current}
-                          setCurrent={setCurrent}
                           data={data}
                           deletePinPost={deletePinPost}
                         />

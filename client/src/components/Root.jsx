@@ -1,11 +1,18 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useParams } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import Header from "./nav/Header";
 import Sidebar from "./nav/Sidebar";
 
 const Root = () => {
+  const { id } = useParams();
+  const { token } = useParams();
   const location = useLocation();
-  const paths = ["/login", "/register"];
+  const paths = [
+    "/login",
+    "/register",
+    "/forgot-password",
+    `/reset-password/${id}/${token}`,
+  ];
   const matchPaths = paths.map((path) => path);
 
   return (

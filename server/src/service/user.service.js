@@ -17,17 +17,20 @@ const verifyPassword = () => async (password, userPassword) => {
 const getUsers = (User) => async () => {
   return await User.find({});
 };
+
 // authenticate user
 const getAuthUser = (User) => async (id) => {
   return await User.findById(id);
 };
 
+//find user by username
 const getUserByUsername =
   (User) =>
   async ({ userName }) => {
     return await User.findOne({ userName: userName }).select("+password");
   };
 
+//get user profile
 const getUserProfile =
   (User) =>
   async ({ userName }) => {
@@ -40,6 +43,7 @@ const getUserByEmail =
     return await User.findOne({ email: email });
   };
 
+//find user by id
 const getUserById =
   (User) =>
   async ({ id }) => {
@@ -68,12 +72,13 @@ const updateUser =
 //reset user password
 const passwordReset =
   (User) =>
-  async ({ userName, password }) => {
-    const passwordHashed = await bcrypt.hash(password, 10);
-    return await User.updateOne({ userName }, { password: passwordHashed });
+  async (id, { password }) => {
+    const salt = await bcrypt.genSalt(10);
+    const passwordHashed = await bcrypt.hash(password, salt);
+    return await User.updateOne({ _id: id }, { password: passwordHashed });
   };
 
-//create token to verify user registration
+//create token to verify user for password reset or email verification
 const createVerifyToken =
   (Token) =>
   async ({ userId, token }) => {
@@ -98,10 +103,6 @@ const verifyToken =
 const updateVerifyUserStatus = (User) => async (id) => {
   return await User.findByIdAndUpdate(id, { isVerified: true }, { new: true });
 };
-//delete token after verification
-const removeTokenAfterVerified = (Token) => async (id) => {
-  return await Token.findByIdAndDelete(id);
-};
 
 //subscribe a user
 const subscribeUser = (User) => async (userId, sub) => {
@@ -123,6 +124,7 @@ const unSubscribeUser = (User) => async (userId, sub) => {
   });
   return;
 };
+
 const getSubbedUsers = (User) => async (userId) => {
   const findUser = await User.findById(userId);
   const getSubbedIds = findUser.subscribedUsers.map((user) => user);
@@ -143,7 +145,6 @@ export default (User, Token) => {
     createVerifyToken: createVerifyToken(Token),
     verifyToken: verifyToken(User, Token),
     updateVerifyUserStatus: updateVerifyUserStatus(User),
-    removeTokenAfterVerified: removeTokenAfterVerified(Token),
     passwordReset: passwordReset(User),
     subscribeUser: subscribeUser(User),
     unSubscribeUser: unSubscribeUser(User),

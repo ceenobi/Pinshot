@@ -16,7 +16,9 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm({
+    defaultValues: { userName: sessionStorage.getItem("username") || "" },
+  });
   const { loggedInUser } = useAuthContext();
   useTitle("Login to Pinshot");
 
@@ -33,6 +35,7 @@ const Login = () => {
   }, [from, loggedInUser, navigate]);
 
   const onFormSubmit = tryCatch(async ({ userName, password }) => {
+    sessionStorage.setItem("username", userName);
     const { status, data } = await userService.login(userName, password);
     if (status === 200) {
       localStorage.setItem("usertoken", JSON.stringify(data.access_token));
@@ -46,6 +49,7 @@ const Login = () => {
       onSubmit={handleSubmit(onFormSubmit)}
       isSubmitting={isSubmitting}
       title="Welcome, Login to get back"
+      btnText="Continue"
     >
       <Formfields
         register={register}
@@ -65,7 +69,7 @@ const Login = () => {
         register={register}
         errors={errors?.password}
         registerOptions={registerOptions?.password}
-        className="my-4 position-relative"
+        className="my-1 position-relative"
         id="password"
         name="password"
         label="Password"
@@ -74,6 +78,15 @@ const Login = () => {
         showPassword={showPassword}
         togglePassword={togglePassword}
       />
+      <Link
+        to="/forgot-password"
+        style={{
+          color: "var(--dark100)",
+          fontWeight: 500,
+        }}
+      >
+        Forgot password?
+      </Link>
       <p className="text-end mt-4">
         Don&apos;t have an account?{" "}
         <span>

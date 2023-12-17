@@ -16,6 +16,9 @@ const registerOptions = {
         v.length >= 6 || "Password should not be less than 6 characters",
     },
   },
+  confirmPassword: {
+    required: "Please confirm your password",
+  },
   userName: {
     required: "Username is required",
     validate: {

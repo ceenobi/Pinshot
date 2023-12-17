@@ -50,6 +50,7 @@ const Register = () => {
       onSubmit={handleSubmit(onFormSubmit)}
       isSubmitting={isSubmitting}
       title="Welcome, Register to get started"
+      btnText="Sign up"
     >
       <Formfields
         register={register}

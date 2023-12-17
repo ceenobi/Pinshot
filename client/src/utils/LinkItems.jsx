@@ -11,11 +11,11 @@ const links = [
     path: "trending",
     label: "Trending",
   },
-  {
-    icon: <Icon icon="ic:outline-trending-up" />,
-    path: "following",
-    label: "Following",
-  },
+  // {
+  //   icon: <Icon icon="ic:outline-trending-up" />,
+  //   path: "following",
+  //   label: "Following",
+  // },
 ];
 
  // [...file].forEach((file, i) => {
