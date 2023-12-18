@@ -18,7 +18,7 @@ const CommentModal = ({
       <Modal.Header closeButton />
       <Modal.Body>
         {pinComments?.map((comment, i) => (
-          <div className="d-flex gap-2 mb-3" key={i}>
+          <div className="d-flex flex-wrap gap-1 mb-3" key={i}>
             <div className="d-flex gap-2">
               <Link to={`/profile/${comment?.userId?.userName}`}>
                 <Image

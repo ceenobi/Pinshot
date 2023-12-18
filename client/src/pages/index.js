@@ -7,6 +7,7 @@ import Profile from "./Profile";
 import Trending from "./Trending";
 import ForgotPassword from "./auth/ForgotPassword";
 import ResetPassword from "./auth/ResetPassword";
+import CreatePin from "./CreatePin";
 
 export {
   Home,
@@ -18,4 +19,5 @@ export {
   Trending,
   ForgotPassword,
   ResetPassword,
+  CreatePin,
 };

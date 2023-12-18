@@ -5,30 +5,40 @@ import {
   createRoutesFromElements,
   Route,
 } from "react-router-dom";
-import { Root } from "../components";
-import { ForgotPassword, Login, Register, ResetPassword } from "../pages";
+import {
+  CreatePin,
+  ForgotPassword,
+  Home,
+  Login,
+  Pindetails,
+  Profile,
+  Register,
+  ResetPassword,
+  Search,
+  Trending,
+} from "../pages";
 import { Loading } from "../utils";
 import Protectedroutes from "./Protectedroutes";
-const Home = lazy(() => import("../pages/Home"));
-const Pindetails = lazy(() => import("../pages/Pindetails"));
-const Search = lazy(() => import("../pages/Search"));
-const Profile = lazy(() => import("../pages/Profile"));
-const CreatePin = lazy(() => import("../pages/CreatePin"));
-const Trending = lazy(() => import("../pages/Trending"));
+const Root = lazy(() => import("../components/Root"));
 
 const Paths = () => {
   const token = localStorage.getItem("usertoken");
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<Root />}>
+      <Route
+        path="/"
+        element={
+          <Suspense fallback={<Loading text="PINTUBE" />}>
+            <Root />
+          </Suspense>
+        }
+      >
         <Route
           index
           element={
-            <Suspense fallback={<Loading text="PINTUBE" />}>
-              <Protectedroutes isAuth={token}>
-                <Home />
-              </Protectedroutes>
-            </Suspense>
+            <Protectedroutes isAuth={token}>
+              <Home />
+            </Protectedroutes>
           }
         />
         <Route path="login" element={<Login />} />
@@ -38,51 +48,41 @@ const Paths = () => {
         <Route
           path="pin/:pinId"
           element={
-            <Suspense fallback={<Loading text="PINTUBE" />}>
-              <Protectedroutes isAuth={token}>
-                <Pindetails />
-              </Protectedroutes>
-            </Suspense>
+            <Protectedroutes isAuth={token}>
+              <Pindetails />
+            </Protectedroutes>
           }
         />
         <Route
           path="search"
           element={
-            <Suspense fallback={<Loading text="PINTUBE" />}>
-              <Protectedroutes isAuth={token}>
-                <Search />
-              </Protectedroutes>
-            </Suspense>
+            <Protectedroutes isAuth={token}>
+              <Search />
+            </Protectedroutes>
           }
         />
         <Route
           path="profile/:userName"
           element={
-            <Suspense fallback={<Loading text="PINTUBE" />}>
-              <Protectedroutes isAuth={token}>
-                <Profile />
-              </Protectedroutes>
-            </Suspense>
+            <Protectedroutes isAuth={token}>
+              <Profile />
+            </Protectedroutes>
           }
         />
         <Route
           path="create"
           element={
-            <Suspense fallback={<Loading text="PINTUBE" />}>
-              <Protectedroutes isAuth={token}>
-                <CreatePin />
-              </Protectedroutes>
-            </Suspense>
+            <Protectedroutes isAuth={token}>
+              <CreatePin />
+            </Protectedroutes>
           }
         />
         <Route
           path="trending"
           element={
-            <Suspense fallback={<Loading text="PINTUBE" />}>
-              <Protectedroutes isAuth={token}>
-                <Trending />
-              </Protectedroutes>
-            </Suspense>
+            <Protectedroutes isAuth={token}>
+              <Trending />
+            </Protectedroutes>
           }
         />
       </Route>

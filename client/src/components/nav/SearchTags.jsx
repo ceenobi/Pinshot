@@ -59,18 +59,22 @@ const SearchTags = () => {
           ))}
         </div>
       </div>
-      <Icon
-        icon="mdi:arrow-left-bold-circle-outline"
-        className="cursor fs-3  activeIcon focus-arrowBox position-absolute top-50 start-0 translate-middle z-2"
-        onClick={() => scroll(-400)}
-        style={{ transition: "all 0.5s ease" }}
-      />
-      <Icon
-        icon="mdi:arrow-right-bold-circle-outline"
-        className="cursor fs-3 activeIcon position-absolute top-50 start-100 translate-middle z-2"
-        onClick={() => scroll(400)}
-        style={{ transition: "all 0.5s ease" }}
-      />
+      {getRandomTags?.length > 0 && (
+        <>
+          <Icon
+            icon="mdi:arrow-left-bold-circle-outline"
+            className="cursor fs-3 activeIcon position-absolute top-50 start-0 translate-middle z-2"
+            onClick={() => scroll(-400)}
+            style={{ transition: "all 0.5s ease" }}
+          />
+          <Icon
+            icon="mdi:arrow-right-bold-circle-outline"
+            className="cursor fs-3 activeIcon position-absolute top-50 start-100 translate-middle z-2"
+            onClick={() => scroll(400)}
+            style={{ transition: "all 0.5s ease" }}
+          />
+        </>
+      )}
     </div>
   );
 };

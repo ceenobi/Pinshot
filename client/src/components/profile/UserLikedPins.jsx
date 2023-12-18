@@ -8,7 +8,7 @@ import PinCard from "../PinCard";
 const UserLikedPins = ({ user }) => {
   const { data, error, loading } = useFetch(
     pinService.getPinsLikedByUser,
-    user._id
+    user?._id
   );
 
   return (
@@ -28,7 +28,7 @@ const UserLikedPins = ({ user }) => {
                   ))}
                 </MasonryLayout>
               ) : (
-                <p>You have no pin posted yet.</p>
+                <p>You have no pin liked yet.</p>
               )}
             </>
           )}

@@ -21,9 +21,9 @@ const EditPost = ({ pin, setData }) => {
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
-      title: pin.title,
-      description: pin.description,
-      tags: pin.tags,
+      title: pin?.title,
+      description: pin?.description,
+      tags: pin?.tags,
     },
   });
 
@@ -49,8 +49,9 @@ const EditPost = ({ pin, setData }) => {
     setTagArray(newOptions);
   };
 
-  const populateTags = [...tagArray, ...pin.tags];
-  const filterTags = populateTags.filter((tag) => tag !== null);
+  const populateTags = [...tagArray, pin?.tags];
+  const flattenTags = populateTags.flatMap((tag) => tag);
+  const filterTags = flattenTags.filter((tag) => tag !== null);
 
   const onFormSubmit = tryCatch(async ({ title, description, image }) => {
     let pinImages = [];

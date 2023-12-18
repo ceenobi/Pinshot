@@ -28,7 +28,7 @@
   cursor: pointer;
 }
 .activeIcon {
-  color: var(--blue100);
+  color: var(--blue200);
   font-weight: 700;
   will-change: filter;
   cursor: pointer;
@@ -55,7 +55,7 @@
   margin: 5px 10px;
   padding: 2px;
   border-radius: 50%;
-  background-color: var(--blue100);
+  background-color: var(--blue200);
   color: var(--cream100);
   will-change: filter;
   transition: filter 300ms;

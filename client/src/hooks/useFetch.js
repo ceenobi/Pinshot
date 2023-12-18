@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 
 const useFetch = (api, params) => {
   const [data, setData] = useState([]);
@@ -18,11 +17,10 @@ const useFetch = (api, params) => {
       try {
         setLoading(true);
         const res = await api(params, { signal });
-        setData(res.data);
+        setData(res?.data);
       } catch (error) {
         console.error(error);
-        setError(error?.message);
-        toast.error(error?.response?.data?.error);
+        setError(error?.message || error?.response?.data?.error);
       } finally {
         setLoading(false);
       }

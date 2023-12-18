@@ -25,5 +25,5 @@ const MasonryLayout = ({ children }) => {
 export default MasonryLayout;
 
 MasonryLayout.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node || PropTypes.any,
 };

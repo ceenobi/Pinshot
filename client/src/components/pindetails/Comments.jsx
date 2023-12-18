@@ -79,7 +79,7 @@ const Comments = ({ pinId }) => {
           {pinComments && pinComments?.length > 0 && (
             <div className="my-4">
               {pinComments?.slice(0, 5).map((comment) => (
-                <div className="d-flex gap-2 mb-3" key={comment?._id}>
+                <div className="d-flex flex-wrap gap-1 mb-3" key={comment?._id}>
                   <div className="d-flex gap-2">
                     <Link to={`/profile/${comment?.userId?.userName}`}>
                       <Image
@@ -129,7 +129,7 @@ const Comments = ({ pinId }) => {
                   </div>
                 </div>
               ))}
-              {pinComments?.length > 5 && (
+              {pinComments?.length > 4 && (
                 <p className="text-end cursor" onClick={handleShow}>
                   See all comments
                 </p>

@@ -10,7 +10,7 @@ const SubscribedUsers = ({ user }) => {
     data: followers,
     error,
     loading,
-  } = useFetch(userService.getSubscribedUsers, user._id);
+  } = useFetch(userService.getSubscribedUsers, user?._id);
 
   return (
     <div>
@@ -23,9 +23,9 @@ const SubscribedUsers = ({ user }) => {
               <Loading text="Fetching pins..." />
             ) : (
               <>
-                {followers && followers?.length > 0 ? (
+                {followers?.length > 0 ? (
                   <Row className="g-3">
-                    {followers?.map((follower) => (
+                    {followers.map((follower) => (
                       <Col key={follower._id} xs={6} md={2}>
                         <div
                           style={{ width: "80px", height: "80px" }}
