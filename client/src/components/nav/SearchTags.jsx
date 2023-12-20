@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Button } from "react-bootstrap";
 import { Icon } from "@iconify/react";
 import { useFetch, useScroll } from "../../hooks";
@@ -11,6 +11,17 @@ const SearchTags = () => {
   const { scroll, scrollRef } = useScroll();
   const navigate = useNavigate();
   const location = useLocation();
+
+  // const useCustomFetch = () => {
+  //   return useFetch(searchService.getAllTags);
+  // };
+
+  // const tags = useCustomFetch();
+  // const memoizedTags = useMemo(() => {
+  //   return tags;
+  // }, [tags]);
+
+  // const { data: memoizedData } = memoizedTags;
 
   const shuffleTags = () => {
     const shuffled = [...tags].sort(() => 0.5 - Math.random());
@@ -63,13 +74,13 @@ const SearchTags = () => {
         <>
           <Icon
             icon="mdi:arrow-left-bold-circle-outline"
-            className="cursor fs-3 activeIcon position-absolute top-50 start-0 translate-middle z-2"
+            className="cursor fs-3 activeIcon position-absolute top-50 start-0 translate-middle z-2 focus-arrowBox"
             onClick={() => scroll(-400)}
             style={{ transition: "all 0.5s ease" }}
           />
           <Icon
             icon="mdi:arrow-right-bold-circle-outline"
-            className="cursor fs-3 activeIcon position-absolute top-50 start-100 translate-middle z-2"
+            className="cursor fs-3 activeIcon position-absolute top-50 start-100 translate-middle z-2 focus-arrowBox"
             onClick={() => scroll(400)}
             style={{ transition: "all 0.5s ease" }}
           />

@@ -41,5 +41,5 @@ const UserLikedPins = ({ user }) => {
 export default UserLikedPins;
 
 UserLikedPins.propTypes = {
-  user: PropTypes.object,
+  user: PropTypes.any,
 };

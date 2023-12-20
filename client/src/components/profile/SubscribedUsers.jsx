@@ -61,5 +61,5 @@ const SubscribedUsers = ({ user }) => {
 export default SubscribedUsers;
 
 SubscribedUsers.propTypes = {
-  user: PropTypes.object,
+  user: PropTypes.any,
 };

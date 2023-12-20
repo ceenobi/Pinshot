@@ -30,7 +30,7 @@ export const signUp = tryCatch(async (req, res) => {
     if (!setToken) {
       throw createHttpError(400, "Token not created");
     }
-    const message = `${env.BASE_URL}/api/user/verify/${user._id}/${setToken.token}`;
+    const message = `${env.BASE_URL}/verify-account/${user._id}/${setToken.token}`;
     if (!message) {
       throw createHttpError(400, "Verification message not sent");
     }
@@ -39,13 +39,44 @@ export const signUp = tryCatch(async (req, res) => {
       from: env.USERMAIL,
       to: user.email,
       subject: "Account Verification Link",
-      text: `Welcome, ${userName}, Please verify your email by clicking this link : ${message}. Token expires in 30mins`,
+      text: `Welcome, ${userName}, Please verify your email by clicking this link : ${message}. Link expires in 30mins`,
     });
     res.status(201).json({
       access_token,
       msg: "Signup success, an email was sent to your account please verify",
     });
   }
+});
+
+export const sendVerificationLink = tryCatch(async (req, res, next) => {
+  const { id: userId } = req.user;
+  if (!userId) {
+    throw createHttpError(400, `Invalid userId`);
+  }
+  const user = await myUserService.getUserById({ id: userId });
+  if (!user) {
+    throw createHttpError(400, "Invalid user");
+  }
+  const token = crypto.randomBytes(32).toString("hex");
+  const setToken = await myUserService.createVerifyToken({
+    userId: user._id,
+    token: token,
+  });
+  if (!setToken) {
+    return next(createHttpError(400, "Token not created"));
+  }
+  const message = `${env.BASE_URL}/verify-account/${user._id}/${setToken.token}`;
+  if (!message) {
+    throw createHttpError(400, "Verification message not sent");
+  }
+  await sendEmail({
+    userName: user.userName,
+    from: env.USERMAIL,
+    to: user.email,
+    subject: "Account Verification Link",
+    text: `Hi, ${user.userName}, Please verify your email by clicking this link : ${message}. Link expires in 30mins`,
+  });
+  res.status(200).json("Verification link sent!");
 });
 
 export const login = tryCatch(async (req, res) => {
@@ -118,7 +149,7 @@ export const updateUserdata = tryCatch(async (req, res) => {
     .json({ access_token, user: updatedUser, msg: "Updated userinfo success" });
 });
 
-export const verifyEmail = tryCatch(async (req, res, next) => {
+export const verifyAccount = tryCatch(async (req, res, next) => {
   const { id: userId, token: token } = req.params;
 
   if (!isValidObjectId(userId)) {
@@ -132,14 +163,14 @@ export const verifyEmail = tryCatch(async (req, res, next) => {
     throw createHttpError(400, "Invalid user");
   }
   if (user.isVerified) {
-    return res.status(200).send("User has been already verified.");
+    return res.status(401).send("User has been already verified.");
   }
   const getToken = await myUserService.verifyToken({ userId, token });
-  if (!getToken.token) {
+  if (!getToken) {
     return next(createHttpError(401, "Invalid or expired token"));
   } else {
     await myUserService.updateVerifyUserStatus(user._id);
-    res.send("Email verified sucessfully");
+    res.status(200).send("Account verified sucessfully");
   }
 });
 
@@ -166,7 +197,7 @@ export const recoverPasswordLink = tryCatch(async (req, res, next) => {
     from: env.USERMAIL,
     to: user.email,
     subject: "Password recovery Link",
-    text: `Hi, ${user.userName}, click on the link to recover your password: ${message}. Token expires in 30mins.`,
+    text: `Hi, ${user.userName}, click on the link to recover your password: ${message}. Link expires in 30mins.`,
   });
   res.status(200).send("Recover password link sent to your email");
 });
@@ -185,7 +216,7 @@ export const resetUserPassword = tryCatch(async (req, res, next) => {
     return next(createHttpError(404, "User not found"));
   }
   const getToken = await myUserService.verifyToken({ userId, token });
-  if (!getToken.token) {
+  if (!getToken) {
     return next(createHttpError(401, "Invalid or expired token"));
   } else {
     await myUserService.passwordReset(userId, { password });

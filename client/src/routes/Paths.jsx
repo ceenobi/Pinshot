@@ -6,6 +6,7 @@ import {
   Route,
 } from "react-router-dom";
 import {
+  AccVerification,
   CreatePin,
   ForgotPassword,
   Home,
@@ -82,6 +83,14 @@ const Paths = () => {
           element={
             <Protectedroutes isAuth={token}>
               <Trending />
+            </Protectedroutes>
+          }
+        />
+        <Route
+          path="verify-account/:userId/:token"
+          element={
+            <Protectedroutes isAuth={token}>
+              <AccVerification />
             </Protectedroutes>
           }
         />

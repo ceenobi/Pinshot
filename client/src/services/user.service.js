@@ -27,6 +27,16 @@ const resetPassword = async (userId, token, password) => {
   });
 };
 
+const verifyUserAccount = async (userId, token) => {
+  return await connect.patch(`/api/user/verify-account/${userId}/${token}`);
+};
+
+const resendVerificationLink = async (userId) => {
+  return await connect.post("/api/user/resend-token/", userId, {
+    headers: authHeader(),
+  });
+};
+
 const followUser = async (pinUserId, userId) => {
   return await connect.put(`/api/user/sub/${pinUserId}`, userId, {
     headers: authHeader(),
@@ -77,5 +87,7 @@ export default {
   getSubscribedUsers,
   recoverPassword,
   resetPassword,
+  verifyUserAccount,
+  resendVerificationLink,
   logout,
 };

@@ -83,5 +83,5 @@ const UserPins = ({ user }) => {
 export default UserPins;
 
 UserPins.propTypes = {
-  user: PropTypes.object,
+  user: PropTypes.any,
 };

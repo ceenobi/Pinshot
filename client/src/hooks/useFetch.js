@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const useFetch = (api, params) => {
+const useFetch = (api, params, extra) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null || "");
@@ -16,7 +16,7 @@ const useFetch = (api, params) => {
     const fetchdata = async () => {
       try {
         setLoading(true);
-        const res = await api(params, { signal });
+        const res = await api(params, extra, { signal });
         setData(res?.data);
       } catch (error) {
         console.error(error);
@@ -29,7 +29,7 @@ const useFetch = (api, params) => {
     return () => {
       controller.abort();
     };
-  }, [api, params]);
+  }, [api, params, extra]);
 
   return { data, loading, error, setData };
 };

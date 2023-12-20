@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import toast from "react-hot-toast";
 import { format } from "timeago.js";
 import {
   EditProfileModal,
+  MyButton,
   PageLayout,
   SubscribedUsers,
   UserLikedPins,
@@ -24,6 +26,7 @@ const Profile = () => {
     loading,
     setData,
   } = useFetch(userService.getUserProfile, userName);
+  const [isloading, setIsLoading] = useState(false);
   useTitle(`${user?.userName} profile`);
 
   const follow = tryCatch(async (userId) => {
@@ -44,6 +47,17 @@ const Profile = () => {
     setData(userinfo.data);
   });
 
+  const resendTokenLink = tryCatch(async () => {
+    setIsLoading(true);
+    const { status, data } = await userService.resendVerificationLink(
+      loggedInUser._id
+    );
+    if (status === 200) {
+      toast.success(data);
+    }
+    setIsLoading(false);
+  });
+
   return (
     <PageLayout extra="py-5 px-3 mt-5">
       {error ? (
@@ -54,7 +68,7 @@ const Profile = () => {
             <Loading text="Fetching user..." />
           ) : (
             <div>
-              <div className="d-md-flex justify-content-center gap-3 align-items-center text-center text-md-start">
+              <div className="d-md-flex justify-content-center gap-3  text-center text-md-start">
                 <div>
                   <Image
                     src={user?.profilePhoto}
@@ -66,7 +80,7 @@ const Profile = () => {
                 </div>
                 <div>
                   <div className="mb-0 d-flex flex-wrap align-items-center justify-content-center justify-content-md-start gap-2">
-                    <span className="fs-4 fw-bold">{user?.userName}</span>
+                    <span className="fs-4 fw-bold">@{user?.userName}</span>
                     <div className="d-flex flex-wrap align-items-center gap-2">
                       <span className="text-secondary">
                         {" "}
@@ -78,21 +92,38 @@ const Profile = () => {
                       </span>
                     </div>
                   </div>
-                  <p>{user?.email}</p>
+                  <p className="mb-1">{user?.email}</p>
+                  <div className="mb-2">
+                    {loggedInUser._id === user._id && (
+                      <>
+                        <p className="fw-bold mb-0">Account verification:</p>
+                        {user?.isVerified === true
+                          ? "Verified"
+                          : "Not verified"}
+                        {!user?.isVerified && (
+                          <MyButton
+                            text={isloading ? "Sending..." : "Resend link"}
+                            className="mx-2 rounded-4"
+                            onClick={resendTokenLink}
+                          />
+                        )}
+                      </>
+                    )}
+                  </div>
                   <p className="mb-0">
-                    <b>bio:</b> {user?.bio}
+                    <b>Bio:</b> {user?.bio}
                   </p>
                   <p>
-                    <b>member since:</b> {format(user?.createdAt)}
+                    <b>Member since:</b> {format(user?.createdAt)}
                   </p>
                   {loggedInUser._id !== user?._id && (
                     <Button
                       variant="none"
                       style={{
                         width: "130px",
-                        backgroundColor: "var(--blue100)",
+                        backgroundColor: "var(--blue200)",
                       }}
-                      className="border-0 fw-bold rounded-3 p-2 btn-style"
+                      className="border-0 fw-bold rounded-4 p-2 btn-style"
                       onClick={
                         loggedInUser.subscribedUsers?.includes(user?._id)
                           ? () => unfollow(user?._id)

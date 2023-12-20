@@ -8,6 +8,7 @@ import Trending from "./Trending";
 import ForgotPassword from "./auth/ForgotPassword";
 import ResetPassword from "./auth/ResetPassword";
 import CreatePin from "./CreatePin";
+import AccVerification from "./auth/AccVerification";
 
 export {
   Home,
@@ -20,4 +21,5 @@ export {
   ForgotPassword,
   ResetPassword,
   CreatePin,
+  AccVerification
 };

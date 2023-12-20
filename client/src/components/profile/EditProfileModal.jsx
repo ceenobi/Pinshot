@@ -143,6 +143,6 @@ const EditProfileModal = ({ user, setData }) => {
 export default EditProfileModal;
 
 EditProfileModal.propTypes = {
-  user: PropTypes.object,
+  user: PropTypes.any,
   setData: PropTypes.any,
 };
