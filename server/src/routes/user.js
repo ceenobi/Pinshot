@@ -11,7 +11,7 @@ router.post("/login", AuthController.login);
 
 //verify user account
 router.patch("/verify-account/:id/:token", AuthController.verifyAccount);
-router.post("/resend-token", verifyAuth(Roles.All), AuthController.sendVerificationLink);
+router.post("/resend-token/:id", verifyAuth(Roles.All), AuthController.sendVerificationLink);
 
 //password reset and recovery
 router.post("/verify-email", AuthController.recoverPasswordLink);

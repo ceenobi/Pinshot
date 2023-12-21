@@ -29,7 +29,7 @@ const Paths = () => {
       <Route
         path="/"
         element={
-          <Suspense fallback={<Loading text="PINTUBE" />}>
+          <Suspense fallback={<Loading text="PINSHOT" />}>
             <Root />
           </Suspense>
         }

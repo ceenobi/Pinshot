@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 import Mailgen from "mailgen";
 import env from "../utils/validateEnv.js";
 
-const sendEmail = async ({ from, to, subject, text, userName}) => {
+const sendEmail = async ({ from, to, subject, text, userName }) => {
   let mailGenerator = new Mailgen({
     theme: "default",
     product: {
@@ -38,9 +38,11 @@ const sendEmail = async ({ from, to, subject, text, userName}) => {
     });
     await transporter.sendMail(mailOptions);
     console.log("email sent sucessfully");
+    return { success: true, msg: "Email sent successfully" };
   } catch (error) {
     console.log("email not sent");
     console.log(error);
+    return { success: false, msg: "Failed to send email" };
   }
 };
 

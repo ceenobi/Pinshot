@@ -1,4 +1,5 @@
 import { isValidObjectId } from "mongoose";
+import NodeCache from "node-cache";
 import createHttpError from "http-errors";
 import { mySearchService } from "../service/index.js";
 import tryCatch from "../config/tryCatch.js";
@@ -16,11 +17,18 @@ export const getSearch = tryCatch(async (req, res, next) => {
   res.status(200).json(result);
 });
 
+const cache = new NodeCache({ stdTTL: 600 });
 export const getAllTags = tryCatch(async (req, res, next) => {
+  const cachedTags = cache.get("tags");
+  if (cachedTags) {
+    return res.status(200).json(cachedTags);
+  }
   const tags = await mySearchService.getTags();
   if (!tags) {
     return next(createHttpError(404, "tags not found"));
   }
+  // Store the result in the cache
+  cache.set("tags", tags);
   res.status(200).json(tags);
 });
 
@@ -32,17 +40,3 @@ export const deleteTags = tryCatch(async (req, res, next) => {
   await mySearchService.deleteATag(pinId);
   res.status(200).send("Tag deleted!");
 });
-
-// export const getPinsByTags = tryCatch(async (req, res, next) => {
-//   if (!req.query.tag) {
-//     return next(createHttpError(400, "Tag parameter is missing"));
-//   }
-//   if (typeof req.query.tag === "string") {
-//     const tags = req.query.tag.split(",").map((tag) => tag.trim());
-//     const pins = await mySearchService.searchPinsByTags(tags);
-//     if (!pins) {
-//       return next(createHttpError(404, "Pins not found"));
-//     }
-//     res.status(200).json(pins);
-//   }
-// });

@@ -32,7 +32,7 @@ const verifyUserAccount = async (userId, token) => {
 };
 
 const resendVerificationLink = async (userId) => {
-  return await connect.post("/api/user/resend-token/", userId, {
+  return await connect.post(`/api/user/resend-token/${userId}`, userId,{
     headers: authHeader(),
   });
 };

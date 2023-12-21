@@ -163,7 +163,7 @@ const Pindetails = () => {
                         className="fs-6 fw-bold"
                         style={{ color: "var(--dark100)" }}
                       >
-                        {pin.owner}
+                        {pin.userId?.userName}
                       </Link>
                       <div>{pin.userId?.subscribers} followers</div>
                     </div>

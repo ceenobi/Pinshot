@@ -49,7 +49,7 @@ export const signUp = tryCatch(async (req, res) => {
 });
 
 export const sendVerificationLink = tryCatch(async (req, res, next) => {
-  const { id: userId } = req.user;
+  const { id: userId } = req.params;
   if (!userId) {
     throw createHttpError(400, `Invalid userId`);
   }
@@ -66,17 +66,18 @@ export const sendVerificationLink = tryCatch(async (req, res, next) => {
     return next(createHttpError(400, "Token not created"));
   }
   const message = `${env.BASE_URL}/verify-account/${user._id}/${setToken.token}`;
-  if (!message) {
-    throw createHttpError(400, "Verification message not sent");
-  }
-  await sendEmail({
+
+  const feedback = await sendEmail({
     userName: user.userName,
     from: env.USERMAIL,
     to: user.email,
     subject: "Account Verification Link",
     text: `Hi, ${user.userName}, Please verify your email by clicking this link : ${message}. Link expires in 30mins`,
   });
-  res.status(200).json("Verification link sent!");
+  if (!feedback) {
+    throw createHttpError(400, "Verification message not sent");
+  }
+  res.status(200).json({ msg: "Verification link sent!" });
 });
 
 export const login = tryCatch(async (req, res) => {

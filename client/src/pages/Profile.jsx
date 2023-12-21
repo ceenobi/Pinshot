@@ -19,7 +19,7 @@ import { tryCatch, useAuthContext } from "../config";
 
 const Profile = () => {
   const { userName } = useParams();
-  const { loggedInUser, setLoggedInUser } = useAuthContext();
+  const { loggedInUser, setLoggedInUser } = useAuthContext() || {};
   const {
     data: user,
     error,
@@ -47,16 +47,22 @@ const Profile = () => {
     setData(userinfo.data);
   });
 
-  const resendTokenLink = tryCatch(async () => {
+  const resendTokenLink = async () => {
     setIsLoading(true);
-    const { status, data } = await userService.resendVerificationLink(
-      loggedInUser._id
-    );
-    if (status === 200) {
-      toast.success(data);
+    try {
+      const { status, data } = await userService.resendVerificationLink(
+        loggedInUser._id
+      );
+      if (status === 200) {
+        toast.success(data.msg);
+      }
+    } catch (error) {
+      toast.error(error.response.data.error);
+      console.error(error);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
-  });
+  };
 
   return (
     <PageLayout extra="py-5 px-3 mt-5">

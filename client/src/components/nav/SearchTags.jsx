@@ -7,24 +7,24 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const SearchTags = () => {
   const [tagQuery, setTagQuery] = useState("");
-  const { data: tags } = useFetch(searchService.getAllTags);
+  // const { data: tags } = useFetch(searchService.getAllTags);
   const { scroll, scrollRef } = useScroll();
   const navigate = useNavigate();
   const location = useLocation();
 
-  // const useCustomFetch = () => {
-  //   return useFetch(searchService.getAllTags);
-  // };
+  const useCustomFetch = () => {
+    return useFetch(searchService.getAllTags);
+  };
 
-  // const tags = useCustomFetch();
-  // const memoizedTags = useMemo(() => {
-  //   return tags;
-  // }, [tags]);
+  const tags = useCustomFetch();
+  const memoizedTags = useMemo(() => {
+    return tags;
+  }, [tags]);
 
-  // const { data: memoizedData } = memoizedTags;
+  const { data: memoizedData } = memoizedTags;
 
   const shuffleTags = () => {
-    const shuffled = [...tags].sort(() => 0.5 - Math.random());
+    const shuffled = [...memoizedData].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, 40);
   };
   const getRandomTags = shuffleTags();
@@ -43,25 +43,26 @@ const SearchTags = () => {
   return (
     <div className="position-relative">
       <div
-        className="overflow-x-scroll overflow-y-hidden scrollbody"
+        className="overflow-x-auto overflow-y-hidden scrollbody"
         style={{ width: "90vw" }}
         ref={scrollRef}
       >
         <div
           className="d-flex align-items-center gap-2 px-3"
-          style={{ width: "1800px" }}
+          style={{ width: "100%" }}
         >
           {getRandomTags?.map((tag, i) => (
             <Button
               key={i}
               variant="none"
               style={{
-                backgroundColor: tag === tagQuery ? "var(--dark100)" : "",
+                backgroundColor: tag === tagQuery ? "var(--dark100)" : "var(--dark200)",
                 color: tag === tagQuery ? "var(--cream200)" : "var(--dark100)",
+                minWidth: "fit-content",
               }}
               size="sm"
-              className={`rounded-3 ${
-                tag === tagQuery ? "fw-bold" : "activeIcon bg-secondary-subtle"
+              className={`rounded-3 fw-bold ${
+                tag === tagQuery && "activeIcon bg-secondary-subtle"
               } text-capitalize fs-6`}
               onClick={() => handleTagClick(tag)}
             >

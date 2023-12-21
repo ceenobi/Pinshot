@@ -156,7 +156,7 @@ const CreatePin = () => {
                       name="tags"
                       size="lg"
                       className="w-100"
-                      value={tag}
+                      value={tag.toLowerCase()}
                       onChange={(e) => setTag(e.target.value)}
                     />
                   </Form.Group>
@@ -168,8 +168,8 @@ const CreatePin = () => {
                   {tagArray?.map((tag, i) => (
                     <div
                       key={i}
-                      className="d-flex flex-wrap align-items-center gap-3 py-2 px-3 rounded-4 text-white"
-                      style={{ backgroundColor: "var(--dark100)" }}
+                      className="d-flex flex-wrap align-items-center gap-2 py-2 px-3 rounded-4 text-white"
+                      style={{ backgroundColor: "var(--blue200)" }}
                     >
                       <span className="fs-6">{tag}</span>
                       <span
