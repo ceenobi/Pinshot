@@ -204,7 +204,7 @@ export const getSubbedPins = tryCatch(async (req, res) => {
     return next(createHttpError(400, "Invalid user"));
   }
   const subscribedFeeds = user.subscribedUsers;
-  const pins = await myPinService.getSubbedUserPins(
+  let pins = await myPinService.getSubbedUserPins(
     subscribedFeeds,
     userId,
     page,
