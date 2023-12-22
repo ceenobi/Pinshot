@@ -24,7 +24,6 @@ const userSchema = new Schema(
       default: false,
     },
     role: { type: String, default: "user" },
-    isActive: { type: Boolean, default: false },
     subscribers: {
       type: Number,
       default: 0,

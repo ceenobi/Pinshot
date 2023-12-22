@@ -25,6 +25,11 @@ const SearchTags = () => {
 
   const shuffleTags = () => {
     const shuffled = [...memoizedData].sort(() => 0.5 - Math.random());
+    const selectedTagIndex = shuffled.findIndex((tag) => tag === tagQuery);
+    if (selectedTagIndex !== -1) {
+      const selectedTag = shuffled.splice(selectedTagIndex, 1)[0];
+      shuffled.unshift(selectedTag);
+    }
     return shuffled.slice(0, 40);
   };
   const getRandomTags = shuffleTags();
@@ -56,13 +61,14 @@ const SearchTags = () => {
               key={i}
               variant="none"
               style={{
-                backgroundColor: tag === tagQuery ? "var(--dark100)" : "var(--dark200)",
+                backgroundColor:
+                  tag === tagQuery ? "var(--dark100)" : "lightGrey",
                 color: tag === tagQuery ? "var(--cream200)" : "var(--dark100)",
                 minWidth: "fit-content",
               }}
               size="sm"
               className={`rounded-3 fw-bold ${
-                tag === tagQuery && "activeIcon bg-secondary-subtle"
+                tag === tagQuery && "activeIcon bg-dark"
               } text-capitalize fs-6`}
               onClick={() => handleTagClick(tag)}
             >

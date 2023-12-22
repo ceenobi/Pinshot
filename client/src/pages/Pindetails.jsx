@@ -25,7 +25,7 @@ const Pindetails = () => {
     setData,
   } = useFetch(pinService.getAPin, pinId);
   const { data: relatedPins } = useFetch(pinService.getRelatedPins, pinId);
-  const { loggedInUser, setLoggedInUser } = useAuthContext();
+  const { loggedInUser, setLoggedInUser } = useAuthContext() || {};
   const { prevSlide, nextSlide, current } = useCurentSlide(pin?.image?.length);
   useTitle(pin?.title);
 

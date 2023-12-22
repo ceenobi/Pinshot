@@ -8,7 +8,7 @@ import CommentService from "./comment.service.js";
 import SearchService from "./search.service.js";
 
 const myUserService = UserService(User, Token);
-const myPinService = PinService(Pin);
+const myPinService = PinService(Pin, Comment);
 const myCommentService = CommentService(Comment);
 const mySearchService = SearchService(User, Pin);
 

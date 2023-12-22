@@ -74,9 +74,11 @@ const dislikePin = (Pin) => async (userId, pinId) => {
     $pull: { likes: userId },
   });
 };
-const deletePin = (Pin) => async (pinId) => {
+
+const deletePin = (Pin, Comment) => async (pinId) => {
   const pin = await Pin.findById(pinId);
-  return await pin.deleteOne();
+  await Comment.deleteMany({ pinId: pinId });
+  await pin.deleteOne();
 };
 
 const getSubbedUserPins =
@@ -93,7 +95,7 @@ const getSubbedUserPins =
     return uniquePins;
   };
 
-export default (Pin) => {
+export default (Pin, Comment) => {
   return {
     createPin: createPin(Pin),
     getRandomPins: getRandomPins(Pin),
@@ -102,7 +104,7 @@ export default (Pin) => {
     updatePin: updatePin(Pin),
     likePin: likePin(Pin),
     dislikePin: dislikePin(Pin),
-    deletePin: deletePin(Pin),
+    deletePin: deletePin(Pin, Comment),
     getSubbedUserPins: getSubbedUserPins(Pin),
     getPinsByUser: getPinsByUser(Pin),
     getRelatedPin: getRelatedPin(Pin),

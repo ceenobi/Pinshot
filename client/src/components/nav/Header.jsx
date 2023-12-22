@@ -9,7 +9,7 @@ import SearchResult from "./SearchResult";
 import SearchTags from "./SearchTags";
 
 const Header = () => {
-  const { loggedInUser } = useAuthContext();
+  const { loggedInUser } = useAuthContext() || {};
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [resultBox, setResultBox] = useState(false);

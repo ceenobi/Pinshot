@@ -99,13 +99,15 @@ const Profile = () => {
                     </div>
                   </div>
                   <p className="mb-1">{user?.email}</p>
-                  <div className="mb-2">
+                  <div className="mb-2 d-md-flex gap-2">
                     {loggedInUser._id === user._id && (
                       <>
                         <p className="fw-bold mb-0">Account verification:</p>
-                        {user?.isVerified === true
-                          ? "Verified"
-                          : "Not verified"}
+                        <span>
+                          {user?.isVerified === true
+                            ? "Verified"
+                            : "Not verified"}
+                        </span>
                         {!user?.isVerified && (
                           <MyButton
                             text={isloading ? "Sending..." : "Resend link"}

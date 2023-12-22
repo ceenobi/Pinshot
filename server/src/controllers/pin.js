@@ -199,18 +199,23 @@ export const getSubbedPins = tryCatch(async (req, res) => {
   }
   const page = parseInt(req.query.page) - 1 || 0;
   const limit = parseInt(req.query.limit) || 20;
-  const user = await myUserService.getAuthUser(userId, page, limit);
+  const user = await myUserService.getAuthUser(userId);
   if (!user) {
     return next(createHttpError(400, "Invalid user"));
   }
   const subscribedFeeds = user.subscribedUsers;
-  const pin = await myPinService.getSubbedUserPins(subscribedFeeds, userId);
-  pin.flat().sort((a, b) => b.createdAt - a.createdAt);
-  const pins = pin.flatMap((pin) => pin);
+  const pins = await myPinService.getSubbedUserPins(
+    subscribedFeeds,
+    userId,
+    page,
+    limit
+  );
+  pins = pins.flat().sort((a, b) => b.createdAt - a.createdAt);
+  const flattenedPins = pins.flatMap((pin) => pin);
   const subbedPins = {
     page: page + 1,
     limit,
-    pins,
+    pins: flattenedPins,
   };
   res.status(200).json(subbedPins);
 });

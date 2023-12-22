@@ -8,7 +8,7 @@ import { userService } from "../../services";
 
 const SidebarMobile = () => {
   const [show, setShow] = useState(false);
-  const { loggedInUser } = useAuthContext();
+  const { loggedInUser } = useAuthContext() || {};
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);

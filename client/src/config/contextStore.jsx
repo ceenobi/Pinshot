@@ -31,9 +31,9 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       const { exp } = jwtDecode(token);
       if (exp * 1000 < Date.now()) {
-        localStorage.removeItem("userinfo");
+        localStorage.removeItem("usertoken");
         location.replace("/");
-        toast.error("Token expired, sign in to get access");
+        toast.error("Credentials expired, sign in to get access");
       }
     }
   }, []);
