@@ -33,16 +33,16 @@ export const createAPin = tryCatch(async (req, res, next) => {
 });
 
 export const getAllPins = tryCatch(async (req, res, next) => {
-  const page = parseInt(req.query.page) - 1 || 0;
+  const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 20;
-  const pins = await myPinService.getPins(page, limit);
-  if (!pins) {
+  const result = await myPinService.getPins(page, limit);
+  if (!result.pins) {
     return next(createHttpError(400, `Pins not found`));
   }
   const allPins = {
-    page: page + 1,
-    limit,
-    pins,
+    currentPage: page,
+    totalPages: result.totalPages,
+    pins: result.pins,
   };
   res.status(200).json(allPins);
 });

@@ -15,6 +15,7 @@ import LoginRegister from "./form/LoginRegister";
 import SearchTags from "./nav/SearchTags";
 import ImageModal from "./profile/ImageModal";
 import MyModal from "./MyModal";
+import Error from "./Error";
 
 export {
   Root,
@@ -34,4 +35,5 @@ export {
   SearchTags,
   ImageModal,
   MyModal,
+  Error,
 };

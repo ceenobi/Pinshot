@@ -1,7 +1,7 @@
 import { authHeader, connect } from "../config";
 
-const getAllPins = async () => {
-  return await connect.get("/api/pin");
+const getAllPins = async (page = 1) => {
+  return await connect.get(`/api/pin?page=${page}`);
 };
 
 const getAPin = async (pinId) => {

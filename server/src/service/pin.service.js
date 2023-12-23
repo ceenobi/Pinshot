@@ -8,11 +8,16 @@ const getRandomPins = (Pin) => async () => {
   return await Pin.aggregate([{ $sample: { size: 40 } }]);
 };
 
-const getPins = (Pin) => async (page, limit) => {
-  return await Pin.find()
-    .sort({ _id: -1 })
-    .skip(page * limit);
-};
+const getPins =
+  (Pin) =>
+  async (page = 1, limit = 20) => {
+    const pins = await Pin.find()
+      .sort({ _id: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
+    const count = await Pin.countDocuments();
+    return { pins, totalPages: Math.ceil(count / limit) };
+  };
 
 const getPinsByUser = (Pin) => async (userId, page, limit) => {
   return await Pin.find({ userId: userId })

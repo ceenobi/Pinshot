@@ -20,6 +20,7 @@ import {
 } from "../pages";
 import { Loading } from "../utils";
 import Protectedroutes from "./Protectedroutes";
+import { Error } from "../components";
 const Root = lazy(() => import("../components/Root"));
 
 const Paths = () => {
@@ -28,6 +29,7 @@ const Paths = () => {
     createRoutesFromElements(
       <Route
         path="/"
+        errorElement={<Error />}
         element={
           <Suspense fallback={<Loading text="PINSHOT" />}>
             <Root />

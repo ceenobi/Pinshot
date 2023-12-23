@@ -12,7 +12,7 @@ import { tryCatch } from "../../config";
 const UserPins = ({ user }) => {
   const { data, error, loading, setData } = useFetch(
     pinService.getPinsByUser,
-    user?._id
+    user
   );
   const imgSlide = data.pins?.map((item) => item.image);
   const imgLength = imgSlide?.length;
@@ -83,5 +83,5 @@ const UserPins = ({ user }) => {
 export default UserPins;
 
 UserPins.propTypes = {
-  user: PropTypes.any,
+  user: PropTypes.string,
 };

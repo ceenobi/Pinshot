@@ -10,7 +10,7 @@ const SubscribedUsers = ({ user }) => {
     data: followers,
     error,
     loading,
-  } = useFetch(userService.getSubscribedUsers, user?._id);
+  } = useFetch(userService.getSubscribedUsers, user);
 
   return (
     <div>
@@ -61,5 +61,5 @@ const SubscribedUsers = ({ user }) => {
 export default SubscribedUsers;
 
 SubscribedUsers.propTypes = {
-  user: PropTypes.any,
+  user: PropTypes.string,
 };

@@ -100,7 +100,7 @@ const Profile = () => {
                   </div>
                   <p className="mb-1">{user?.email}</p>
                   <div className="mb-2 d-md-flex gap-2">
-                    {loggedInUser._id === user._id && (
+                    {loggedInUser._id === user?._id && (
                       <>
                         <p className="fw-bold mb-0">Account verification:</p>
                         <span>
@@ -153,13 +153,13 @@ const Profile = () => {
                 justify
               >
                 <Tab eventKey="user" title="Pins">
-                  <UserPins user={user} />
+                  <UserPins user={user?._id}/>
                 </Tab>
                 <Tab eventKey="likedpins" title="Liked pins">
-                  <UserLikedPins user={user} />
+                  <UserLikedPins user={user?._id} />
                 </Tab>
                 <Tab eventKey="Subscribedusers" title="Followers">
-                  <SubscribedUsers user={user} />
+                  <SubscribedUsers user={user?._id} />
                 </Tab>
               </Tabs>
             </div>

@@ -1,37 +1,38 @@
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 
-const useFetch = (api, params, extra) => {
+const useFetch = (service, params, extra) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null || "");
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!api) {
-      setError("API is not provided");
-      setLoading(false);
-      return;
-    }
     const controller = new AbortController();
     const signal = controller.signal;
+
     const fetchdata = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
-        const res = await api(params, extra, { signal });
-        setData(res?.data);
+        const res = await service(params, extra, { signal });
+        if (!signal.aborted) {
+          setData(res.data?.pins ? res.data?.pins : res.data);
+          setError(null);
+        }
       } catch (error) {
+        if (!signal.aborted) {
+          setError(error?.response?.data?.error || error?.message);
+        }
         console.error(error);
-        setError(error?.message);
-        toast.error(error?.response?.data?.error);
       } finally {
-        setLoading(false);
+        if (!signal.aborted) {
+          setLoading(false);
+        }
       }
     };
     fetchdata();
     return () => {
       controller.abort();
     };
-  }, [api, params, extra]);
+  }, [service, params, extra]);
 
   return { data, loading, error, setData };
 };

@@ -8,7 +8,7 @@ import PinCard from "../PinCard";
 const UserLikedPins = ({ user }) => {
   const { data, error, loading } = useFetch(
     pinService.getPinsLikedByUser,
-    user?._id
+    user
   );
 
   return (
@@ -41,5 +41,5 @@ const UserLikedPins = ({ user }) => {
 export default UserLikedPins;
 
 UserLikedPins.propTypes = {
-  user: PropTypes.any,
+  user: PropTypes.string,
 };

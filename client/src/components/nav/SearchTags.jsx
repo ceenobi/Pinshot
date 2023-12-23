@@ -67,7 +67,7 @@ const SearchTags = () => {
                 minWidth: "fit-content",
               }}
               size="sm"
-              className={`rounded-3 fw-bold ${
+              className={`rounded-3 fw-medium ${
                 tag === tagQuery && "activeIcon bg-dark"
               } text-capitalize fs-6`}
               onClick={() => handleTagClick(tag)}
