@@ -4,6 +4,12 @@ const getAllPins = async (page = 1) => {
   return await connect.get(`/api/pin?page=${page}`);
 };
 
+const getSubscribedPins = async (page = 1) => {
+  return await connect.get(`/api/pin/subscribed?page=${page}`, {
+    headers: authHeader(),
+  });
+};
+
 const getAPin = async (pinId) => {
   return await connect.get(`/api/pin/${pinId}`);
 };
@@ -14,12 +20,6 @@ const getRelatedPins = async (pinId) => {
 
 const getPinsByUser = async (userId) => {
   return await connect.get(`/api/pin/${userId}/userpins`, {
-    headers: authHeader(),
-  });
-};
-
-const getSubscribedPins = async () => {
-  return await connect.get("/api/pin/subscribed", {
     headers: authHeader(),
   });
 };

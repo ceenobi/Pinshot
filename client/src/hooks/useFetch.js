@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 const useFetch = (service, params, extra) => {
   const [data, setData] = useState([]);
+  const [pagedData, setPagedData] = useState([])
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -13,8 +14,10 @@ const useFetch = (service, params, extra) => {
       setLoading(true);
       try {
         const res = await service(params, extra, { signal });
+        console.log(res);
         if (!signal.aborted) {
-          setData(res.data?.pins ? res.data?.pins : res.data);
+          setData(res.data);
+          setPagedData(res.data?.pins)
           setError(null);
         }
       } catch (error) {
@@ -34,7 +37,7 @@ const useFetch = (service, params, extra) => {
     };
   }, [service, params, extra]);
 
-  return { data, loading, error, setData };
+  return { data, loading, error, setData, pagedData, setPagedData };
 };
 
 export default useFetch;

@@ -47,6 +47,35 @@ export const getAllPins = tryCatch(async (req, res, next) => {
   res.status(200).json(allPins);
 });
 
+export const getSubbedPins = tryCatch(async (req, res, next) => {
+  const { id: userId } = req.user;
+  if (!isValidObjectId(userId)) {
+    return next(createHttpError(400, "Invalid user id"));
+  }
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 20;
+  const user = await myUserService.getAuthUser(userId);
+  if (!user) {
+    return next(createHttpError(400, "Invalid user"));
+  }
+  const subscribedFeeds = user.subscribedUsers;
+  const result = await myPinService.getSubbedUserPins(
+    subscribedFeeds,
+    userId,
+    page,
+    limit
+  );
+  const flattenedPins = result.pins
+    .flat()
+    .sort((a, b) => b.createdAt - a.createdAt);
+  const subbedPins = {
+    currentPage: page,
+    totalPages: result.totalPages,
+    pins: flattenedPins,
+  };
+  res.status(200).json(subbedPins);
+});
+
 export const getUserPins = tryCatch(async (req, res, next) => {
   const { id: userId } = req.params;
   if (!isValidObjectId(userId)) {
@@ -190,32 +219,4 @@ export const deleteAPin = tryCatch(async (req, res, next) => {
   }
   await myPinService.deletePin(pinId);
   res.status(200).send("Pin deleted!");
-});
-
-export const getSubbedPins = tryCatch(async (req, res) => {
-  const { id: userId } = req.user;
-  if (!isValidObjectId(userId)) {
-    return next(createHttpError(400, "Invalid user id"));
-  }
-  const page = parseInt(req.query.page) - 1 || 0;
-  const limit = parseInt(req.query.limit) || 20;
-  const user = await myUserService.getAuthUser(userId);
-  if (!user) {
-    return next(createHttpError(400, "Invalid user"));
-  }
-  const subscribedFeeds = user.subscribedUsers;
-  let pins = await myPinService.getSubbedUserPins(
-    subscribedFeeds,
-    userId,
-    page,
-    limit
-  );
-  pins = pins.flat().sort((a, b) => b.createdAt - a.createdAt);
-  const flattenedPins = pins.flatMap((pin) => pin);
-  const subbedPins = {
-    page: page + 1,
-    limit,
-    pins: flattenedPins,
-  };
-  res.status(200).json(subbedPins);
 });

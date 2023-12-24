@@ -2,20 +2,16 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import PropTypes from "prop-types";
 import { ClipLoader } from "react-spinners";
 
-const ReactInfiniteScroll = ({
-  children,
-  dataLength,
-  fetchMoreData,
-  hasMore,
-}) => {
+const ReactInfiniteScroll = ({ children, dataLength, next, hasMore }) => {
   return (
     <InfiniteScroll
       dataLength={dataLength}
-      next={fetchMoreData}
+      next={next}
       hasMore={hasMore}
       loader={
-        <div className="d-flex justify-content-center">
-          <ClipLoader color="#96b6c5" />
+        <div className="d-flex flex-column justify-content-center align-items-center">
+          <ClipLoader color="rgb(126, 182, 154)" />
+          <p>Fetching pins</p>
         </div>
       }
       endMessage={
@@ -34,6 +30,6 @@ export default ReactInfiniteScroll;
 ReactInfiniteScroll.propTypes = {
   children: PropTypes.node.isRequired,
   dataLength: PropTypes.number,
-  fetchMoreData: PropTypes.func,
+  next: PropTypes.func,
   hasMore: PropTypes.any,
 };

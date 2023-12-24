@@ -19,6 +19,23 @@ const getPins =
     return { pins, totalPages: Math.ceil(count / limit) };
   };
 
+const getSubbedUserPins =
+  (Pin) =>
+  async (subscribedPins, userId, page = 1, limit = 20) => {
+    const pinIds = [...new Set(subscribedPins)]; // Remove duplicate pinIds
+    const allPins = await Pin.find({
+      $or: [{ userId: { $in: pinIds } }, { userId: userId }],
+    })
+      .sort({ _id: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
+    const pins = allPins.filter(
+      (pin, index, self) => index === self.findIndex((p) => p.id === pin.id)
+    ); // Remove duplicate pins
+    const count = await Pin.countDocuments();
+    return { pins, totalPages: Math.ceil(count / limit) };
+  };
+
 const getPinsByUser = (Pin) => async (userId, page, limit) => {
   return await Pin.find({ userId: userId })
     .sort({ _id: -1 })
@@ -85,20 +102,6 @@ const deletePin = (Pin, Comment) => async (pinId) => {
   await Comment.deleteMany({ pinId: pinId });
   await pin.deleteOne();
 };
-
-const getSubbedUserPins =
-  (Pin) => async (subscribedPins, userId, page, limit) => {
-    const pinIds = [...new Set(subscribedPins)]; // Remove duplicate pinIds
-    const allPins = await Pin.find({
-      $or: [{ userId: { $in: pinIds } }, { userId: userId }],
-    })
-      .sort({ _id: -1 })
-      .skip(page * limit);
-    const uniquePins = allPins.filter(
-      (pin, index, self) => index === self.findIndex((p) => p.id === pin.id)
-    ); // Remove duplicate pins
-    return uniquePins;
-  };
 
 export default (Pin, Comment) => {
   return {

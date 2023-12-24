@@ -7,31 +7,42 @@ import { Loading, ReactInfiniteScroll } from "../utils";
 const Trending = () => {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [moreData, setMoreData] = useState([]);
   const [hasMore, setHasMore] = useState(true);
-  const { loading, data, setData } = useFetch(pinService.getAllPins);
+  const { pagedData, loading } = useFetch(pinService.getAllPins, currentPage);
   useTitle("Trending");
 
-  const fetchData = async () => {
+  const fetchMoreData = async () => {
+    if (pagedData.length < 20) {
+      setHasMore(false);
+      return;
+    }
     try {
-      const res = await pinService.getAllPins(currentPage);
-      setData((prevItems) => {
-        // Combine previous and new items
-        const allItems = [...prevItems, ...res.data.pins];
-        // Filter out duplicates based on a unique identifier, for example, 'id'
-        const uniqueItems = allItems.filter(
-          (item, index, self) =>
-            index === self.findIndex((t) => t._id === item._id)
-        );
-        return uniqueItems;
-      });
-      // Check if new data is received and update hasMore accordingly
-      res.data.pins?.length > 0 ? setHasMore(true) : setHasMore(false);
-      // Increment the current page for the next fetch
+      setMoreData((prevMoreData) => [...prevMoreData, ...pagedData]);
+      setHasMore(moreData.length > 0);
       setCurrentPage((prevPage) => prevPage + 1);
     } catch (error) {
       setError(error.message);
+      console.error(error);
     }
   };
+
+  // const fetchMoreData = async () => {
+  //   if (pagedData.length < 20) {
+  //     setHasMore(false);
+  //     return;
+  //   } else {
+  //     try {
+  //       const newData = await pinService.getAllPins(currentPage);
+  //       setMoreData((prevMoreData) => [...prevMoreData, ...newData.data.pins]);
+  //       setHasMore(newData.data.pins.length > 0);
+  //       setCurrentPage((prevPage) => prevPage + 1);
+  //     } catch (error) {
+  //       setError(error.message);
+  //       console.log(error);
+  //     }
+  //   }
+  // };
 
   return (
     <PageLayout extra="px-3" style={{ paddingTop: "8rem" }}>
@@ -39,21 +50,18 @@ const Trending = () => {
         <p className="mt-5">{error}</p>
       ) : (
         <>
-          {loading ? (
-            <Loading text="Fetching pins..." />
-          ) : (
-            <ReactInfiniteScroll
-              dataLength={data.length}
-              fetchMoreData={fetchData}
-              hasMore={hasMore}
-            >
-              <MasonryLayout>
-                {data?.map((pin) => (
-                  <PinCard key={pin._id} {...pin} />
-                ))}
-              </MasonryLayout>
-            </ReactInfiniteScroll>
-          )}
+          {loading && <Loading text="Fetching pins..." />}
+          <ReactInfiniteScroll
+            dataLength={pagedData.length}
+            next={fetchMoreData}
+            hasMore={hasMore}
+          >
+            <MasonryLayout>
+              {[...moreData, ...pagedData].map((pin, index) => (
+                <PinCard key={index} {...pin} />
+              ))}
+            </MasonryLayout>
+          </ReactInfiniteScroll>
         </>
       )}
     </PageLayout>
