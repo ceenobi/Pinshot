@@ -45,5 +45,5 @@ const Root = ({ routes }) => {
 export default Root;
 
 Root.propTypes = {
-  routes: PropTypes.object,
+  routes: PropTypes.array,
 };

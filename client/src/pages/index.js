@@ -1,4 +1,5 @@
 import Home from "./Home";
+import Explore from "./Explore";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import Pindetails from "./Pindetails";
@@ -12,6 +13,7 @@ import AccVerification from "./auth/AccVerification";
 
 export {
   Home,
+  Explore,
   Login,
   Register,
   Pindetails,
@@ -21,5 +23,5 @@ export {
   ForgotPassword,
   ResetPassword,
   CreatePin,
-  AccVerification
+  AccVerification,
 };

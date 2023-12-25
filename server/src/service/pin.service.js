@@ -4,35 +4,44 @@ const createPin =
     return await Pin.create({ userId, title, description, image, tags });
   };
 
-const getRandomPins = (Pin) => async () => {
-  return await Pin.aggregate([{ $sample: { size: 40 } }]);
-};
-
 const getPins =
   (Pin) =>
   async (page = 1, limit = 20) => {
-    const pins = await Pin.find()
-      .sort({ _id: -1 })
-      .skip((page - 1) * limit)
-      .limit(limit);
     const count = await Pin.countDocuments();
+    const skipCount = (page - 1) * limit;
+    const p = await Pin.find().sort({ _id: -1 }).skip(skipCount).limit(limit);
+    const pins = p.filter((pin) => pin.likes.length === 2 || pin.likes.length > 2);
+    console.log(pins);
+    return { pins, totalPages: Math.ceil(count / limit) };
+  };
+
+const getRandomPins =
+  (Pin) =>
+  async (page = 1, limit = 20) => {
+    const count = await Pin.countDocuments();
+    const skipCount = (page - 1) * limit;
+    const pins = await Pin.aggregate([{ $sample: { size: 100 } }])
+      .skip(skipCount)
+      .limit(limit);
     return { pins, totalPages: Math.ceil(count / limit) };
   };
 
 const getSubbedUserPins =
   (Pin) =>
   async (subscribedPins, userId, page = 1, limit = 20) => {
+    const count = await Pin.countDocuments();
+    const skipCount = (page - 1) * limit;
     const pinIds = [...new Set(subscribedPins)]; // Remove duplicate pinIds
     const allPins = await Pin.find({
       $or: [{ userId: { $in: pinIds } }, { userId: userId }],
     })
       .sort({ _id: -1 })
-      .skip((page - 1) * limit)
+      .skip(skipCount)
       .limit(limit);
     const pins = allPins.filter(
       (pin, index, self) => index === self.findIndex((p) => p.id === pin.id)
     ); // Remove duplicate pins
-    const count = await Pin.countDocuments();
+
     return { pins, totalPages: Math.ceil(count / limit) };
   };
 

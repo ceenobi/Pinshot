@@ -4,6 +4,10 @@ const getAllPins = async (page = 1) => {
   return await connect.get(`/api/pin?page=${page}`);
 };
 
+const getExplorePins = async (page = 1) => {
+  return await connect.get(`/api/pin/random/explore?page=${page}`);
+};
+
 const getSubscribedPins = async (page = 1) => {
   return await connect.get(`/api/pin/subscribed?page=${page}`, {
     headers: authHeader(),
@@ -69,6 +73,7 @@ const deleteAPin = async (pinId) => {
 
 export default {
   getAllPins,
+  getExplorePins,
   getAPin,
   getRelatedPins,
   likeAPin,

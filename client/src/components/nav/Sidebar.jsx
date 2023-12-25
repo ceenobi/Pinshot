@@ -12,9 +12,7 @@ const Sidebar = () => {
       <div className="d-flex justify-content-between flex-column align-items-center py-3 px-3 min-vh-100">
         <div className="text-center">
           <NavLink to="/">
-            <h1 className="logo fs-5 mb-4" title="Pinshot">
-              P
-            </h1>
+            <Icon icon="iconoir:media-image" className="logo mt-1 mb-4 fs-1"/>
           </NavLink>
           {links.map((link, i) => (
             <NavLink
@@ -26,7 +24,7 @@ const Sidebar = () => {
               title={link.label}
             >
               <div className="fs-3 mb-0">{link.icon}</div>
-              <p style={{ fontSize: "12px" }}>{link.label}</p>
+              <p style={{ fontSize: "13px" }}>{link.label}</p>
             </NavLink>
           ))}
         </div>

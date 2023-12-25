@@ -37,7 +37,7 @@ export const getAllPins = tryCatch(async (req, res, next) => {
   const limit = parseInt(req.query.limit) || 20;
   const result = await myPinService.getPins(page, limit);
   if (!result.pins) {
-    return next(createHttpError(400, `Pins not found`));
+    return next(createHttpError(400, "Pins not found"));
   }
   const allPins = {
     currentPage: page,
@@ -45,6 +45,21 @@ export const getAllPins = tryCatch(async (req, res, next) => {
     pins: result.pins,
   };
   res.status(200).json(allPins);
+});
+
+export const randomPins = tryCatch(async (req, res, next) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 20;
+  const result = await myPinService.getRandomPins(page, limit);
+  if (!result.pins) {
+    return next(createHttpError(400, "Pins not found"));
+  }
+  const randomPins = {
+    currentPage: page,
+    totalPages: result.totalPages,
+    pins: result.pins,
+  };
+  res.status(200).json(randomPins);
 });
 
 export const getSubbedPins = tryCatch(async (req, res, next) => {
@@ -112,14 +127,6 @@ export const getUserLikedPins = tryCatch(async (req, res, next) => {
     pins,
   };
   res.status(200).json(likedPins);
-});
-
-export const randomPins = tryCatch(async (req, res) => {
-  const pins = await myPinService.getRandomPins();
-  if (!pins) {
-    return next(createHttpError(400, `Pins not found`));
-  }
-  res.status(200).json(pins);
 });
 
 export const getAPin = tryCatch(async (req, res, next) => {

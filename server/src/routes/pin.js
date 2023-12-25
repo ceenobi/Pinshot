@@ -21,7 +21,7 @@ router.get(
 
 router.get("/:id", PinController.getAPin);
 router.get("/", PinController.getAllPins);
-router.get("/random", PinController.randomPins);
+router.get("/random/explore", PinController.randomPins);
 router.get("/:id/related", PinController.getRelatedPins);
 
 export default router;

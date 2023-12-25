@@ -69,16 +69,13 @@
 }
 
 .logo {
-  margin: 5px 10px;
-  padding: 2px;
-  border-radius: 50%;
-  background-color: var(--blue200);
-  color: var(--cream100);
+  color: var(--blue200);
   will-change: filter;
   transition: filter 300ms;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 4em #646cffaa);
+  filter: drop-shadow(0 0 4em #646cffaa) !important ;
+  color: var(--blue200);
 }
 
 a {

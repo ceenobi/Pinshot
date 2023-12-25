@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const useFetch = (service, params, extra) => {
   const [data, setData] = useState([]);
-  const [pagedData, setPagedData] = useState([])
+  const [pagedData, setPagedData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -16,7 +16,7 @@ const useFetch = (service, params, extra) => {
         const res = await service(params, extra, { signal });
         if (!signal.aborted) {
           setData(res.data);
-          setPagedData(res.data?.pins)
+          setPagedData(res.data?.pins);
           setError(null);
         }
       } catch (error) {

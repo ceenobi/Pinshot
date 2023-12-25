@@ -12,6 +12,7 @@ import {
   ResetPassword,
   Search,
   Trending,
+  Explore,
 } from "../pages";
 import { Loading } from "../utils";
 import Protectedroutes from "./Protectedroutes";
@@ -28,6 +29,16 @@ const Paths = () => {
       element: (
         <Protectedroutes isAuth={token}>
           <Home />
+        </Protectedroutes>
+      ),
+      nodeRef: createRef(),
+    },
+    {
+      path: "explore",
+      name: "Explore",
+      element: (
+        <Protectedroutes isAuth={token}>
+          <Explore />
         </Protectedroutes>
       ),
       nodeRef: createRef(),
@@ -123,7 +134,7 @@ const Paths = () => {
       path: "/",
       element: (
         <Suspense fallback={<Loading text="PINSHOT" />}>
-          <Root routes={routes}/>
+          <Root routes={routes} />
         </Suspense>
       ),
       errorElement: <Error />,
