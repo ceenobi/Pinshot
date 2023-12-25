@@ -10,7 +10,7 @@ const Trending = () => {
   const [moreData, setMoreData] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const { pagedData, loading } = useFetch(pinService.getAllPins, currentPage);
-  useTitle("Trending");
+  useTitle("Trending pins");
 
   const fetchMoreData = async () => {
     if (pagedData.length < 20) {

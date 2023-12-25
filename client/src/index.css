@@ -15,6 +15,24 @@
   --cream200: #f1f0e8;
   --dark100: #1a1a1a;
 }
+/* routes transition */
+.fade-enter {
+  opacity: 0;
+  z-index: 1;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 250ms ease-in;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* login register */
 .backdrop {
   background-image: url(./assets/augustine-wong-li0iC0rjvvg-unsplash.jpg);
   background-position: center;
@@ -22,6 +40,7 @@
   background-size: cover;
   min-height: 100vh;
 }
+/* general */
 .cursor {
   cursor: pointer;
 }

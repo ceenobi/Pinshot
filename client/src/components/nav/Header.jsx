@@ -39,7 +39,7 @@ const Header = () => {
       style={{ zIndex: 5 }}
     >
       <>
-        <div className="position-relative d-flex justify-content-between align-items-center mb-3">
+        <div className="position-relative d-flex justify-content-between align-items-center mb-3 mt-1">
           <SidebarMobile />
           <NavLink
             to="/"

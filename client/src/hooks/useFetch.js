@@ -14,7 +14,6 @@ const useFetch = (service, params, extra) => {
       setLoading(true);
       try {
         const res = await service(params, extra, { signal });
-        console.log(res);
         if (!signal.aborted) {
           setData(res.data);
           setPagedData(res.data?.pins)

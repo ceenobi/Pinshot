@@ -13,7 +13,7 @@ const Home = () => {
     pinService.getSubscribedPins,
     currentPage
   );
-  useTitle("Pinshot Home");
+  useTitle("Your Home");
 
   const fetchMoreData = async () => {
     if (pagedData.length < 20) {
@@ -44,8 +44,8 @@ const Home = () => {
               hasMore={hasMore}
             >
               <MasonryLayout>
-                {[...moreData, ...pagedData].map((pin) => (
-                  <PinCard key={pin._id} {...pin} />
+                {[...moreData, ...pagedData].map((pin, index) => (
+                  <PinCard key={index} {...pin} />
                 ))}
               </MasonryLayout>
             </ReactInfiniteScroll>

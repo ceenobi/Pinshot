@@ -49,7 +49,7 @@ const SearchTags = () => {
     <div className="position-relative">
       <div
         className="overflow-x-auto overflow-y-hidden scrollbody"
-        style={{ width: "90vw" }}
+        style={{ width: "100%" }}
         ref={scrollRef}
       >
         <div

@@ -1,10 +1,5 @@
-import { Suspense, lazy } from "react";
-import {
-  RouterProvider,
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-} from "react-router-dom";
+import { Suspense, lazy, createRef } from "react";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import {
   AccVerification,
   CreatePin,
@@ -23,82 +18,123 @@ import Protectedroutes from "./Protectedroutes";
 import { Error } from "../components";
 const Root = lazy(() => import("../components/Root"));
 
+const token = localStorage.getItem("usertoken");
+
 const Paths = () => {
-  const token = localStorage.getItem("usertoken");
-  const router = createBrowserRouter(
-    createRoutesFromElements(
-      <Route
-        path="/"
-        errorElement={<Error />}
-        element={
-          <Suspense fallback={<Loading text="PINSHOT" />}>
-            <Root />
-          </Suspense>
-        }
-      >
-        <Route
-          index
-          element={
-            <Protectedroutes isAuth={token}>
-              <Home />
-            </Protectedroutes>
-          }
-        />
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
-        <Route path="forgot-password" element={<ForgotPassword />} />
-        <Route path="reset-password/:id/:token" element={<ResetPassword />} />
-        <Route
-          path="pin/:pinId"
-          element={
-            <Protectedroutes isAuth={token}>
-              <Pindetails />
-            </Protectedroutes>
-          }
-        />
-        <Route
-          path="search"
-          element={
-            <Protectedroutes isAuth={token}>
-              <Search />
-            </Protectedroutes>
-          }
-        />
-        <Route
-          path="profile/:userName"
-          element={
-            <Protectedroutes isAuth={token}>
-              <Profile />
-            </Protectedroutes>
-          }
-        />
-        <Route
-          path="create"
-          element={
-            <Protectedroutes isAuth={token}>
-              <CreatePin />
-            </Protectedroutes>
-          }
-        />
-        <Route
-          path="trending"
-          element={
-            <Protectedroutes isAuth={token}>
-              <Trending />
-            </Protectedroutes>
-          }
-        />
-        <Route
-          path="verify-account/:userId/:token"
-          element={
-            <Protectedroutes isAuth={token}>
-              <AccVerification />
-            </Protectedroutes>
-          }
-        />
-      </Route>
-    )
-  );
+  const routes = [
+    {
+      path: "/",
+      name: "Home",
+      element: (
+        <Protectedroutes isAuth={token}>
+          <Home />
+        </Protectedroutes>
+      ),
+      nodeRef: createRef(),
+    },
+    {
+      path: "trending",
+      name: "Trending",
+      element: (
+        <Protectedroutes isAuth={token}>
+          <Trending />
+        </Protectedroutes>
+      ),
+      nodeRef: createRef(),
+    },
+    {
+      path: "pin/:pinId",
+      name: "Pin details",
+      element: (
+        <Protectedroutes isAuth={token}>
+          <Pindetails />
+        </Protectedroutes>
+      ),
+      nodeRef: createRef(),
+    },
+    {
+      path: "search",
+      name: "Search",
+      element: (
+        <Protectedroutes isAuth={token}>
+          <Search />
+        </Protectedroutes>
+      ),
+      nodeRef: createRef(),
+    },
+    {
+      path: "profile/:userName",
+      name: "User profile",
+      element: (
+        <Protectedroutes isAuth={token}>
+          <Profile />
+        </Protectedroutes>
+      ),
+      nodeRef: createRef(),
+    },
+    {
+      path: "create",
+      name: "Create pin",
+      element: (
+        <Protectedroutes isAuth={token}>
+          <CreatePin />
+        </Protectedroutes>
+      ),
+      nodeRef: createRef(),
+    },
+    {
+      path: "verify-account/:userId/:token",
+      name: "Verify account",
+      element: (
+        <Protectedroutes isAuth={token}>
+          <AccVerification />
+        </Protectedroutes>
+      ),
+      nodeRef: createRef(),
+    },
+    {
+      path: "login",
+      name: "Login",
+      element: <Login />,
+      nodeRef: createRef(),
+    },
+    {
+      path: "register",
+      name: "Register",
+      element: <Register />,
+      nodeRef: createRef(),
+    },
+    {
+      path: "forgot-password",
+      name: "Forgot password",
+      element: <ForgotPassword />,
+      nodeRef: createRef(),
+    },
+    {
+      path: "reset-password/:id/:token",
+      name: "Reset password",
+      element: <ResetPassword />,
+      nodeRef: createRef(),
+    },
+  ];
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: (
+        <Suspense fallback={<Loading text="PINSHOT" />}>
+          <Root routes={routes}/>
+        </Suspense>
+      ),
+      errorElement: <Error />,
+      children: routes.map((route) => ({
+        index: route.path === "/",
+        path: route.path === "/" ? undefined : route.path,
+        element: route.element,
+      })),
+    },
+  ]);
+
   return <RouterProvider router={router} />;
 };
 
