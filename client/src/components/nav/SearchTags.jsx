@@ -46,14 +46,14 @@ const SearchTags = () => {
   }, [location.pathname]);
 
   return (
-    <div className="position-relative">
+    <div className="container position-relative">
       <div
         className="overflow-x-auto overflow-y-hidden scrollbody"
         style={{ width: "100%" }}
         ref={scrollRef}
       >
         <div
-          className="d-flex align-items-center gap-2 px-3"
+          className="d-flex align-items-center gap-2"
           style={{ width: "100%" }}
         >
           {getRandomTags?.map((tag, i) => (

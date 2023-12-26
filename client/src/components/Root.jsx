@@ -33,7 +33,7 @@ const Root = ({ routes }) => {
           classNames="fade"
           unmountOnExit
         >
-          <main ref={nodeRef} className="fa">
+          <main ref={nodeRef}>
             {currentOutlet}
           </main>
         </CSSTransition>

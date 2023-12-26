@@ -87,7 +87,7 @@ const Pindetails = () => {
                             effect="blur"
                             src={img}
                             alt={pin.title}
-                            title='click to view full size'
+                            title="click to view full size"
                             className="rounded-4 object-fit-cover cursor"
                             width="100%"
                             height="100%"
@@ -111,12 +111,12 @@ const Pindetails = () => {
                             <div className="focus-arrowBox">
                               <Icon
                                 icon="mdi:arrow-left-bold-circle-outline"
-                                className="cursor fs-2 arrowLeft activeIcon"
+                                className="cursor fs-2 activeIcon position-absolute top-50 start-0 translate-middle z-2"
                                 onClick={prevSlide}
                               />
                               <Icon
                                 icon="mdi:arrow-right-bold-circle-outline"
-                                className="cursor fs-2 arrowRight activeIcon"
+                                className="cursor fs-2 activeIcon position-absolute top-50 start-100 translate-middle z-2"
                                 onClick={nextSlide}
                               />
                             </div>
