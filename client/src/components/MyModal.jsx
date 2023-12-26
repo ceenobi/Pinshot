@@ -3,14 +3,12 @@ import PropTypes from "prop-types";
 
 const MyModal = ({ children, title, handleClose, show, ...props }) => {
   return (
-    <div>
-      <Modal show={show} onHide={handleClose} centered {...props}>
-        <Modal.Header closeButton>
-          <Modal.Title>{title}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{children}</Modal.Body>
-      </Modal>
-    </div>
+    <Modal show={show} onHide={handleClose} centered {...props}>
+      <Modal.Header closeButton>
+        <Modal.Title>{title}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>{children}</Modal.Body>
+    </Modal>
   );
 };
 

@@ -11,9 +11,7 @@ const Sidebar = () => {
     >
       <div className="d-flex justify-content-between flex-column align-items-center py-3 px-3 min-vh-100">
         <div className="text-center">
-          <NavLink to="/">
-            <Icon icon="iconoir:media-image" className="logo mt-1 mb-4 fs-1"/>
-          </NavLink>
+          <Icon icon="iconoir:media-image" className="logo mt-1 mb-4 fs-1" />
           {links.map((link, i) => (
             <NavLink
               to={`/${link.path}`}
@@ -30,7 +28,7 @@ const Sidebar = () => {
         </div>
         <Icon
           icon="ic:outline-power-settings-new"
-          className="fs-2 text-secondary logout"
+          className="fs-2 text-black logout"
           title="logout"
           onClick={() => userService.logout()}
         />

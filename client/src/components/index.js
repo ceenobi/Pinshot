@@ -16,6 +16,7 @@ import SearchTags from "./nav/SearchTags";
 import ImageModal from "./profile/ImageModal";
 import MyModal from "./MyModal";
 import Error from "./Error";
+import PinModal from "./pindetails/PinModal";
 
 export {
   Root,
@@ -36,4 +37,5 @@ export {
   ImageModal,
   MyModal,
   Error,
+  PinModal,
 };

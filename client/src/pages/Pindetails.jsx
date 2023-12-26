@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Col, Image, Row } from "react-bootstrap";
@@ -12,6 +13,7 @@ import {
   MyButton,
   PageLayout,
   PinCard,
+  PinModal,
 } from "../components";
 import { Loading, downloadImage } from "../utils";
 import { tryCatch, useAuthContext } from "../config";
@@ -26,7 +28,11 @@ const Pindetails = () => {
   } = useFetch(pinService.getAPin, pinId);
   const { data: relatedPins } = useFetch(pinService.getRelatedPins, pinId);
   const { loggedInUser, setLoggedInUser } = useAuthContext() || {};
-  const { prevSlide, nextSlide, current } = useCurentSlide(pin?.image?.length);
+  const { prevSlide, nextSlide, current, setCurrent } = useCurentSlide(
+    pin?.image?.length
+  );
+  // const [current, setCurrent] = useState(0);
+  const [showPicModal, setShowPicModal] = useState(false);
   useTitle(pin?.title);
 
   const handleLike = tryCatch(async () => {
@@ -81,10 +87,25 @@ const Pindetails = () => {
                             effect="blur"
                             src={img}
                             alt={pin.title}
-                            className="rounded-4 object-fit-cover"
+                            title='click to view full size'
+                            className="rounded-4 object-fit-cover cursor"
                             width="100%"
                             height="100%"
+                            onClick={() => {
+                              setShowPicModal(true);
+                              setCurrent(i);
+                            }}
                           />
+                          {showPicModal && (
+                            <PinModal
+                              setShowPicModal={setShowPicModal}
+                              showPicModal={showPicModal}
+                              current={current}
+                              pin={pin}
+                              prevSlide={prevSlide}
+                              nextSlide={nextSlide}
+                            />
+                          )}
 
                           {pin?.image?.length > 1 && (
                             <div className="focus-arrowBox">
