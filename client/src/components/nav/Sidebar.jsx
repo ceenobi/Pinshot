@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { Nav } from "react-bootstrap";
 import { Icon } from "@iconify/react";
 import { links } from "../../utils";
 import { userService } from "../../services";
@@ -22,9 +23,18 @@ const Sidebar = () => {
               title={link.label}
             >
               <div className="fs-3 mb-0">{link.icon}</div>
-              <p style={{ fontSize: "13px" }}>{link.label}</p>
+              <p style={{ fontSize: "14px" }}>{link.label}</p>
             </NavLink>
           ))}
+          <Nav.Link
+            href="https://github.com/ceenobi/Pinshot"
+            target="_blank"
+            rel="noreferrer"
+            className="my-4"
+          >
+            <Icon icon="ri:github-fill" className="fs-3 mb-0" />
+            <p style={{ fontSize: "14px" }}>Github</p>
+          </Nav.Link>
         </div>
         <Icon
           icon="ic:outline-power-settings-new"

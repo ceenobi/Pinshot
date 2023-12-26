@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Icon } from "@iconify/react";
-import { Image, Offcanvas, Stack } from "react-bootstrap";
+import { Image, Offcanvas, Stack, Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { links } from "../../utils";
 import { useAuthContext } from "../../config";
@@ -16,7 +16,7 @@ const SidebarMobile = () => {
     <>
       <Icon
         icon="ant-design:menu-outlined"
-        className="display-3 d-xl-none text-secondary cursor"
+        className="display-1 d-xl-none text-secondary cursor"
         onClick={handleShow}
       />
       <Offcanvas show={show} onHide={handleClose}>
@@ -46,7 +46,7 @@ const SidebarMobile = () => {
                 title={link.label}
                 onClick={handleClose}
               >
-                <div className="fs-2 mb-0">{link.icon}</div>
+                <div className="display-1 mb-0">{link.icon}</div>
                 <p style={{ fontSize: "18px" }}>{link.label}</p>
               </NavLink>
             ))}
@@ -57,12 +57,21 @@ const SidebarMobile = () => {
               }
               onClick={handleClose}
             >
-              <Icon icon="ic:round-person-2" className="fs-1" />
+              <Icon icon="ic:round-person-2" className="display-1" />
               <p style={{ fontSize: "18px" }}>Profile</p>
             </NavLink>
+            <Nav.Link
+              href="https://github.com/ceenobi/Pinshot"
+              target="_blank"
+              rel="noreferrer"
+              className="mt-4"
+            >
+              <Icon icon="ri:github-fill" className="display-1 mb-0" />
+              <p style={{ fontSize: "18px" }}>Github</p>
+            </Nav.Link>
             <Icon
               icon="ic:outline-power-settings-new"
-              className="fs-1 mt-4 logout"
+              className="display-1 mt-4 logout"
               title="logout"
               onClick={() => userService.logout()}
             />

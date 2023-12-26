@@ -79,13 +79,13 @@
 }
 
 a {
-  color: inherit;
+  color: var(--dark100);
   text-decoration: inherit;
   font-weight: 400;
 }
 
 a:hover {
-  color: var(--cream200);
+  color: var(--cream200) !important;
   filter: brightness(50%);
   transition: 0.2s ease-in-out;
 }
