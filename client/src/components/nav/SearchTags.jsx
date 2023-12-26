@@ -46,7 +46,7 @@ const SearchTags = () => {
   }, [location.pathname]);
 
   return (
-    <div className="container position-relative">
+    <div className="container-lg position-relative">
       <div
         className="overflow-x-auto overflow-y-hidden scrollbody"
         style={{ width: "100%" }}

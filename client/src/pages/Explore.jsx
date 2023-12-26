@@ -30,6 +30,8 @@ const Explore = () => {
     }
   };
 
+    const allPins = [...moreData, ...pagedData];
+
   return (
     <PageLayout extra="px-3" style={{ paddingTop: "8rem" }}>
       {error ? (
@@ -37,14 +39,14 @@ const Explore = () => {
       ) : (
         <>
           {loading && <Loading text="Fetching pins..." />}
-          {pagedData?.length > 0 ? (
+          {allPins?.length > 0 ? (
             <ReactInfiniteScroll
-              dataLength={pagedData.length}
+              dataLength={allPins?.length}
               next={fetchMoreData}
               hasMore={hasMore}
             >
               <MasonryLayout>
-                {[...moreData, ...pagedData].map((pin, index) => (
+                {allPins.map((pin, index) => (
                   <PinCard key={index} {...pin} />
                 ))}
               </MasonryLayout>
