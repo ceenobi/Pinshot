@@ -20,7 +20,7 @@ import { tryCatch, useAuthContext } from "../config";
 const Profile = () => {
   const { userName } = useParams();
   const memoizedUserName = useMemo(() => userName, [userName]);
-  const { loggedInUser, setLoggedInUser } = useAuthContext() || {};
+  const { loggedInUser, setLoggedInUser } = useAuthContext();
   const {
     data: user,
     error,

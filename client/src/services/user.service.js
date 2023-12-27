@@ -32,7 +32,7 @@ const verifyUserAccount = async (userId, token) => {
 };
 
 const resendVerificationLink = async (userId) => {
-  return await connect.post(`/api/user/resend-token/${userId}`, userId,{
+  return await connect.post(`/api/user/resend-token/${userId}`, userId, {
     headers: authHeader(),
   });
 };
@@ -73,7 +73,7 @@ const updateProfile = async (userName, email, password, profilePhoto, bio) => {
 
 const logout = async () => {
   localStorage.removeItem("usertoken");
-  window.location.href = "/";
+  window.location.reload();
 };
 
 export default {

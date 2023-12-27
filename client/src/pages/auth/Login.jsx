@@ -22,7 +22,7 @@ const Login = () => {
   const { loggedInUser } = useAuthContext();
   useTitle("Login to Pinshot");
 
-  const from = location.state?.from || "/";
+  const from = location.search ? location.search.split("=")[1] : "/";
 
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
