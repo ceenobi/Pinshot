@@ -1,53 +1,53 @@
 import { authHeader, connect } from "../config";
 
 const getAllPins = async (page = 1) => {
-  return await connect.get(`/api/pin?page=${page}`);
+  return await connect.get(`/pin?page=${page}`);
 };
 
 const getExplorePins = async (page = 1) => {
-  return await connect.get(`/api/pin/random/explore?page=${page}`);
+  return await connect.get(`/pin/random/explore?page=${page}`);
 };
 
 const getSubscribedPins = async (page = 1) => {
-  return await connect.get(`/api/pin/subscribed?page=${page}`, {
+  return await connect.get(`/pin/subscribed?page=${page}`, {
     headers: authHeader(),
   });
 };
 
 const getAPin = async (pinId) => {
-  return await connect.get(`/api/pin/${pinId}`);
+  return await connect.get(`/pin/${pinId}`);
 };
 
 const getRelatedPins = async (pinId) => {
-  return await connect.get(`/api/pin/${pinId}/related`);
+  return await connect.get(`/pin/${pinId}/related`);
 };
 
 const getPinsByUser = async (userId) => {
-  return await connect.get(`/api/pin/${userId}/userpins`, {
+  return await connect.get(`/pin/${userId}/userpins`, {
     headers: authHeader(),
   });
 };
 
 const getPinsLikedByUser = async (userId) => {
-  return await connect.get(`/api/pin/${userId}/likedpins`, {
+  return await connect.get(`/pin/${userId}/likedpins`, {
     headers: authHeader(),
   });
 };
 
 const likeAPin = async (pinId, userId) => {
-  return await connect.put(`/api/pin/like/${pinId}`, userId, {
+  return await connect.put(`/pin/like/${pinId}`, userId, {
     headers: authHeader(),
   });
 };
 const dislikeAPin = async (pinId, userId) => {
-  return await connect.put(`/api/pin/dislike/${pinId}`, userId, {
+  return await connect.put(`/pin/dislike/${pinId}`, userId, {
     headers: authHeader(),
   });
 };
 
 const createAPin = async (title, description, image, tags) => {
   return await connect.post(
-    `/api/pin/create`,
+    `/pin/create`,
     { title, description, image, tags },
     {
       headers: authHeader(),
@@ -57,7 +57,7 @@ const createAPin = async (title, description, image, tags) => {
 
 const updateAPin = async (pinId, title, description, image, tags) => {
   return await connect.patch(
-    `/api/pin/${pinId}`,
+    `/pin/${pinId}`,
     { title, description, image, tags },
     {
       headers: authHeader(),
@@ -66,7 +66,7 @@ const updateAPin = async (pinId, title, description, image, tags) => {
 };
 
 const deleteAPin = async (pinId) => {
-  return await connect.delete(`/api/pin/${pinId}`, {
+  return await connect.delete(`/pin/${pinId}`, {
     headers: authHeader(),
   });
 };

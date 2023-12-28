@@ -1,8 +1,11 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Form, Image } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { Icon } from "@iconify/react";
 import toast from "react-hot-toast";
 import PropTypes from "prop-types";
+import TimeAgo from "timeago-react";
 import Formfields from "../form/Formfields";
 import { registerOptions } from "../../utils";
 import { tryCatch, useAuthContext } from "../../config";
@@ -10,10 +13,7 @@ import MyButton from "../MyButton";
 import { ClipLoader } from "react-spinners";
 import { commentService } from "../../services";
 import { useFetch } from "../../hooks";
-import { Link } from "react-router-dom";
-import { useState } from "react";
 import CommentModal from "./CommentModal";
-import TimeAgo from "timeago-react";
 
 const Comments = ({ pinId }) => {
   const [show, setShow] = useState(false);
@@ -67,6 +67,46 @@ const Comments = ({ pinId }) => {
 
   return (
     <div className="my-5">
+      <div className="d-flex mb-4">
+        <Form
+          className="w-100 d-flex gap-2 align-items-center"
+          onSubmit={handleSubmit(onFormSubmit)}
+        >
+          <Image
+            src={loggedInUser.profilePhoto}
+            roundedCircle
+            style={{ width: "45px", height: "45px" }}
+            alt={loggedInUser.userName}
+            className="object-fit-cover"
+          />
+          <Formfields
+            as="textarea"
+            rows={2}
+            register={register}
+            errors={errors?.comment}
+            registerOptions={registerOptions?.comment}
+            className="w-100 ms-2"
+            id="comment"
+            name="comment"
+            label="Leave a comment... 😃"
+          />
+          <MyButton
+            text={
+              isSubmitting ? (
+                <ClipLoader color="#96b6c5" />
+              ) : (
+                <Icon
+                  icon="mdi:send"
+                  className="fs-2 text-secondary activeIcon"
+                />
+              )
+            }
+            variant="none"
+            type="submit"
+            disabled={isSubmitting}
+          />
+        </Form>
+      </div>
       {error ? (
         <p className="mt-5">{error}</p>
       ) : (
@@ -78,7 +118,7 @@ const Comments = ({ pinId }) => {
           </p>
           {pinComments && pinComments?.length > 0 && (
             <div className="my-4">
-              {pinComments?.slice(0, 5).map((comment) => (
+              {pinComments?.slice(0, 3).map((comment) => (
                 <div className="d-flex flex-wrap gap-1 mb-3" key={comment?._id}>
                   <div className="d-flex gap-2">
                     <Link to={`/profile/${comment?.userId?.userName}`}>
@@ -130,7 +170,7 @@ const Comments = ({ pinId }) => {
                 </div>
               ))}
               {pinComments?.length > 4 && (
-                <p className="text-end cursor" onClick={handleShow}>
+                <p className="text-end cursor activeIcon" onClick={handleShow}>
                   See all comments
                 </p>
               )}
@@ -149,47 +189,6 @@ const Comments = ({ pinId }) => {
           )}
         </>
       )}
-
-      <div className="d-flex">
-        <Form
-          className="w-100 d-flex gap-2 align-items-center"
-          onSubmit={handleSubmit(onFormSubmit)}
-        >
-          <Image
-            src={loggedInUser.profilePhoto}
-            roundedCircle
-            style={{ width: "45px", height: "45px" }}
-            alt={loggedInUser.userName}
-            className="object-fit-cover"
-          />
-          <Formfields
-            as="textarea"
-            rows={2}
-            register={register}
-            errors={errors?.comment}
-            registerOptions={registerOptions?.comment}
-            className="w-100 ms-2"
-            id="comment"
-            name="comment"
-            label="Leave a comment... 😃"
-          />
-          <MyButton
-            text={
-              isSubmitting ? (
-                <ClipLoader color="#96b6c5" />
-              ) : (
-                <Icon
-                  icon="mdi:send"
-                  className="fs-2 text-secondary activeIcon"
-                />
-              )
-            }
-            variant="none"
-            type="submit"
-            disabled={isSubmitting}
-          />
-        </Form>
-      </div>
     </div>
   );
 };

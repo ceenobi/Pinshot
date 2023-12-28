@@ -15,6 +15,7 @@
   --cream200: #f1f0e8;
   --dark100: #1a1a1a;
 }
+
 /* routes transition */
 .fade-enter {
   opacity: 0;

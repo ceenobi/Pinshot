@@ -5,10 +5,10 @@ import { Loading } from "../../utils";
 import MasonryLayout from "../MasonryLayout";
 import PinCard from "../PinCard";
 
-const UserLikedPins = ({ user }) => {
+const UserLikedPins = ({ userId }) => {
   const { data, error, loading } = useFetch(
     pinService.getPinsLikedByUser,
-    user
+    userId
   );
 
   return (
@@ -41,5 +41,5 @@ const UserLikedPins = ({ user }) => {
 export default UserLikedPins;
 
 UserLikedPins.propTypes = {
-  user: PropTypes.string,
+  userId: PropTypes.string,
 };

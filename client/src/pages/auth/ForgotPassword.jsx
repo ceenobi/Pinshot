@@ -1,8 +1,10 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Formfields, LoginRegister } from "../../components";
 import { registerOptions } from "../../utils";
-import { tryCatch } from "../../config";
+import { tryCatch, useAuthContext } from "../../config";
 import { userService } from "../../services";
 import { useTitle } from "../../hooks";
 
@@ -12,7 +14,17 @@ const ForgotPassword = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm();
-  useTitle("Login to Pinshot");
+  const { loggedInUser } = useAuthContext();
+  const navigate = useNavigate();
+  useTitle("Forgot password");
+
+  const from = location.search ? location.search.split("=")[1] : "/";
+
+  useEffect(() => {
+    if (loggedInUser) {
+      navigate(from, { replace: true });
+    }
+  }, [from, loggedInUser, navigate]);
 
   const onFormSubmit = tryCatch(async ({ email }) => {
     const { status, data } = await userService.recoverPassword(email);

@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Formfields, LoginRegister } from "../../components";
 import { registerOptions } from "../../utils";
-import { tryCatch } from "../../config";
+import { tryCatch, useAuthContext } from "../../config";
 import { userService } from "../../services";
 import { useTitle } from "../../hooks";
 
@@ -12,13 +12,22 @@ const ResetPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { id } = useParams();
   const { token } = useParams();
+  const { loggedInUser } = useAuthContext();
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm();
-  useTitle("Login to Pinshot");
+  useTitle("Reset password");
+
+  const from = location.search ? location.search.split("=")[1] : "/";
+
+  useEffect(() => {
+    if (loggedInUser) {
+      navigate(from, { replace: true });
+    }
+  }, [from, loggedInUser, navigate]);
 
   const togglePassword = () => {
     setShowPassword((prev) => !prev);

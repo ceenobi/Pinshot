@@ -47,7 +47,7 @@ const SidebarMobile = () => {
                 onClick={handleClose}
               >
                 <div className="display-1 mb-0">{link.icon}</div>
-                <p style={{ fontSize: "18px" }}>{link.label}</p>
+                <p style={{ fontSize: "14px" }}>{link.label}</p>
               </NavLink>
             ))}
             <NavLink
@@ -58,7 +58,7 @@ const SidebarMobile = () => {
               onClick={handleClose}
             >
               <Icon icon="ic:round-person-2" className="display-1" />
-              <p style={{ fontSize: "18px" }}>Profile</p>
+              <p style={{ fontSize: "14px" }}>Profile</p>
             </NavLink>
             <Nav.Link
               href="https://github.com/ceenobi/Pinshot"
@@ -67,7 +67,7 @@ const SidebarMobile = () => {
               className="mt-4"
             >
               <Icon icon="ri:github-fill" className="display-1 mb-0" />
-              <p style={{ fontSize: "18px" }}>Github</p>
+              <p style={{ fontSize: "14px" }}>Github</p>
             </Nav.Link>
             <Icon
               icon="ic:outline-power-settings-new"

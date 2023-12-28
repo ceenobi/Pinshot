@@ -9,10 +9,10 @@ import MasonryLayout from "../MasonryLayout";
 import ImageModal from "./ImageModal";
 import { tryCatch } from "../../config";
 
-const UserPins = ({ user }) => {
+const UserPins = ({ userId }) => {
   const { data, error, loading, setData } = useFetch(
     pinService.getPinsByUser,
-    user
+    userId
   );
   const imgSlide = data.pins?.map((item) => item.image);
   const imgLength = imgSlide?.length;
@@ -28,7 +28,7 @@ const UserPins = ({ user }) => {
   const deletePinPost = tryCatch(async (pinId) => {
     const res = await pinService.deleteAPin(pinId);
     toast.success(res.data);
-    const { data } = await pinService.getPinsByUser(user._id);
+    const { data } = await pinService.getPinsByUser(userId);
     setData(data);
   });
 
@@ -83,5 +83,5 @@ const UserPins = ({ user }) => {
 export default UserPins;
 
 UserPins.propTypes = {
-  user: PropTypes.string,
+  userId: PropTypes.string,
 };

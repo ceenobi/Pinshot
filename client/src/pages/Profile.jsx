@@ -28,8 +28,8 @@ const Profile = () => {
     setData,
   } = useFetch(userService.getUserProfile, memoizedUserName);
   const [isloading, setIsLoading] = useState(false);
-  const memoizedUser = useMemo(() => user, [user]);
-  useTitle(`${memoizedUser?.userName} profile`);
+  const userId = useMemo(() => user?._id, [user?._id]);
+  useTitle(`${user?.userName} profile`);
 
   const follow = tryCatch(async (userId) => {
     const res = await userService.followUser(userId, loggedInUser._id);
@@ -84,35 +84,33 @@ const Profile = () => {
                     roundedCircle
                     className="mb-2 object-fit-cover"
                   />
-                  <EditProfileModal user={memoizedUser} setData={setData} />
+                  <EditProfileModal user={user} setData={setData} />
                 </div>
                 <div>
                   <div className="mb-0 d-flex flex-wrap align-items-center justify-content-center justify-content-md-start gap-2">
-                    <span className="fs-4 fw-bold">
-                      @{memoizedUser?.userName}
-                    </span>
+                    <span className="fs-4 fw-bold">@{user?.userName}</span>
                     <div className="d-flex flex-wrap align-items-center gap-2">
                       <span className="text-secondary">
                         {" "}
-                        * {memoizedUser?.subscribedUsers?.length} followers
+                        * {user?.subscribedUsers?.length} followers
                       </span>
                       <span className="text-secondary">
                         {" "}
-                        * {memoizedUser?.subscribers} following
+                        * {user?.subscribers} following
                       </span>
                     </div>
                   </div>
-                  <p className="mb-1">{memoizedUser?.email}</p>
+                  <p className="mb-1">{user?.email}</p>
                   <div className="mb-2 d-md-flex gap-2">
-                    {loggedInUser._id === memoizedUser?._id && (
+                    {loggedInUser._id === user?._id && (
                       <>
                         <p className="fw-bold mb-0">Account verification:</p>
                         <span>
-                          {memoizedUser?.isVerified === true
+                          {user?.isVerified === true
                             ? "Verified"
                             : "Not verified"}
                         </span>
-                        {!memoizedUser?.isVerified && (
+                        {!user?.isVerified && (
                           <MyButton
                             text={isloading ? "Sending..." : "Resend link"}
                             className="mx-2 rounded-4"
@@ -123,12 +121,12 @@ const Profile = () => {
                     )}
                   </div>
                   <p className="mb-0">
-                    <b>Bio:</b> {memoizedUser?.bio}
+                    <b>Bio:</b> {user?.bio}
                   </p>
                   <p>
-                    <b>Member since:</b> {format(memoizedUser?.createdAt)}
+                    <b>Member since:</b> {format(user?.createdAt)}
                   </p>
-                  {loggedInUser._id !== memoizedUser?._id && (
+                  {loggedInUser._id !== user?._id && (
                     <Button
                       variant="none"
                       style={{
@@ -137,15 +135,13 @@ const Profile = () => {
                       }}
                       className="border-0 fw-bold rounded-4 p-2 btn-style"
                       onClick={
-                        loggedInUser.subscribedUsers?.includes(
-                          memoizedUser?._id
-                        )
+                        loggedInUser.subscribedUsers?.includes(user?._id)
                           ? () => unfollow(user?._id)
                           : () => follow(user?._id)
                       }
                     >
                       <Icon icon="mdi:bell" className="me-1" />
-                      {loggedInUser.subscribedUsers?.includes(memoizedUser?._id)
+                      {loggedInUser.subscribedUsers?.includes(user?._id)
                         ? "Unfollow"
                         : "Follow"}
                     </Button>
@@ -159,13 +155,13 @@ const Profile = () => {
                 justify
               >
                 <Tab eventKey="user" title="Pins">
-                  <UserPins user={memoizedUser?._id} />
+                  <UserPins userId={userId} />
                 </Tab>
                 <Tab eventKey="likedpins" title="Liked pins">
-                  <UserLikedPins user={memoizedUser?._id} />
+                  <UserLikedPins userId={userId} />
                 </Tab>
                 <Tab eventKey="Subscribedusers" title="Followers">
-                  <SubscribedUsers user={memoizedUser?._id} />
+                  <SubscribedUsers userId={userId} />
                 </Tab>
               </Tabs>
             </div>

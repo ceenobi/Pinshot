@@ -5,12 +5,12 @@ import { Loading } from "../../utils";
 import { Col, Image, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const SubscribedUsers = ({ user }) => {
+const SubscribedUsers = ({ userId }) => {
   const {
     data: followers,
     error,
     loading,
-  } = useFetch(userService.getSubscribedUsers, user);
+  } = useFetch(userService.getSubscribedUsers, userId);
 
   return (
     <div>
@@ -28,7 +28,7 @@ const SubscribedUsers = ({ user }) => {
                     {followers.map((follower) => (
                       <Col key={follower._id} xs={6} md={2}>
                         <div
-                          style={{ width: "80px", height: "80px" }}
+                          style={{ width: "50px", height: "50px" }}
                           className="mx-auto"
                         >
                           <Link to={`/profile/${follower.userName}`}>
@@ -61,5 +61,5 @@ const SubscribedUsers = ({ user }) => {
 export default SubscribedUsers;
 
 SubscribedUsers.propTypes = {
-  user: PropTypes.string,
+  userId: PropTypes.string,
 };

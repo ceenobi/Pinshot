@@ -188,7 +188,7 @@ const CreatePin = () => {
           <div className="d-flex justify-content-center justify-content-lg-end px-4">
             <MyButton
               text={isSubmitting ? <ClipLoader color="#96b6c5" /> : "Create"}
-              className="border-0 p-2 me-"
+              className="border-0 p-2 fw-medium"
               size="lg"
               type="submit"
               variant="none"

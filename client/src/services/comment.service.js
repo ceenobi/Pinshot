@@ -2,7 +2,7 @@ import { authHeader, connect } from "../config";
 
 const postComment = async (pinId, comment) => {
   return await connect.post(
-    `/api/comment/${pinId}/add`,
+    `/comment/${pinId}/add`,
     { comment },
     {
       headers: authHeader(),
@@ -10,22 +10,22 @@ const postComment = async (pinId, comment) => {
   );
 };
 const getPinComments = async (pinId) => {
-  return await connect.get(`/api/comment/${pinId}`, {
+  return await connect.get(`/comment/${pinId}`, {
     headers: authHeader(),
   });
 };
 const likeAComment = async (commentId, userId) => {
-  return await connect.put(`/api/comment/${commentId}/like`, userId, {
+  return await connect.put(`/comment/${commentId}/like`, userId, {
     headers: authHeader(),
   });
 };
 const dislikeAComment = async (commentId, userId) => {
-  return await connect.put(`/api/comment/${commentId}/dislike`, userId, {
+  return await connect.put(`/comment/${commentId}/dislike`, userId, {
     headers: authHeader(),
   });
 };
 const deleteAComment = async (commentId) => {
-  return await connect.delete(`/api/comment/${commentId}`, {
+  return await connect.delete(`/comment/${commentId}`, {
     headers: authHeader(),
   });
 };

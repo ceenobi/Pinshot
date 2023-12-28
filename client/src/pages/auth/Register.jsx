@@ -20,7 +20,7 @@ const Register = () => {
   } = useForm();
   useTitle("Create an account with Pinshot");
 
-  const from = location.state?.from || "/";
+  const from = location.search ? location.search.split("=")[1] : "/";
 
   useEffect(() => {
     if (loggedInUser) {

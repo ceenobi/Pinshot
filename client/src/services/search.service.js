@@ -1,17 +1,17 @@
 import { authHeader, connect } from "../config";
 
 const searchUserOrPins = async (searchQuery) => {
-  return await connect.get(`/api/search?q=${searchQuery}`);
+  return await connect.get(`/search?q=${searchQuery}`);
 };
 const searchPinsByTags = async (tag) => {
-  return await connect.get(`/api/search/pin/tag?q=${tag}`);
+  return await connect.get(`/search/pin/tag?q=${tag}`);
 };
 
 const getAllTags = async () => {
-  return await connect.get(`/api/search/tags`);
+  return await connect.get(`/search/tags`);
 };
 const deleteATag = async (pinId) => {
-  return await connect.delete(`/api/search/${pinId}/tags`, {
+  return await connect.delete(`/search/${pinId}/tags`, {
     headers: authHeader(),
   });
 };
