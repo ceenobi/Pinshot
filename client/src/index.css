@@ -147,24 +147,6 @@ a:hover {
   right: 0;
   z-index: 2;
 }
-.arrowLeft {
-  position: absolute;
-  top: 50%;
-  left: 5%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
-  color: var(--cream100);
-  transition: all 0.5s ease;
-}
-.arrowRight {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  transform: translate(-50%, -50%);
-  z-index: 2;
-  color: var(--cream100);
-  transition: all 0.5s ease;
-}
 
 .searchbox {
   position: absolute;
@@ -275,12 +257,5 @@ a:hover {
   .pinId-Img:hover .focus-arrowBox,
   .pinId-Img:focus-within .focus-arrowBox {
     opacity: 1;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: var(--color-backgroundDark);
-    color: var(--color-backgroundLight);
   }
 }
