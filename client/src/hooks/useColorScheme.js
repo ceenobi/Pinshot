@@ -8,7 +8,7 @@ const useColorScheme = () => {
     undefined
   );
 
-  const [isDark, setIsDark] = usePersistedState("colorScheme", undefined);
+  const [isDark, setIsDark] = usePersistedState("colorScheme", "false");
 
   const value = useMemo(
     () => (isDark === undefined ? systemPrefersDark : isDark),

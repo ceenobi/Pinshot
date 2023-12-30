@@ -19,7 +19,7 @@ const LoginRegister = ({
     >
       <Form
         className={`form shadow-lg ${
-          isDark ? "bg-dark" : "bg-light"
+          isDark ? "bg-dark" : "bg-secondary"
         } bg-opacity-75`}
         onSubmit={onSubmit}
       >

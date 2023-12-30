@@ -94,7 +94,7 @@ const SearchResult = ({ searchQuery, setResultBox }) => {
                     </div>
                   </>
                 ) : (
-                  <p className="fs-6 mt-5 text-center">
+                  <p className="fs-6 mt-5 text-center text-black">
                     Sorry we could not find any available result for{" "}
                     <span className="fw-bold">
                       &quot;{searchQuery}

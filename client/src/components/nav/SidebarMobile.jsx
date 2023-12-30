@@ -16,7 +16,7 @@ const SidebarMobile = () => {
     <>
       <Icon
         icon="ant-design:menu-outlined"
-        className="display-1 d-xl-none cursor"
+        className="display-3 d-xl-none cursor"
         onClick={handleShow}
       />
       <Offcanvas
@@ -58,7 +58,7 @@ const SidebarMobile = () => {
                 title={link.label}
                 onClick={handleClose}
               >
-                <div className="display-1 mb-0">{link.icon}</div>
+                <div className="display-3 mb-0">{link.icon}</div>
                 <p style={{ fontSize: "14px" }}>{link.label}</p>
               </NavLink>
             ))}
@@ -78,12 +78,12 @@ const SidebarMobile = () => {
               rel="noreferrer"
               className="mt-4"
             >
-              <Icon icon="ri:github-fill" className="display-1 mb-0" />
+              <Icon icon="ri:github-fill" className="display-3 mb-0" />
               <p style={{ fontSize: "14px" }}>Github</p>
             </Nav.Link>
             <Icon
               icon="ic:outline-power-settings-new"
-              className="display-1 mt-4 logout"
+              className="display-3 mt-4 logout"
               title="logout"
               onClick={() => userService.logout()}
             />
