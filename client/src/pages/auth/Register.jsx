@@ -56,7 +56,7 @@ const Register = () => {
         register={register}
         errors={errors?.userName}
         registerOptions={registerOptions?.userName}
-        className="my-4"
+        className="my-4 text-black"
         id="userName"
         name="userName"
         label="Username"
@@ -68,7 +68,7 @@ const Register = () => {
         register={register}
         errors={errors?.email}
         registerOptions={registerOptions?.email}
-        className="my-4"
+        className="my-4 text-black"
         id="email"
         name="email"
         label="Email"
@@ -79,7 +79,7 @@ const Register = () => {
         register={register}
         errors={errors?.password}
         registerOptions={registerOptions?.password}
-        className="my-4 position-relative"
+        className="my-4 position-relative text-black"
         id="password"
         name="password"
         label="Password"
