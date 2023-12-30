@@ -3,11 +3,14 @@ import { Nav } from "react-bootstrap";
 import { Icon } from "@iconify/react";
 import { links } from "../../utils";
 import { userService } from "../../services";
+import { useAuthContext } from "../../config";
 
 const Sidebar = () => {
+  const { loggedInUser } = useAuthContext();
+
   return (
     <div
-      className="d-none d-xl-block desktop-width position-fixed top-0 bg-white"
+      className="d-none d-xl-block desktop-width position-fixed top-0"
       style={{ zIndex: 5 }}
     >
       <div className="d-flex justify-content-between flex-column align-items-center py-3 px-3 min-vh-100">
@@ -26,6 +29,15 @@ const Sidebar = () => {
               <p style={{ fontSize: "14px" }}>{link.label}</p>
             </NavLink>
           ))}
+          <NavLink
+            to={`/profile/${loggedInUser?.userName}`}
+            className={({ isActive }) =>
+              isActive ? "activeIcon" : "no-activeIcon"
+            }
+          >
+            <Icon icon="iconamoon:profile-light" className="fs-3" />
+            <p style={{ fontSize: "14px" }}>Profile</p>
+          </NavLink>
           <Nav.Link
             href="https://github.com/ceenobi/Pinshot"
             target="_blank"
@@ -36,12 +48,13 @@ const Sidebar = () => {
             <p style={{ fontSize: "14px" }}>Github</p>
           </Nav.Link>
         </div>
-        <Icon
-          icon="ic:outline-power-settings-new"
-          className="fs-2 text-black logout"
-          title="logout"
-          onClick={() => userService.logout()}
-        />
+        <div title="logout" type="button">
+          <Icon
+            icon="ic:outline-power-settings-new"
+            className="fs-2 logout"
+            onClick={() => userService.logout()}
+          />
+        </div>
       </div>
     </div>
   );

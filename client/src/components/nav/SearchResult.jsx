@@ -51,13 +51,13 @@ const SearchResult = ({ searchQuery, setResultBox }) => {
                 {result?.length > 0 ? (
                   <>
                     <div className="mb-2">
-                      <h1 className="fs-6">
+                      <h1 className="fs-6 text-black">
                         We found {result?.length} results
                       </h1>
                       {searchResult.slice(0, 10).map((pin) => (
                         <div
                           key={pin._id}
-                          className="d-flex align-items-center flex-wrap gap-2 mb-2 p-2 hovershade"
+                          className="d-flex align-items-center gap-2 mb-2 p-2 hovershade"
                           onClick={() => setResultBox(false)}
                         >
                           <Link
@@ -108,7 +108,7 @@ const SearchResult = ({ searchQuery, setResultBox }) => {
         )}
         {result?.length > 10 && (
           <p
-            className="position-absolute top-100 start-50 translate-middle cursor"
+            className="position-absolute top-100 start-50 translate-middle cursor text-black"
             onClick={() => {
               navigate(`search/?query=${searchQuery}`);
               setResultBox(false);

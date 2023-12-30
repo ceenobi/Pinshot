@@ -8,7 +8,7 @@ import { userService } from "../../services";
 
 const SidebarMobile = () => {
   const [show, setShow] = useState(false);
-  const { loggedInUser } = useAuthContext();
+  const { loggedInUser, isDark } = useAuthContext();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -16,11 +16,18 @@ const SidebarMobile = () => {
     <>
       <Icon
         icon="ant-design:menu-outlined"
-        className="display-1 d-xl-none text-secondary cursor"
+        className="display-1 d-xl-none cursor"
         onClick={handleShow}
       />
-      <Offcanvas show={show} onHide={handleClose}>
-        <Offcanvas.Header closeButton>
+      <Offcanvas
+        show={show}
+        onHide={handleClose}
+        style={{
+          backgroundColor: isDark ? "var(--color-backgroundDark)" : "white",
+          color: isDark ? "var(--color-backgroundLight)" : "black",
+        }}
+      >
+        <Offcanvas.Header>
           <Offcanvas.Title className="text-capitalize">
             <Stack direction="horizontal" className="align-items-center">
               <Image
@@ -33,6 +40,11 @@ const SidebarMobile = () => {
               <span>Hi, {loggedInUser?.userName}</span>
             </Stack>
           </Offcanvas.Title>
+          <Icon
+            icon="line-md:menu-to-close-alt-transition"
+            className="display-6 cursor"
+            onClick={handleClose}
+          />
         </Offcanvas.Header>
         <Offcanvas.Body>
           <div className="text-center">
@@ -57,7 +69,7 @@ const SidebarMobile = () => {
               }
               onClick={handleClose}
             >
-              <Icon icon="ic:round-person-2" className="display-1" />
+              <Icon icon="iconamoon:profile-light" className="display-1" />
               <p style={{ fontSize: "14px" }}>Profile</p>
             </NavLink>
             <Nav.Link

@@ -58,7 +58,7 @@ const Search = () => {
           {loading ? (
             <Loading text="Searching..." />
           ) : (
-            <div>
+            <div className="py-2">
               {result && result?.length > 0 ? (
                 <>
                   <MasonryLayout>
@@ -69,39 +69,35 @@ const Search = () => {
                   {filterProfile?.length > 0 && (
                     <>
                       <hr />
-                      <Row className="my-3">
-                        <Col xs={4} md={2}>
-                          <div className="d-flex gap-4">
-                            {filterProfile.map((user) => (
-                              <div
-                                style={{ width: "50px", height: "50px" }}
-                                key={user._id}
-                              >
-                                <Link to={`/profile/${user.userName}`}>
-                                  <Image
-                                    src={user.profilePhoto}
-                                    className="rounded-4 object-fit-cover w-100 h-100"
-                                    roundedCircle
-                                  />
-                                </Link>
-                                <div className="text-center">
-                                  <Link
-                                    to={`/profile/${user.userName}`}
-                                    className="text-black"
-                                  >
-                                    {user.userName}
-                                  </Link>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </Col>
+                      <Row className="gy-3">
+                        {filterProfile.map((user) => (
+                          <Col xs={6} md={2} key={user._id}>
+                            <div
+                              style={{ width: "50px", height: "50px" }}
+                              className="mx-auto"
+                            >
+                              <Link to={`/profile/${user.userName}`}>
+                                <Image
+                                  src={user.profilePhoto}
+                                  className="object-fit-cover w-100 h-100"
+                                  roundedCircle
+                                  alt={user.userName}
+                                />
+                              </Link>
+                            </div>
+                            <div className="text-center">
+                              <Link to={`/profile/${user.userName}`}>
+                                {user.userName}
+                              </Link>
+                            </div>
+                          </Col>
+                        ))}
                       </Row>
                     </>
                   )}
                 </>
               ) : (
-                <p className="fs-6 mt-5">
+                <p className="fs-6 mt-5 text-black">
                   Sorry we could not find any available result for{" "}
                   <span className="fw-bold">
                     &quot;{query}

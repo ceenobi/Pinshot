@@ -96,6 +96,20 @@ const Pindetails = () => {
                               setCurrent(i);
                             }}
                           />
+                          <div
+                            title="expand image"
+                            className="position-absolute top-0 end-0 p-2"
+                          >
+                            <Icon
+                              icon="material-symbols:expand-content"
+                              className="cursor fs-3"
+                              style={{ color: "var(--blue200)" }}
+                              onClick={() => {
+                                setShowPicModal(true);
+                                setCurrent(i);
+                              }}
+                            />
+                          </div>
                           {showPicModal && (
                             <PinModal
                               setShowPicModal={setShowPicModal}
@@ -182,7 +196,6 @@ const Pindetails = () => {
                       <Link
                         to={`/profile/${pin.userId?.userName}`}
                         className="fs-6 fw-bold"
-                        style={{ color: "var(--dark100)" }}
                       >
                         {pin.userId?.userName}
                       </Link>

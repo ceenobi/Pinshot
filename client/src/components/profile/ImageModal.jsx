@@ -57,7 +57,7 @@ const ImageModal = ({
                   <MyButton
                     text="Delete pin"
                     style={{ backgroundColor: "var(--blue200)" }}
-                    className="border-0"
+                    className="border-0 fw-medium"
                     onClick={() => deletePost(item._id)}
                   />
                 </div>

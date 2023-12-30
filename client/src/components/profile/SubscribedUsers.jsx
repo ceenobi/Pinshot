@@ -40,7 +40,7 @@ const SubscribedUsers = ({ userId }) => {
                             />
                           </Link>
                         </div>
-                        <p className="text-center text-black">
+                        <p className="text-center">
                           {follower.userName}
                         </p>
                       </Col>

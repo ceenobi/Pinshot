@@ -14,6 +14,28 @@
   --cream100: #f1d3a4;
   --cream200: #f1f0e8;
   --dark100: #1a1a1a;
+  --color-backgroundLight: #fafafa;
+  --color-backgroundDark: #0f1212;
+}
+
+body.dark {
+  background-color: var(--color-backgroundDark);
+  color: var(--color-backgroundLight);
+  --image-grayscale: 20%;
+  --image-opacity: 90%;
+  --color-Light: #fafafa;
+  --color-Dark: #0b0c0c;
+}
+
+img {
+  filter: grayscale(var(--image-grayscale)) opacity(var(--image-opacity)) !important;
+}
+p {
+  color: var(--color-Light) !important;
+}
+
+.cursor {
+  cursor: pointer;
 }
 
 /* routes transition */
@@ -42,19 +64,16 @@
   min-height: 100vh;
 }
 /* general */
-.cursor {
-  cursor: pointer;
-}
 .activeIcon {
-  color: var(--blue200);
+  color: var(--blue200) !important;
   font-weight: 700;
   will-change: filter;
   cursor: pointer;
 }
 
 .activeIcon:hover {
-  color: var(--cream200);
-  transition: 0.2s ease-in-out;
+  color: var(--cream200) !important;
+  transition: 0.3s ease-in-out;
   filter: brightness(50%);
 }
 
@@ -64,7 +83,7 @@
 
 .logout:hover {
   color: var(--cream200);
-  transition: 0.2s ease-in-out;
+  transition: 0.3s ease-in-out;
   filter: brightness(50%);
   cursor: pointer;
 }
@@ -80,13 +99,13 @@
 }
 
 a {
-  color: var(--dark100);
+  color: inherit !important;
   text-decoration: inherit;
   font-weight: 400;
 }
 
 a:hover {
-  color: var(--cream200) !important;
+  color: var(--cream200);
   filter: brightness(50%);
   transition: 0.2s ease-in-out;
 }
@@ -94,7 +113,6 @@ a:hover {
 .form {
   width: 90%;
   padding: 2rem;
-  background-color: var(--blue200);
   border-radius: 15px;
 }
 
@@ -257,5 +275,12 @@ a:hover {
   .pinId-Img:hover .focus-arrowBox,
   .pinId-Img:focus-within .focus-arrowBox {
     opacity: 1;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: var(--color-backgroundDark);
+    color: var(--color-backgroundLight);
   }
 }

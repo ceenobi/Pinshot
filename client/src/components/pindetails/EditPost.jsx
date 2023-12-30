@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Modal, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
 import toast from "react-hot-toast";
@@ -10,6 +10,7 @@ import ImageUpload from "../ImageUpload";
 import { pinService, searchService } from "../../services";
 import { tryCatch, uploadToCloudinary } from "../../config";
 import MyButton from "../MyButton";
+import MyModal from "../MyModal";
 
 const EditPost = ({ pin, setData }) => {
   const [show, setShow] = useState(false);
@@ -83,102 +84,93 @@ const EditPost = ({ pin, setData }) => {
       <p className="text-end cursor" onClick={handleShow}>
         Edit post
       </p>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit post</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit(onFormSubmit)}>
-            <Formfields
-              register={register}
-              errors={errors?.title}
-              registerOptions={registerOptions?.title}
-              className="my-4"
-              id="title"
-              name="title"
-              label="Title"
-              autoFocus={true}
-              type="text"
-              placeholder="Title"
-            />
-            <Formfields
-              register={register}
-              errors={errors?.description}
-              registerOptions={registerOptions?.description}
-              as="textarea"
-              rows={2}
-              className="my-4"
-              id="description"
-              name="description"
-              label="Description"
-              placeholder="Description"
-            />
-            <ImageUpload
-              id="image"
-              name="image"
-              title="Upload images"
-              multiple={true}
-              register={register}
-              // errors={errors?.image}
-              // registerOptions={registerOptions}
-            />
-            <div className="my-4">
-              <div className="w-100 d-flex gap-4 align-items-center">
-                <Form.Group controlId="tags" className="w-100 mb-4">
-                  <Form.Label>Tags</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="tags"
-                    size="lg"
-                    className="w-100"
-                    value={tag}
-                    onChange={(e) => setTag(e.target.value)}
-                  />
-                </Form.Group>
-                <span onClick={addTag} className="fw-bold cursor">
-                  Add
-                </span>
-              </div>
-              <div className="d-flex gap-2 mb-3 flex-wrap">
-                {filterTags?.map((tag, i) => (
-                  <div
-                    key={i}
-                    className="d-flex flex-wrap align-items-center gap-3 py-2 px-3 rounded-3 text-white"
-                    style={{ backgroundColor: "var(--dark100)" }}
-                  >
-                    <span className="fs-6">{tag}</span>
-                    <span
-                      onClick={
-                        pin.tags?.length > 0
-                          ? deletePinTag
-                          : () => deleteInputTag(i)
-                      }
-                      className="text-white activeIcon"
-                      title="delete tag"
-                    >
-                      x
-                    </span>
-                  </div>
-                ))}
-              </div>
+      <MyModal show={show} handleClose={handleClose} title="Edit post">
+        <Form onSubmit={handleSubmit(onFormSubmit)}>
+          <Formfields
+            register={register}
+            errors={errors?.title}
+            registerOptions={registerOptions?.title}
+            className="my-4"
+            id="title"
+            name="title"
+            label="Title"
+            autoFocus={true}
+            type="text"
+            placeholder="Title"
+          />
+          <Formfields
+            register={register}
+            errors={errors?.description}
+            registerOptions={registerOptions?.description}
+            as="textarea"
+            rows={2}
+            className="my-4"
+            id="description"
+            name="description"
+            label="Description"
+            placeholder="Description"
+          />
+          <ImageUpload
+            id="image"
+            name="image"
+            title="Upload images"
+            multiple={true}
+            register={register}
+          />
+          <div className="my-4">
+            <div className="w-100 d-flex gap-4 align-items-center">
+              <Form.Group controlId="tags" className="w-100">
+                <Form.Label className="">Tags</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="tags"
+                  size="lg"
+                  className="w-100"
+                  value={tag}
+                  onChange={(e) => setTag(e.target.value)}
+                />
+                <p className="small">Add a single tag per time</p>
+              </Form.Group>
+              <span onClick={addTag} className="fw-bold cursor activeIcon">
+                Add
+              </span>
             </div>
-            <MyButton
-              text={isSubmitting ? <ClipLoader color="#96b6c5" /> : "Update"}
-              className="border-0 p-2 me-"
-              size="lg"
-              type="submit"
-              variant="none"
-              style={{
-                backgroundColor: "var(--cream100)",
-                color: "var(--dark100)",
-                height: "50px",
-                width: "100%",
-              }}
-              disabled={isSubmitting}
-            />
-          </Form>
-        </Modal.Body>
-      </Modal>
+            <div className="d-flex gap-2 mb-3 flex-wrap">
+              {filterTags?.map((tag, i) => (
+                <div
+                  key={i}
+                  className="d-flex flex-wrap align-items-center gap-2 py-2 px-3 rounded-4 text-white activeIcon"
+                  style={{ backgroundColor: "var(--blue200)" }}
+                  onClick={
+                    pin.tags?.length > 0
+                      ? deletePinTag
+                      : () => deleteInputTag(i)
+                  }
+                >
+                  <span className="fs-6">{tag}</span>
+                  <span className="text-white" title="delete tag">
+                    x
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <MyButton
+            text={isSubmitting ? <ClipLoader color="#96b6c5" /> : "Update"}
+            className="border-0 p-2 fw-medium"
+            size="lg"
+            type="submit"
+            variant="none"
+            style={{
+              backgroundColor: "var(--cream100)",
+              color: "var(--dark100)",
+              height: "50px",
+              width: "100%",
+            }}
+            disabled={isSubmitting}
+          />
+        </Form>
+      </MyModal>
     </>
   );
 };

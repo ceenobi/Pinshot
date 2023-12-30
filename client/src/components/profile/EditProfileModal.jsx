@@ -8,7 +8,7 @@ import Formfields from "../form/Formfields";
 import MyButton from "../MyButton";
 import { registerOptions } from "../../utils";
 import { ClipLoader } from "react-spinners";
-import { tryCatch, uploadToCloudinary } from "../../config";
+import { tryCatch, uploadToCloudinary, useAuthContext } from "../../config";
 import { userService } from "../../services";
 import ImageUpload from "../ImageUpload";
 import MyModal from "../MyModal";
@@ -17,6 +17,7 @@ const EditProfileModal = ({ user, setData }) => {
   const [show, setShow] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { isDark } = useAuthContext();
   const {
     register,
     handleSubmit,
@@ -92,9 +93,10 @@ const EditProfileModal = ({ user, setData }) => {
             type="email"
             placeholder="Email"
           />
+          {isDark && <p className="mb-0">Password</p>}
           <Formfields
             register={register}
-            className="my-4 position-relative"
+            className="my-2 position-relative"
             id="password"
             name="password"
             label="Password"

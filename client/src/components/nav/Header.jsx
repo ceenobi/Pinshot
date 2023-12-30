@@ -1,20 +1,20 @@
-import { Link, NavLink, useLocation } from "react-router-dom";
-import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import { Icon } from "@iconify/react";
 import { Button, Form, Image, InputGroup, Fade } from "react-bootstrap";
 import SidebarMobile from "./SidebarMobile";
 import { useAuthContext } from "../../config";
 import PageLayout from "../PageLayout";
 import SearchResult from "./SearchResult";
 import SearchTags from "./SearchTags";
+import { ColorSchemeToggle } from "../../utils";
 
 const Header = () => {
-  const { loggedInUser } = useAuthContext();
+  const { loggedInUser, isDark } = useAuthContext();
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [resultBox, setResultBox] = useState(false);
   const location = useLocation();
-
   const paths = ["/", "/trending", "/search/", "/explore"];
   const matchPaths = paths.map((path) => path);
 
@@ -35,21 +35,18 @@ const Header = () => {
 
   return (
     <PageLayout
-      extra="position-fixed top-0 bg-white py-2 px-3"
-      style={{ zIndex: 5 }}
+      extra="position-fixed top-0 py-2 px-3"
+      style={{
+        zIndex: 5,
+        backgroundColor: isDark ? "var(--color-backgroundDark)" : "white",
+      }}
     >
       <>
         <div className="position-relative d-flex justify-content-between align-items-center mb-3 mt-1">
           <SidebarMobile />
-          <NavLink
-            to="/"
-            className="fs-4 fw-bold mx-4 mx-xl-0"
-            title="Pinshot"
-            style={{ color: "var(--dark100)" }}
-          >
+          <NavLink to="/" className="fs-4 fw-bold mx-4 mx-xl-0" title="Pinshot">
             PINSHOT
           </NavLink>
-
           <Form className="w-100" onSubmit={handleSubmit}>
             <InputGroup className="d-none d-md-flex mx-auto w-50 rounded-pill border">
               <Form.Control
@@ -83,28 +80,31 @@ const Header = () => {
               )}
             </InputGroup>
           </Form>
-          <div className="d-flex align-items-center gap-3">
+          <div className="d-flex align-items-center gap-3 gap-lg-4">
+            <ColorSchemeToggle />
             <NavLink
+              to="/create"
               className={({ isActive }) =>
                 isActive ? "activeIcon" : "no-activeIcon"
               }
-              to="/create"
             >
               <Icon icon="fluent:camera-add-24-filled" className="fs-2" />
             </NavLink>
-
-            <Link to={`/profile/${loggedInUser?.userName}`}>
+            <NavLink
+              to={`/profile/${loggedInUser?.userName}`}
+              className="d-none d-md-block "
+            >
               <Image
                 src={loggedInUser?.profilePhoto}
                 roundedCircle
-                className="d-none d-md-block object-fit-cover"
+                className="object-fit-cover"
                 style={{ width: "40px", height: "40px" }}
                 title={loggedInUser?.userName}
               />
-            </Link>
+            </NavLink>
             <Icon
               icon="ic:round-search"
-              className="fs-2 d-md-none text-secondary activeIcon"
+              className="fs-2 d-md-none"
               onClick={() => setShowSearch(!showSearch)}
             />
           </div>
@@ -120,8 +120,12 @@ const Header = () => {
       {showSearch && (
         <>
           <Form
-            className="d-md-none d-flex align-items-center w-100 py-2 px-3 position-fixed top-0 bg-white"
-            style={{ zIndex: 4, transition: "0.3s all" }}
+            className="d-md-none d-flex align-items-center w-100 py-2 px-3 position-fixed top-0"
+            style={{
+              zIndex: 4,
+              transition: "0.3s all",
+              backgroundColor: isDark ? "var(--color-backgroundDark)" : "white",
+            }}
             onSubmit={handleSubmit}
           >
             <Fade in={open}>
@@ -138,16 +142,13 @@ const Header = () => {
                 />
                 <Button variant="none" type="submit">
                   {" "}
-                  <Icon
-                    icon="ic:round-search"
-                    className="fs-2 text-secondary activeIcon"
-                  />
+                  <Icon icon="ic:round-search" className="fs-2 activeIcon" />
                 </Button>
               </InputGroup>
             </Fade>
             <Icon
               icon="material-symbols:close-small"
-              className="cursor fs-2 text-secondary activeIcon"
+              className="cursor fs-2 activeIcon"
               onClick={() => {
                 setShowSearch(!showSearch);
                 setResultBox(false);

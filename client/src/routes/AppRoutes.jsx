@@ -21,7 +21,7 @@ const Root = lazy(() => import("../components/Root"));
 
 const token = localStorage.getItem("usertoken");
 
-const Paths = () => {
+const AppRoutes = () => {
   const routes = [
     {
       path: "/",
@@ -149,4 +149,4 @@ const Paths = () => {
   return <RouterProvider router={router} />;
 };
 
-export default Paths;
+export default AppRoutes;

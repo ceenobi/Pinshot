@@ -29,7 +29,7 @@ const LoginRegister = ({
         {children}
         <MyButton
           text={isSubmitting ? <ClipLoader color="#96b6c5" /> : btnText}
-          className="w-100 border-0 p-2 btn-style"
+          className="w-100 border-0 p-2 fw-medium btn-style"
           size="lg"
           type="submit"
           variant="none"

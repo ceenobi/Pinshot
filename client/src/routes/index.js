@@ -1,4 +1,4 @@
-import Paths from "./Paths";
+import AppRoutes from "./AppRoutes";
 import Protectedroutes from "./Protectedroutes";
 
-export { Paths, Protectedroutes };
+export { AppRoutes, Protectedroutes };

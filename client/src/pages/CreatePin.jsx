@@ -10,7 +10,7 @@ import ImageUpload from "../components/ImageUpload";
 import { Loading, registerOptions } from "../utils";
 import { useFetch, useTitle } from "../hooks";
 import { pinService, searchService } from "../services";
-import { tryCatch, uploadToCloudinary } from "../config";
+import { tryCatch, uploadToCloudinary, useAuthContext } from "../config";
 
 const CreatePin = () => {
   const { data: fetchTags } = useFetch(searchService.getAllTags);
@@ -19,6 +19,7 @@ const CreatePin = () => {
   const [tagArray, setTagArray] = useState([]);
   const [selectTag, setSelectTag] = useState(null);
   const navigate = useNavigate();
+  const { isDark } = useAuthContext();
   const {
     register,
     handleSubmit,
@@ -84,7 +85,7 @@ const CreatePin = () => {
                   className="position-relative mx-auto rounded-5 cursor"
                   style={{ height: "350px", width: "85%" }}
                 >
-                  <div className="position-relative rounded-5 d-flex flex-column justify-content-center align-items-center h-100 bg-secondary-subtle">
+                  <div className="position-relative rounded-5 d-flex flex-column justify-content-center align-items-center h-100 border border-2">
                     <Icon icon="material-symbols:backup" className="fs-1" />
                     <p>Choose a file(s)</p>
                     <p
@@ -106,11 +107,12 @@ const CreatePin = () => {
                 </div>
               </Col>
               <Col lg={6} className="mb-4 px-lg-4">
+                {isDark && <p className="mb-0">Title</p>}
                 <Formfields
                   register={register}
                   errors={errors?.title}
                   registerOptions={registerOptions?.title}
-                  className="my-4"
+                  className={isDark ? "my-2" : "my-4"}
                   id="title"
                   name="title"
                   label="Title"
@@ -118,13 +120,14 @@ const CreatePin = () => {
                   type="text"
                   placeholder="Title"
                 />
+                {isDark && <p className="mb-0">Description</p>}
                 <Formfields
                   register={register}
                   errors={errors?.description}
                   registerOptions={registerOptions?.description}
                   as="textarea"
                   rows={2}
-                  className="my-4"
+                  className={isDark ? "my-2" : "my-4"}
                   id="description"
                   name="description"
                   label="Description"
@@ -149,7 +152,7 @@ const CreatePin = () => {
                 )}
                 <p className="text-center">OR create your tags</p>
                 <div className="w-100 d-flex gap-4 align-items-center">
-                  <Form.Group controlId="tags" className="mb-4 w-100">
+                  <Form.Group controlId="tags" className="w-100">
                     <Form.Label>Tags</Form.Label>
                     <Form.Control
                       type="text"
@@ -159,8 +162,9 @@ const CreatePin = () => {
                       value={tag.toLowerCase()}
                       onChange={(e) => setTag(e.target.value)}
                     />
+                    <p className="small">Add a single tag per time</p>
                   </Form.Group>
-                  <span onClick={addTag} className="fw-bold cursor">
+                  <span onClick={addTag} className="fw-bold cursor activeIcon">
                     Add
                   </span>
                 </div>
@@ -168,15 +172,12 @@ const CreatePin = () => {
                   {tagArray?.map((tag, i) => (
                     <div
                       key={i}
-                      className="d-flex flex-wrap align-items-center gap-2 py-2 px-3 rounded-4 text-white"
+                      className="d-flex flex-wrap align-items-center gap-2 py-2 px-3 rounded-4 text-white activeIcon"
                       style={{ backgroundColor: "var(--blue200)" }}
+                      onClick={() => deleteTag(i)}
                     >
                       <span className="fs-6">{tag}</span>
-                      <span
-                        onClick={() => deleteTag(i)}
-                        className="text-white activeIcon"
-                        title="delete tag"
-                      >
+                      <span className="text-white" title="delete tag">
                         x
                       </span>
                     </div>
@@ -188,7 +189,7 @@ const CreatePin = () => {
           <div className="d-flex justify-content-center justify-content-lg-end px-4">
             <MyButton
               text={isSubmitting ? <ClipLoader color="#96b6c5" /> : "Create"}
-              className="border-0 p-2 fw-medium"
+              className="border-0 p-2 fw-medium btn-style"
               size="lg"
               type="submit"
               variant="none"

@@ -9,13 +9,19 @@ import {
 import toast from "react-hot-toast";
 import { jwtDecode } from "jwt-decode";
 import { userService } from "../services";
+import { useColorScheme } from "../hooks";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [fetchUser, setLoggedInUser] = useState("");
   const loggedInUser = useMemo(() => fetchUser, [fetchUser]);
-  
+  const { isDark, setIsDark } = useColorScheme();
+
+  const toggleColorScheme = () => {
+    setIsDark(!isDark);
+  };
+
   useEffect(() => {
     async function getUser() {
       try {
@@ -54,6 +60,8 @@ export const AuthProvider = ({ children }) => {
       value={{
         loggedInUser,
         setLoggedInUser,
+        toggleColorScheme,
+        isDark,
       }}
     >
       {children}

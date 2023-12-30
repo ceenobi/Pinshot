@@ -11,11 +11,6 @@ const links = [
     path: "explore",
     label: "Explore",
   },
-  // {
-  //   icon: <Icon icon="ic:outline-trending-up" />,
-  //   path: "trending",
-  //   label: "Trending",
-  // },
 ];
 
 // [...file].forEach((file, i) => {
