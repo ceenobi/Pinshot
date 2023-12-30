@@ -30,9 +30,6 @@ body.dark {
 img {
   filter: grayscale(var(--image-grayscale)) opacity(var(--image-opacity)) !important;
 }
-p {
-  color: var(--color-Light) !important;
-}
 
 .cursor {
   cursor: pointer;
