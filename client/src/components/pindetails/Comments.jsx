@@ -6,13 +6,13 @@ import { Icon } from "@iconify/react";
 import toast from "react-hot-toast";
 import PropTypes from "prop-types";
 import TimeAgo from "timeago-react";
-import Formfields from "../form/Formfields";
-import { registerOptions } from "../../utils";
-import { tryCatch, useAuthContext } from "../../config";
-import MyButton from "../MyButton";
 import { ClipLoader } from "react-spinners";
-import { commentService } from "../../services";
-import { useFetch } from "../../hooks";
+import { registerOptions } from "@utils";
+import { tryCatch, useAuthContext } from "@config";
+import { commentService } from "@services";
+import { useFetch } from "@hooks";
+import MyButton from "../MyButton";
+import Formfields from "../form/Formfields";
 import CommentModal from "./CommentModal";
 
 const Comments = ({ pinId }) => {

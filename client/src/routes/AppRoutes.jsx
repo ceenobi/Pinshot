@@ -13,11 +13,11 @@ import {
   Search,
   Trending,
   Explore,
-} from "../pages";
-import { Loading } from "../utils";
+} from "@pages";
+import { Loading } from "@utils";
 import Protectedroutes from "./Protectedroutes";
-import { Error } from "../components";
-const Root = lazy(() => import("../components/Root"));
+import { Error } from "@components";
+const Root = lazy(() => import("@components/Root"));
 
 const token = localStorage.getItem("usertoken");
 

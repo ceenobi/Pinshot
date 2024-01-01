@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Link, useNavigate } from "react-router-dom";
-import { searchService } from "../../services";
 import { Image } from "react-bootstrap";
 import { ClipLoader } from "react-spinners";
+import { searchService } from "@services";
 
 const SearchResult = ({ searchQuery, setResultBox }) => {
   const [result, setResult] = useState([]);

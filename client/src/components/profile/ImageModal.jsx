@@ -1,8 +1,8 @@
 import { Icon } from "@iconify/react";
-import MyButton from "../MyButton";
 import PropTypes from "prop-types";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link } from "react-router-dom";
+import MyButton from "../MyButton";
 import MyModal from "../MyModal";
 
 const ImageModal = ({

@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import toast from "react-hot-toast";
-import { downloadImage } from "../utils";
-import { tryCatch, useAuthContext } from "../config";
-import { pinService } from "../services";
-import { useFetch } from "../hooks";
+import { downloadImage } from "@utils";
+import { tryCatch, useAuthContext } from "@config";
+import { pinService } from "@services";
+import { useFetch } from "@hooks";
 
 const PinCard = ({ _id, title, image }) => {
   const { data, setData } = useFetch(pinService.getAPin, _id);

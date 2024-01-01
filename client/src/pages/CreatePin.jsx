@@ -5,12 +5,12 @@ import { ClipLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { Formfields, MyButton, PageLayout } from "../components";
-import ImageUpload from "../components/ImageUpload";
-import { Loading, registerOptions } from "../utils";
-import { useFetch, useTitle } from "../hooks";
-import { pinService, searchService } from "../services";
-import { tryCatch, uploadToCloudinary, useAuthContext } from "../config";
+import { Formfields, MyButton, PageLayout } from "@components";
+import ImageUpload from "@components/ImageUpload";
+import { Loading, registerOptions } from "@utils";
+import { useFetch, useTitle } from "@hooks";
+import { pinService, searchService } from "@services";
+import { tryCatch, uploadToCloudinary, useAuthContext } from "@config";
 
 const CreatePin = () => {
   const { data: fetchTags } = useFetch(searchService.getAllTags);

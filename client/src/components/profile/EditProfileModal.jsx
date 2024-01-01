@@ -4,12 +4,12 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import PropTypes from "prop-types";
+import { ClipLoader } from "react-spinners";
+import { registerOptions } from "@utils";
+import { tryCatch, uploadToCloudinary, useAuthContext } from "@config";
+import { userService } from "@services";
 import Formfields from "../form/Formfields";
 import MyButton from "../MyButton";
-import { registerOptions } from "../../utils";
-import { ClipLoader } from "react-spinners";
-import { tryCatch, uploadToCloudinary, useAuthContext } from "../../config";
-import { userService } from "../../services";
 import ImageUpload from "../ImageUpload";
 import MyModal from "../MyModal";
 

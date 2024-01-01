@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { MasonryLayout, PageLayout, PinCard } from "../components";
-import { useFetch, useTitle } from "../hooks";
-import { pinService } from "../services";
-import { Loading, ReactInfiniteScroll } from "../utils";
+import { MasonryLayout, PageLayout, PinCard } from "@components";
+import { useFetch, useTitle } from "@hooks";
+import { pinService } from "@services";
+import { Loading, ReactInfiniteScroll } from "@utils";
 
 const Explore = () => {
   const [error, setError] = useState(null);

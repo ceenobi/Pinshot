@@ -1,9 +1,9 @@
 import { NavLink } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 import { Icon } from "@iconify/react";
-import { links } from "../../utils";
-import { userService } from "../../services";
-import { useAuthContext } from "../../config";
+import { links } from "@utils";
+import { userService } from "@services";
+import { useAuthContext } from "@config";
 
 const Sidebar = () => {
   const { loggedInUser } = useAuthContext();

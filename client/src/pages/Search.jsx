@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { Col, Image, Row } from "react-bootstrap";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
-import { searchService } from "../services";
-import { MasonryLayout, PageLayout, PinCard } from "../components";
-import { Loading } from "../utils";
-import { useTitle } from "../hooks";
+import { searchService } from "@services";
+import { MasonryLayout, PageLayout, PinCard } from "@components";
+import { Loading } from "@utils";
+import { useTitle } from "@hooks";
 
 const Search = () => {
   const [searchParams] = useSearchParams();

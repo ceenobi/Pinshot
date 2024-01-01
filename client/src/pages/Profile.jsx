@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import toast from "react-hot-toast";
+import { Button, Image, Tab, Tabs } from "react-bootstrap";
 import { format } from "timeago.js";
 import {
   EditProfileModal,
@@ -10,12 +11,11 @@ import {
   SubscribedUsers,
   UserLikedPins,
   UserPins,
-} from "../components";
-import { useFetch, useTitle } from "../hooks";
-import { userService } from "../services";
-import { Loading } from "../utils";
-import { Button, Image, Tab, Tabs } from "react-bootstrap";
-import { tryCatch, useAuthContext } from "../config";
+} from "@components";
+import { useFetch, useTitle } from "@hooks";
+import { userService } from "@services";
+import { Loading } from "@utils";
+import { tryCatch, useAuthContext } from "@config";
 
 const Profile = () => {
   const { userName } = useParams();

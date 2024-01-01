@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { Formfields, LoginRegister } from "../../components";
-import { registerOptions } from "../../utils";
-import { userService } from "../../services";
-import { tryCatch, useAuthContext } from "../../config";
-import { useTitle } from "../../hooks";
+import { Formfields, LoginRegister } from "@components";
+import { registerOptions } from "@utils";
+import { userService } from "@services";
+import { tryCatch, useAuthContext } from "@config";
+import { useTitle } from "@hooks";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);

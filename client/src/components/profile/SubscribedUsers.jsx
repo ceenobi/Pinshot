@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
-import { useFetch } from "../../hooks";
-import { userService } from "../../services";
-import { Loading } from "../../utils";
 import { Col, Image, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useFetch } from "@hooks";
+import { userService } from "@services";
+import { Loading } from "@utils";
 
 const SubscribedUsers = ({ userId }) => {
   const {

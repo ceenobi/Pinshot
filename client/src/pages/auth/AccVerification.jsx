@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
-import { userService } from "../../services";
-import { useFetch } from "../../hooks";
-import { PageLayout } from "../../components";
-import { Loading } from "../../utils";
-import { useAuthContext } from "../../config";
+import { userService } from "@services";
+import { useFetch } from "@hooks";
+import { PageLayout } from "@components";
+import { Loading } from "@utils";
+import { useAuthContext } from "@config";
 
 const AccVerification = () => {
   const { userId } = useParams();

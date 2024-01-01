@@ -2,12 +2,12 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import toast from "react-hot-toast";
-import { useCurentSlide, useFetch } from "../../hooks";
-import { pinService } from "../../services";
-import { Loading } from "../../utils";
+import { useCurentSlide, useFetch } from "@hooks";
+import { pinService } from "@services";
+import { Loading } from "@utils";
+import { tryCatch } from "@config";
 import MasonryLayout from "../MasonryLayout";
 import ImageModal from "./ImageModal";
-import { tryCatch } from "../../config";
 
 const UserPins = ({ userId }) => {
   const { data, error, loading, setData } = useFetch(

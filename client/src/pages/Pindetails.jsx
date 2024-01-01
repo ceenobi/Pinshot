@@ -4,8 +4,8 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Col, Image, Row } from "react-bootstrap";
 import { Icon } from "@iconify/react";
 import toast from "react-hot-toast";
-import { useFetch, useTitle, useCurentSlide } from "../hooks";
-import { pinService, userService } from "../services";
+import { useFetch, useTitle, useCurentSlide } from "@hooks";
+import { pinService, userService } from "@services";
 import {
   Comments,
   EditPost,
@@ -14,9 +14,9 @@ import {
   PageLayout,
   PinCard,
   PinModal,
-} from "../components";
-import { Loading, downloadImage } from "../utils";
-import { tryCatch, useAuthContext } from "../config";
+} from "@components";
+import { Loading, downloadImage } from "@utils";
+import { tryCatch, useAuthContext } from "@config";
 
 const Pindetails = () => {
   const { pinId } = useParams();

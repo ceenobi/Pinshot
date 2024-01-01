@@ -8,8 +8,8 @@ import {
 } from "react";
 import toast from "react-hot-toast";
 import { jwtDecode } from "jwt-decode";
-import { userService } from "../services";
-import { useColorScheme } from "../hooks";
+import { userService } from "@services";
+import { useColorScheme } from "@hooks";
 
 export const AuthContext = createContext();
 

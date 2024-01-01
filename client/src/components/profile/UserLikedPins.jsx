@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
-import { useFetch } from "../../hooks";
-import { pinService } from "../../services";
-import { Loading } from "../../utils";
+import { useFetch } from "@hooks";
+import { pinService } from "@services";
+import { Loading } from "@utils";
 import MasonryLayout from "../MasonryLayout";
 import PinCard from "../PinCard";
 

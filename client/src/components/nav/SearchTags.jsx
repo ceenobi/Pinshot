@@ -1,9 +1,9 @@
 import { useEffect, useState, useMemo } from "react";
 import { Button } from "react-bootstrap";
-import { Icon } from "@iconify/react";
-import { useFetch, useScroll } from "../../hooks";
-import { searchService } from "../../services";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Icon } from "@iconify/react";
+import { useFetch, useScroll } from "@hooks";
+import { searchService } from "@services";
 
 const SearchTags = () => {
   const [tagQuery, setTagQuery] = useState("");
