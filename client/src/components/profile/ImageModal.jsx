@@ -2,6 +2,7 @@ import { Icon } from "@iconify/react";
 import PropTypes from "prop-types";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link } from "react-router-dom";
+import { useAuthContext } from "@config";
 import MyButton from "../MyButton";
 import MyModal from "../MyModal";
 
@@ -14,6 +15,7 @@ const ImageModal = ({
   nextSlide,
   current,
 }) => {
+  const { loggedInUser } = useAuthContext();
   const handleClose = () => setShowPicModal(false);
 
   const deletePost = (pinId) => {
@@ -53,14 +55,16 @@ const ImageModal = ({
                   className="cursor fs-2 activeIcon position-absolute top-50 start-100 translate-middle z-2"
                   onClick={nextSlide}
                 />
-                <div className="my-3 d-flex justify-content-center">
-                  <MyButton
-                    text="Delete pin"
-                    style={{ backgroundColor: "var(--blue200)" }}
-                    className="border-0 fw-medium"
-                    onClick={() => deletePost(item._id)}
-                  />
-                </div>
+                {loggedInUser._id === item.userId && (
+                  <div className="my-3 d-flex justify-content-center">
+                    <MyButton
+                      text="Delete pin"
+                      style={{ backgroundColor: "var(--blue200)" }}
+                      className="border-0 fw-medium"
+                      onClick={() => deletePost(item._id)}
+                    />
+                  </div>
+                )}
               </div>
             )
         )}
