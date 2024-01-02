@@ -47,7 +47,7 @@ const SubscribedUsers = ({ userId }) => {
                     ))}
                   </Row>
                 ) : (
-                  <p>You have no followers yet.</p>
+                  <p>No followers yet.</p>
                 )}
               </>
             )}

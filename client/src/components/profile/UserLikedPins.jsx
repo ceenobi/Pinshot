@@ -28,7 +28,7 @@ const UserLikedPins = ({ userId }) => {
                   ))}
                 </MasonryLayout>
               ) : (
-                <p>You have no pin liked yet.</p>
+                <p>No liked pins yet.</p>
               )}
             </>
           )}

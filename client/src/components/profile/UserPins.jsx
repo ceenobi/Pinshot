@@ -71,7 +71,7 @@ const UserPins = ({ userId }) => {
                   ))}
                 </MasonryLayout>
               ) : (
-                <p>You have no pin posted yet.</p>
+                <p>No available post yet.</p>
               )}
             </>
           )}
