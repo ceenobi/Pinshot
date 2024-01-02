@@ -73,7 +73,7 @@ const updateProfile = async (userName, email, password, profilePhoto, bio) => {
 
 const logout = async () => {
   localStorage.removeItem("usertoken");
-  window.location.reload();
+  window.location.replace("/");
 };
 
 export default {
