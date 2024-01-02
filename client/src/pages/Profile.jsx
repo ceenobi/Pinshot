@@ -19,13 +19,14 @@ import { tryCatch, useAuthContext } from "@config";
 
 const Profile = () => {
   const { userName } = useParams();
+  const memoizedUserName = useMemo(() => userName, [userName]);
+  const { loggedInUser, setLoggedInUser } = useAuthContext();
   const {
     data: user,
     error,
     loading,
     setData,
-  } = useFetch(userService.getUserProfile, userName);
-  const { loggedInUser, setLoggedInUser } = useAuthContext();
+  } = useFetch(userService.getUserProfile, memoizedUserName);
   const [isloading, setIsLoading] = useState(false);
   const userId = useMemo(() => user?._id, [user?._id]);
   useTitle(`${user?.userName} profile`);
@@ -35,7 +36,7 @@ const Profile = () => {
     toast.success(res.data);
     const { data } = await userService.authUser();
     setLoggedInUser(data);
-    const userinfo = await userService.getUserProfile(userName);
+    const userinfo = await userService.getUserProfile(memoizedUserName);
     setData(userinfo.data);
   });
 
@@ -44,7 +45,7 @@ const Profile = () => {
     toast.success(res.data);
     const { data } = await userService.authUser();
     setLoggedInUser(data);
-    const userinfo = await userService.getUserProfile(userName);
+    const userinfo = await userService.getUserProfile(memoizedUserName);
     setData(userinfo.data);
   });
 
