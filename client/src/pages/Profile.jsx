@@ -19,13 +19,13 @@ import { tryCatch, useAuthContext } from "@config";
 
 const Profile = () => {
   const { userName } = useParams();
-  const { loggedInUser, setLoggedInUser } = useAuthContext();
   const {
     data: user,
     error,
     loading,
     setData,
   } = useFetch(userService.getUserProfile, userName);
+  const { loggedInUser, setLoggedInUser } = useAuthContext();
   const [isloading, setIsLoading] = useState(false);
   const userId = useMemo(() => user?._id, [user?._id]);
   useTitle(`${user?.userName} profile`);
