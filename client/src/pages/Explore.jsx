@@ -30,7 +30,7 @@ const Explore = () => {
     }
   };
 
-    const allPins = [...moreData, ...pagedData];
+  const allPins = [...moreData, ...pagedData];
 
   return (
     <PageLayout extra="px-3" style={{ paddingTop: "8rem" }}>
