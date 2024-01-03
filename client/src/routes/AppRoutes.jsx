@@ -132,7 +132,11 @@ const AppRoutes = () => {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Root routes={routes} />,
+      element: (
+        <Suspense fallback={<Loading text="PINSHOT" />}>
+          <Root routes={routes} />
+        </Suspense>
+      ),
       errorElement: <Error />,
       children: routes.map((route) => ({
         index: route.path === "/",
@@ -142,11 +146,7 @@ const AppRoutes = () => {
     },
   ]);
 
-  return (
-    <Suspense fallback={<Loading text="PINSHOT" />}>
-      <RouterProvider router={router} />
-    </Suspense>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default AppRoutes;
