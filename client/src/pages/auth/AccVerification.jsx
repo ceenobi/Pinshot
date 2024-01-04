@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { userService } from "@services";
 import { useFetch } from "@hooks";
-import { PageLayout } from "@components";
+import { PageLayout } from "@layouts";
 import { Loading } from "@utils";
 import { useAuthContext } from "@config";
 

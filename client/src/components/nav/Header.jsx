@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { Button, Form, Image, InputGroup, Fade } from "react-bootstrap";
-import SidebarMobile from "./SidebarMobile";
 import { useAuthContext } from "@config";
 import { ColorSchemeToggle } from "@utils";
-import PageLayout from "../PageLayout";
+import { PageLayout } from "@layouts";
+import SidebarMobile from "./SidebarMobile";
 import SearchResult from "./SearchResult";
 import SearchTags from "./SearchTags";
 

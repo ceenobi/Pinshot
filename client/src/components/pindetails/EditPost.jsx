@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
 import toast from "react-hot-toast";
 import { ClipLoader } from "react-spinners";
-import Formfields from "../form/Formfields";
+import { Formfields } from "@layouts";
 import { registerOptions } from "@utils";
 import { pinService, searchService } from "@services";
 import { tryCatch, uploadToCloudinary } from "@config";

@@ -11,10 +11,10 @@ import {
   EditPost,
   MasonryLayout,
   MyButton,
-  PageLayout,
   PinCard,
   PinModal,
 } from "@components";
+import { PageLayout } from "@layouts";
 import { Loading, downloadImage } from "@utils";
 import { tryCatch, useAuthContext } from "@config";
 

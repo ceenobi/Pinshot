@@ -17,7 +17,7 @@ import {
 import { Loading } from "@utils";
 import Protectedroutes from "./Protectedroutes";
 import { Error } from "@components";
-const Root = lazy(() => import("@components/Root"));
+const Root = lazy(() => import("@layouts/Root"));
 
 const token = localStorage.getItem("usertoken");
 

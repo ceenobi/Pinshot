@@ -8,7 +8,7 @@ import { ClipLoader } from "react-spinners";
 import { registerOptions } from "@utils";
 import { tryCatch, uploadToCloudinary, useAuthContext } from "@config";
 import { userService } from "@services";
-import Formfields from "../form/Formfields";
+import {Formfields} from "@layouts";
 import MyButton from "../MyButton";
 import ImageUpload from "../ImageUpload";
 import MyModal from "../MyModal";

@@ -11,8 +11,8 @@ import { registerOptions } from "@utils";
 import { tryCatch, useAuthContext } from "@config";
 import { commentService } from "@services";
 import { useFetch } from "@hooks";
+import {Formfields} from "@layouts";
 import MyButton from "../MyButton";
-import Formfields from "../form/Formfields";
 import CommentModal from "./CommentModal";
 
 const Comments = ({ pinId }) => {

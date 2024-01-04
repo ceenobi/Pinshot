@@ -7,11 +7,11 @@ import { format } from "timeago.js";
 import {
   EditProfileModal,
   MyButton,
-  PageLayout,
   SubscribedUsers,
   UserLikedPins,
   UserPins,
 } from "@components";
+import { PageLayout } from "@layouts";
 import { useFetch, useTitle } from "@hooks";
 import { userService } from "@services";
 import { Loading } from "@utils";

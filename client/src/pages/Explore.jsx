@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { MasonryLayout, PageLayout, PinCard } from "@components";
+import { MasonryLayout, PinCard } from "@components";
 import { useFetch, useTitle } from "@hooks";
+import { PageLayout } from "@layouts";
 import { pinService } from "@services";
 import { Loading, ReactInfiniteScroll } from "@utils";
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { Formfields, LoginRegister } from "@components";
+import { Formfields, LoginRegister } from "@layouts";
 import { registerOptions } from "@utils";
 import { userService } from "@services";
 import { tryCatch, useAuthContext } from "@config";

@@ -2,8 +2,8 @@ import { useLocation, useOutlet, useParams } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import PropTypes from "prop-types";
-import Header from "./nav/Header";
-import Sidebar from "./nav/Sidebar";
+import Header from "../components/nav/Header";
+import Sidebar from "../components/nav/Sidebar";
 
 const Root = ({ routes }) => {
   const { id } = useParams();
