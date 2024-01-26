@@ -77,34 +77,36 @@ const Search = () => {
                     </Tab>
                     <Tab eventKey="Account" title="Account">
                       {filterProfile?.length > 0 ? (
-                        <>
+                        <div className="d-md-flex flex-wrap gap-3 mt-2">
                           {filterProfile.map((user) => (
-                            <Link
-                              to={`/profile/${user.userName}`}
+                            <div
                               key={user._id}
+                              className="d-flex flex-md-column align-items-center gap-2 mb-2 p-2 hovershade text-center"
                             >
-                              <div className="d-flex align-items-center gap-2 mb-2 p-2 hovershade">
+                              <Link to={`/profile/${user.userName}`}>
                                 <Image
                                   className="rounded-4 object-fit-cover"
                                   src={user.profilePhoto}
                                   alt={user.userName}
                                   loading="lazy"
                                   style={{
-                                    width: "45px",
-                                    height: "45px",
+                                    width: "50px",
+                                    height: "50px",
                                   }}
                                   roundedCircle
                                 />
+                              </Link>
+                              <Link to={`/profile/${user.userName}`}>
                                 <span
                                   to={`/profile/${user.userName}`}
                                   className="fw-bold"
                                 >
                                   {user.userName}
                                 </span>
-                              </div>
-                            </Link>
+                              </Link>
+                            </div>
                           ))}
-                        </>
+                        </div>
                       ) : (
                         <p className="fs-6 mt-5">
                           Sorry we could not find any available result for{" "}

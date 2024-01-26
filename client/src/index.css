@@ -41,12 +41,16 @@ a {
   color: var(--orange100) !important;
   background-color: white !important;
   border: none;
+  border-bottom: 2px solid var(--orange100) !important;
 }
 
 .nav-tabs {
   border-bottom: none !important;
 }
 
+.nav-tabs .nav-link {
+  color: var(--dark100);
+}
 .nav-tabs .nav-link:hover {
   color: gray;
 }

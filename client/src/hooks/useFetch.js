@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 const useFetch = (service, params, extra) => {
-  const [data, setData] = useState([]);
+  const [getData, setData] = useState([]);
   const [pagedData, setPagedData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const data = useMemo(() => getData, [getData]);
 
   useEffect(() => {
     const controller = new AbortController();

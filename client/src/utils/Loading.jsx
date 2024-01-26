@@ -4,7 +4,7 @@ import { BounceLoader } from "react-spinners";
 const Loading = ({ text }) => {
   return (
     <div className="d-flex flex-column gap-2 justify-content-center align-items-center min-vh-100">
-      <BounceLoader color="#ed5b09" />
+      <BounceLoader color="#dd5e14" />
       <p className="fw-medium">{text}</p>
     </div>
   );

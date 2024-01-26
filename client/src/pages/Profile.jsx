@@ -153,7 +153,7 @@ const Profile = () => {
                 defaultActiveKey="user"
                 id="user-profile-tab"
                 className="mt-5"
-                justify
+                fill
               >
                 <Tab eventKey="user" title="Pins" style={{color: "red"}}>
                   <UserPins userId={userId} />
