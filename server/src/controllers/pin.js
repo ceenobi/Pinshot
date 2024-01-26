@@ -1,7 +1,10 @@
 import { isValidObjectId } from "mongoose";
 import createHttpError from "http-errors";
+import NodeCache from "node-cache";
 import { myPinService, myUserService } from "../service/index.js";
 import tryCatch from "../config/tryCatch.js";
+
+const cache = new NodeCache({ stdTTL: 600 });
 
 export const createAPin = tryCatch(async (req, res, next) => {
   const pinParams = req.body;
@@ -69,6 +72,11 @@ export const getSubbedPins = tryCatch(async (req, res, next) => {
   }
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 20;
+  const cacheKey = `subbedPins_${userId}_${page}_${limit}`;
+  const cachedResult = cache.get(cacheKey);
+  if (cachedResult) {
+    return res.status(200).json(cachedResult);
+  }
   const user = await myUserService.getAuthUser(userId);
   if (!user) {
     return next(createHttpError(400, "Invalid user"));
@@ -88,8 +96,38 @@ export const getSubbedPins = tryCatch(async (req, res, next) => {
     totalPages: result.totalPages,
     pins: flattenedPins,
   };
+  cache.set(cacheKey, subbedPins);
   res.status(200).json(subbedPins);
 });
+
+// export const getSubbedPins = tryCatch(async (req, res, next) => {
+//   const { id: userId } = req.user;
+//   if (!isValidObjectId(userId)) {
+//     return next(createHttpError(400, "Invalid user id"));
+//   }
+//   const page = parseInt(req.query.page) || 1;
+//   const limit = parseInt(req.query.limit) || 20;
+//   const user = await myUserService.getAuthUser(userId);
+//   if (!user) {
+//     return next(createHttpError(400, "Invalid user"));
+//   }
+//   const subscribedFeeds = user.subscribedUsers;
+//   const result = await myPinService.getSubbedUserPins(
+//     subscribedFeeds,
+//     userId,
+//     page,
+//     limit
+//   );
+//   const flattenedPins = result.pins
+//     .flat()
+//     .sort((a, b) => b.createdAt - a.createdAt);
+//   const subbedPins = {
+//     currentPage: page,
+//     totalPages: result.totalPages,
+//     pins: flattenedPins,
+//   };
+//   res.status(200).json(subbedPins);
+// });
 
 export const getUserPins = tryCatch(async (req, res, next) => {
   const { id: userId } = req.params;
@@ -134,12 +172,30 @@ export const getAPin = tryCatch(async (req, res, next) => {
   if (!isValidObjectId(pinId)) {
     return next(createHttpError(400, `Invalid pin id: ${pinId}`));
   }
+  const cacheKey = `pin_${pinId}`;
+  const cachedPin = cache.get(cacheKey);
+  if (cachedPin) {
+    return res.status(200).json(cachedPin);
+  }
   const pin = await myPinService.getPin(pinId);
   if (!pin) {
     return next(createHttpError(404, `Pin not found with id: ${pinId}`));
   }
+  cache.set(cacheKey, pin);
   res.status(200).json(pin);
 });
+
+// export const getAPin = tryCatch(async (req, res, next) => {
+//   const { id: pinId } = req.params;
+//   if (!isValidObjectId(pinId)) {
+//     return next(createHttpError(400, `Invalid pin id: ${pinId}`));
+//   }
+//   const pin = await myPinService.getPin(pinId);
+//   if (!pin) {
+//     return next(createHttpError(404, `Pin not found with id: ${pinId}`));
+//   }
+//   res.status(200).json(pin);
+// });
 
 export const getRelatedPins = tryCatch(async (req, res, next) => {
   const { id: pinId } = req.params;

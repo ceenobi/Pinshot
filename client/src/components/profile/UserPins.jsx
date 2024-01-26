@@ -19,7 +19,6 @@ const UserPins = ({ userId }) => {
   const { prevSlide, nextSlide, current, setCurrent } =
     useCurentSlide(imgLength);
   const [showPicModal, setShowPicModal] = useState(false);
-  console.log(data);
 
   const openModal = (i) => {
     setShowPicModal(true);

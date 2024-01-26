@@ -37,7 +37,7 @@ export default function ImageUpload({
           name={name}
           {...register(name, registerOptions)}
           size="lg"
-          accept="image/png, image/jpeg, image/webp"
+          accept="image/*"
           {...props}
           onChange={onChangePicture}
           isInvalid={!!errors}

@@ -8,7 +8,7 @@ import { ClipLoader } from "react-spinners";
 import { registerOptions } from "@utils";
 import { tryCatch, uploadToCloudinary, useAuthContext } from "@config";
 import { userService } from "@services";
-import {Formfields} from "@layouts";
+import { Formfields } from "@layouts";
 import MyButton from "../MyButton";
 import ImageUpload from "../ImageUpload";
 import MyModal from "../MyModal";
@@ -124,14 +124,14 @@ const EditProfileModal = ({ user, setData }) => {
           />
 
           <MyButton
-            text={isSubmitting ? <ClipLoader color="#96b6c5" /> : "Update"}
-            className="w-100 border-0 p-2 mt-2"
+            text={isSubmitting ? <ClipLoader color="#ed5b09" /> : "Update"}
+            className="w-100 border-0 mt-2"
             size="lg"
             type="submit"
-            variant="none"
+            variant="solid"
             style={{
-              backgroundColor: "var(--cream100)",
-              color: "var(--dark100)",
+              backgroundColor: "var(--orange100)",
+              color: "var(--cream200)",
               height: "50px",
             }}
             disabled={isSubmitting}

@@ -46,20 +46,17 @@ const SearchTags = () => {
   }, [location.pathname]);
 
   return (
-    <div className="container-lg position-relative">
+    <div className="position-relative">
       <div
-        className="overflow-x-auto overflow-y-hidden scrollbody"
-        style={{ width: "100%" }}
+        className="overflow-x-auto overflow-y-hidden scrollbody px-lg-3"
+        style={{ minWidth: "100%" }}
         ref={scrollRef}
       >
-        <div
-          className="d-flex align-items-center gap-2"
-          style={{ width: "100%" }}
-        >
+        <div className="d-flex align-items-center gap-2 vw-100">
           {getRandomTags?.map((tag, i) => (
             <Button
               key={i}
-              variant="none"
+              variant="solid"
               style={{
                 backgroundColor:
                   tag === tagQuery ? "var(--dark100)" : "lightGrey",
@@ -67,9 +64,9 @@ const SearchTags = () => {
                 minWidth: "fit-content",
               }}
               size="sm"
-              className={`rounded-3 fw-medium ${
+              className={`rounded-3 fw-medium item ${
                 tag === tagQuery && "activeIcon bg-dark"
-              } text-capitalize fs-6`}
+              } text-capitalize fs-6 fw-bold`}
               onClick={() => handleTagClick(tag)}
             >
               {tag}
@@ -81,13 +78,16 @@ const SearchTags = () => {
         <>
           <Icon
             icon="mdi:arrow-left-bold-circle-outline"
-            className="cursor fs-3 activeIcon position-absolute top-50 start-0 translate-middle z-2 focus-arrowBox"
+            className="d-none d-lg-block cursor fs-4 position-absolute top-50 start-0 text-secondary activeIcon translate-middle z-2 focus-arrowBox"
             onClick={() => scroll(-400)}
-            style={{ transition: "all 0.5s ease" }}
+            style={{
+              transition: "all 0.5s ease",
+            }}
           />
+
           <Icon
             icon="mdi:arrow-right-bold-circle-outline"
-            className="cursor fs-3 activeIcon position-absolute top-50 start-100 translate-middle z-2 focus-arrowBox"
+            className="d-none d-lg-block cursor fs-4 position-absolute top-50 start-100 text-secondary activeIcon translate-middle z-2 focus-arrowBox"
             onClick={() => scroll(400)}
             style={{ transition: "all 0.5s ease" }}
           />

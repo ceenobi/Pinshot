@@ -189,14 +189,14 @@ const CreatePin = () => {
           </Form>
           <div className="d-flex justify-content-center justify-content-lg-end px-4">
             <MyButton
-              text={isSubmitting ? <ClipLoader color="#96b6c5" /> : "Create"}
-              className="border-0 p-2 fw-medium btn-style"
+              text={isSubmitting ? <ClipLoader color="#ed5b09" /> : "Create"}
+              className="border-0 fw-medium btn-style"
               size="lg"
               type="submit"
               variant="none"
               style={{
-                backgroundColor: "var(--cream100)",
-                color: "var(--dark100)",
+                backgroundColor: "var(--orange100)",
+                color: "var(--cream200)",
                 height: "50px",
                 width: "260px",
               }}

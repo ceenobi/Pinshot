@@ -1,11 +1,14 @@
 import { isValidObjectId } from "mongoose";
 import createHttpError from "http-errors";
 import crypto from "crypto";
+import NodeCache from "node-cache";
 import { myUserService } from "../service/index.js";
 import generateToken from "../config/generateToken.js";
 import env from "../utils/validateEnv.js";
 import sendEmail from "../config/mailVerify.js";
 import tryCatch from "../config/tryCatch.js";
+
+const cache = new NodeCache({ stdTTL: 600 });
 
 export const signUp = tryCatch(async (req, res) => {
   const { userName, email, password } = req.body;
@@ -106,24 +109,61 @@ export const authenticateUser = tryCatch(async (req, res) => {
   if (!isValidObjectId(userId)) {
     throw createHttpError(400, `Invalid user id: ${userId}`);
   }
+  const cacheKey = `authUser_${userId}`;
+  const cachedUser = cache.get(cacheKey);
+  if (cachedUser) {
+    return res.status(200).json(cachedUser);
+  }
   const user = await myUserService.getAuthUser(userId);
   if (!user) {
     throw createHttpError(404, `User not found with id: ${userId}`);
   }
+  cache.set(cacheKey, user);
   res.status(200).json(user);
 });
+
+// export const authenticateUser = tryCatch(async (req, res) => {
+//   const { id: userId } = req.user;
+
+//   if (!isValidObjectId(userId)) {
+//     throw createHttpError(400, `Invalid user id: ${userId}`);
+//   }
+//   const user = await myUserService.getAuthUser(userId);
+//   if (!user) {
+//     throw createHttpError(404, `User not found with id: ${userId}`);
+//   }
+//   res.status(200).json(user);
+// });
 
 export const getProfileUser = tryCatch(async (req, res) => {
   const { userName } = req.params;
   if (!userName) {
     throw createHttpError(400, `Invalid params`);
   }
+  const cacheKey = `profileUser_${userName}`;
+  const cachedUser = cache.get(cacheKey);
+  if (cachedUser) {
+    return res.status(200).json(cachedUser);
+  }
   const user = await myUserService.getUserProfile({ userName });
   if (!user) {
     throw createHttpError(404, `User not found: ${userName}`);
   }
+  cache.set(cacheKey, user);
   res.status(200).json(user);
 });
+
+// export const getProfileUser = tryCatch(async (req, res) => {
+//   const { userName } = req.params;
+//   if (!userName) {
+//     throw createHttpError(400, `Invalid params`);
+//   }
+//   const user = await myUserService.getUserProfile({ userName });
+//   if (!user) {
+//     throw createHttpError(404, `User not found: ${userName}`);
+//   }
+//   res.status(200).json(user);
+// });
 
 export const updateUserdata = tryCatch(async (req, res) => {
   const { id: userId } = req.user;

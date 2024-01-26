@@ -25,6 +25,7 @@ const Formfields = ({
         {...props}
         {...register(name, registerOptions)}
         isInvalid={!!errors}
+        className="bg-light.bg-gradient"
       />
       <Form.Control.Feedback type="invalid">
         {errors?.message}

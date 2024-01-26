@@ -8,7 +8,7 @@ const tryCatch = (fn) => async (param) => {
     if (error.response && error.response.data && error.response.data.error) {
       toast.error(error.response.data.error);
     } else {
-      toast.error("An error occurred");
+      toast.error(error.response.data || "An error occurred");
     }
   }
 };

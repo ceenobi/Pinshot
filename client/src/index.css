@@ -10,17 +10,18 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   --blue100: #309ed1;
-  --blue200: rgb(126, 182, 154);
+  --blue200: rgb(146, 170, 158);
   --cream100: #f1d3a4;
   --cream200: #f1f0e8;
   --dark100: #1a1a1a;
-  --color-backgroundLight: #fafafa;
-  --color-backgroundDark: #0f1212;
+  --orange100: #dd5e14;
+  --color-Light: #fafafa;
+  --color-Dark: #0f1212;
 }
 
 body.dark {
-  background-color: var(--color-backgroundDark);
-  color: var(--color-backgroundLight);
+  background-color: var(--color-Dark);
+  color: var(--color-Light);
   --image-grayscale: 20%;
   --image-opacity: 90%;
   --color-Light: #fafafa;
@@ -29,6 +30,25 @@ body.dark {
 
 img {
   filter: grayscale(var(--image-grayscale)) opacity(var(--image-opacity)) !important;
+}
+
+a {
+  color: inherit !important;
+}
+
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+  color: var(--orange100) !important;
+  background-color: white !important;
+  border: none;
+}
+
+.nav-tabs {
+  border-bottom: none !important;
+}
+
+.nav-tabs .nav-link:hover {
+  color: gray;
 }
 
 .cursor {
@@ -60,9 +80,10 @@ img {
   background-size: cover;
   min-height: 100vh;
 }
+
 /* general */
 .activeIcon {
-  color: var(--blue200) !important;
+  color: var(--orange100) !important;
   font-weight: 700;
   will-change: filter;
   cursor: pointer;
@@ -79,31 +100,14 @@ img {
 }
 
 .logout:hover {
-  color: var(--cream200);
+  color: var(--orange100);
   transition: 0.3s ease-in-out;
-  filter: brightness(50%);
   cursor: pointer;
 }
 
-.logo {
-  color: var(--blue200);
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 4em #646cffaa) !important ;
-  color: var(--blue200);
-}
-
-a {
-  color: inherit !important;
-  text-decoration: inherit;
-  font-weight: 400;
-}
-
-a:hover {
+.item:hover {
   color: var(--cream200);
-  filter: brightness(50%);
+  filter: brightness(70%);
   transition: 0.2s ease-in-out;
 }
 
@@ -147,12 +151,12 @@ a:hover {
 
 .searchbox {
   position: absolute;
-  top: 240px;
+  top: 230px;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
   width: 90%;
-  height: 450px;
+  height: 400px;
   overflow-y: scroll;
 }
 
@@ -185,18 +189,20 @@ a:hover {
     width: 420px;
   }
   .searchbox {
-    width: 500px;
-    top: 250px;
+    width: 50%;
+    height: 450px;
   }
 }
 @media (min-width: 1200px) {
   .page-adjust {
-    max-width: calc(100% - 80px) !important;
-    margin: 0 80px !important;
+    max-width: calc(100% - 100px) !important;
+    margin: 0 100px !important;
   }
-  .desktop-width {
-    width: 80px;
+
+  .sidebar-width {
+    width: 100px;
   }
+
   .cardBox {
     overflow: hidden;
   }
@@ -217,7 +223,7 @@ a:hover {
     background-color: var(--dark100);
     width: 100%;
     height: 100%;
-    filter: brightness(80%);
+    filter: brightness(60%) !important;
     transition: 0.3s ease-in-out;
   }
   .cardBox .focus-content {

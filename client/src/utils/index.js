@@ -1,4 +1,4 @@
-import links from "./LinkItems";
+import { links, footerLinks } from "./LinkItems";
 import registerOptions from "./formValidate";
 import Loading from "./Loading";
 import { downloadImage } from "./downloadImage";
@@ -7,6 +7,7 @@ import ColorSchemeToggle from "./ColorSchemeToggle";
 
 export {
   links,
+  footerLinks,
   registerOptions,
   Loading,
   downloadImage,

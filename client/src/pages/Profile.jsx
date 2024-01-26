@@ -76,7 +76,7 @@ const Profile = () => {
             <Loading text="Fetching user..." />
           ) : (
             <div>
-              <div className="d-md-flex justify-content-center gap-3  text-center text-md-start">
+              <div className="d-md-flex justify-content-start gap-3  text-center text-md-start">
                 <div>
                   <Image
                     src={user?.profilePhoto}
@@ -131,9 +131,10 @@ const Profile = () => {
                       variant="none"
                       style={{
                         width: "130px",
-                        backgroundColor: "var(--blue200)",
+                        backgroundColor: "var(--orange100)",
+                        color: "var(--cream200)",
                       }}
-                      className="border-0 fw-bold rounded-4 p-2 btn-style"
+                      className="border-0 fw-medium rounded-4 btn-style"
                       onClick={
                         loggedInUser.subscribedUsers?.includes(user?._id)
                           ? () => unfollow(user?._id)
@@ -154,7 +155,7 @@ const Profile = () => {
                 className="mt-5"
                 justify
               >
-                <Tab eventKey="user" title="Pins">
+                <Tab eventKey="user" title="Pins" style={{color: "red"}}>
                   <UserPins userId={userId} />
                 </Tab>
                 <Tab eventKey="likedpins" title="Liked pins">

@@ -9,13 +9,13 @@ const ColorSchemeToggle = () => {
       {isDark ? (
         <Icon
           icon="icon-park-solid:dark-mode"
-          className="fs-3 cursor"
+          className="fs-4 cursor"
           onClick={toggleColorScheme}
         />
       ) : (
         <Icon
           icon="iconamoon:mode-light"
-          className="fs-3 cursor"
+          className="fs-4 cursor"
           onClick={toggleColorScheme}
         />
       )}

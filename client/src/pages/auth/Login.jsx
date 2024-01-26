@@ -48,18 +48,21 @@ const Login = () => {
     <LoginRegister
       onSubmit={handleSubmit(onFormSubmit)}
       isSubmitting={isSubmitting}
-      title="Welcome, Login to get back"
-      btnText="Continue"
+      title="Welcome, Login"
+      btnText="Login"
+      info="Don't have an account?"
+      to="/register"
+      path="Sign Up"
     >
       <Formfields
         register={register}
         errors={errors?.userName}
         registerOptions={registerOptions?.userName}
-        className="my-4 text-black"
+        className="my-3 text-black"
         id="userName"
         name="userName"
         label="Username"
-        autoFocus={true}
+        // autoFocus={true}
         type="text"
         placeholder="Username"
         showPassword={showPassword}
@@ -78,29 +81,15 @@ const Login = () => {
         showPassword={showPassword}
         togglePassword={togglePassword}
       />
-      <Link
-        to="/forgot-password"
+      <div
+        className="w-100 text-end mb-1"
         style={{
-          color: "var(--dark100)",
+          color: "var(--orange100)",
           fontWeight: 500,
         }}
       >
-        Forgot password?
-      </Link>
-      <p className="text-end mt-4">
-        Don&apos;t have an account?{" "}
-        <span>
-          <Link
-            to="/register"
-            style={{
-              color: "var(--dark100)",
-              fontWeight: 500,
-            }}
-          >
-            Register
-          </Link>
-        </span>
-      </p>
+        <Link to="/forgot-password">Forgot Password?</Link>
+      </div>
     </LoginRegister>
   );
 };

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Col, Image, Row } from "react-bootstrap";
+import { Image, Tab, Tabs } from "react-bootstrap";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { searchService } from "@services";
@@ -51,7 +51,7 @@ const Search = () => {
   const filterPins = result.filter((data) => data?.title);
 
   return (
-    <PageLayout extra="px-3" style={{ paddingTop: "8rem" }}>
+    <PageLayout extra="px-3" style={{ paddingTop: "8.5rem" }}>
       {error ? (
         <p className="mt-5">{error?.response?.data?.error}</p>
       ) : (
@@ -62,43 +62,63 @@ const Search = () => {
             <div className="py-2">
               {result && result?.length > 0 ? (
                 <>
-                  <MasonryLayout>
-                    {filterPins.map((pin) => (
-                      <PinCard key={pin._id} {...pin} />
-                    ))}
-                  </MasonryLayout>
-                  {filterProfile?.length > 0 && (
-                    <>
-                      <hr />
-                      <Row className="gy-3">
-                        {filterProfile.map((user) => (
-                          <Col xs={6} md={2} key={user._id}>
-                            <div
-                              style={{ width: "50px", height: "50px" }}
-                              className="mx-auto"
-                            >
-                              <Link to={`/profile/${user.userName}`}>
-                                <Image
-                                  src={user.profilePhoto}
-                                  className="object-fit-cover w-100 h-100"
-                                  roundedCircle
-                                  alt={user.userName}
-                                />
-                              </Link>
-                            </div>
-                            <div className="text-center">
-                              <Link to={`/profile/${user.userName}`}>
-                                {user.userName}
-                              </Link>
-                            </div>
-                          </Col>
+                  <Tabs
+                    defaultActiveKey="Pins"
+                    id="pins-search-result"
+                    className="mb-3"
+                    fill
+                  >
+                    <Tab eventKey="Pins" title="Pins">
+                      <MasonryLayout>
+                        {filterPins.map((pin) => (
+                          <PinCard key={pin._id} {...pin} />
                         ))}
-                      </Row>
-                    </>
-                  )}
+                      </MasonryLayout>
+                    </Tab>
+                    <Tab eventKey="Account" title="Account">
+                      {filterProfile?.length > 0 ? (
+                        <>
+                          {filterProfile.map((user) => (
+                            <Link
+                              to={`/profile/${user.userName}`}
+                              key={user._id}
+                            >
+                              <div className="d-flex align-items-center gap-2 mb-2 p-2 hovershade">
+                                <Image
+                                  className="rounded-4 object-fit-cover"
+                                  src={user.profilePhoto}
+                                  alt={user.userName}
+                                  loading="lazy"
+                                  style={{
+                                    width: "45px",
+                                    height: "45px",
+                                  }}
+                                  roundedCircle
+                                />
+                                <span
+                                  to={`/profile/${user.userName}`}
+                                  className="fw-bold"
+                                >
+                                  {user.userName}
+                                </span>
+                              </div>
+                            </Link>
+                          ))}
+                        </>
+                      ) : (
+                        <p className="fs-6 mt-5">
+                          Sorry we could not find any available result for{" "}
+                          <span className="fw-bold">
+                            &quot;{query}
+                            &quot;
+                          </span>
+                        </p>
+                      )}
+                    </Tab>
+                  </Tabs>
                 </>
               ) : (
-                <p className="fs-6 mt-5 text-black">
+                <p className="fs-6 mt-5">
                   Sorry we could not find any available result for{" "}
                   <span className="fw-bold">
                     &quot;{query}

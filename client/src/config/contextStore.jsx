@@ -5,6 +5,7 @@ import {
   useEffect,
   useState,
   useMemo,
+  useRef,
 } from "react";
 import toast from "react-hot-toast";
 import { jwtDecode } from "jwt-decode";
@@ -17,26 +18,27 @@ export const AuthProvider = ({ children }) => {
   const [fetchUser, setLoggedInUser] = useState("");
   const loggedInUser = useMemo(() => fetchUser, [fetchUser]);
   const { isDark, setIsDark } = useColorScheme();
+  const getUserRef = useRef();
 
   const toggleColorScheme = () => {
     setIsDark(!isDark);
   };
 
   useEffect(() => {
-    async function getUser() {
+    getUserRef.current = async () => {
       try {
         const { data } = await userService.authUser();
-        setLoggedInUser((prevUser) => {
-          if (prevUser !== data) {
-            return data;
-          }
-          return prevUser;
-        });
+        setLoggedInUser(data);
       } catch (error) {
         console.error(error);
       }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (getUserRef.current) {
+      getUserRef.current();
     }
-    getUser();
   }, []);
 
   const checkJwtExpiry = useCallback(async () => {

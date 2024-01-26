@@ -156,14 +156,14 @@ const EditPost = ({ pin, setData }) => {
             </div>
           </div>
           <MyButton
-            text={isSubmitting ? <ClipLoader color="#96b6c5" /> : "Update"}
-            className="border-0 p-2 fw-medium"
+            text={isSubmitting ? <ClipLoader color="#ed5b09" /> : "Update"}
+            className="border-0 fw-medium"
             size="lg"
             type="submit"
-            variant="none"
+            variant="solid"
             style={{
-              backgroundColor: "var(--cream100)",
-              color: "var(--dark100)",
+              backgroundColor: "var(--orange100)",
+              color: "var(--cream200)",
               height: "50px",
               width: "100%",
             }}

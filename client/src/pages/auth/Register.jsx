@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Formfields, LoginRegister } from "@layouts";
 import { registerOptions } from "@utils";
@@ -49,18 +49,21 @@ const Register = () => {
     <LoginRegister
       onSubmit={handleSubmit(onFormSubmit)}
       isSubmitting={isSubmitting}
-      title="Welcome, Register to get started"
-      btnText="Sign up"
+      title="Welcome, Sign Up"
+      btnText="Sign Up"
+      info="Have an account?"
+      to="/login"
+      path="Login"
     >
       <Formfields
         register={register}
         errors={errors?.userName}
         registerOptions={registerOptions?.userName}
-        className="my-4 text-black"
+        className="my-3 text-black"
         id="userName"
         name="userName"
         label="Username"
-        autoFocus={true}
+        // autoFocus={true}
         type="text"
         placeholder="Username"
       />
@@ -68,7 +71,7 @@ const Register = () => {
         register={register}
         errors={errors?.email}
         registerOptions={registerOptions?.email}
-        className="my-4 text-black"
+        className="my-3 text-black"
         id="email"
         name="email"
         label="Email"
@@ -79,7 +82,7 @@ const Register = () => {
         register={register}
         errors={errors?.password}
         registerOptions={registerOptions?.password}
-        className="my-4 position-relative text-black"
+        className="my-3 position-relative text-black"
         id="password"
         name="password"
         label="Password"
@@ -88,20 +91,6 @@ const Register = () => {
         showPassword={showPassword}
         togglePassword={togglePassword}
       />
-      <p className="text-end mt-4">
-        Have an account?{" "}
-        <span>
-          <Link
-            to="/login"
-            style={{
-              color: "var(--dark100)",
-              fontWeight: 500,
-            }}
-          >
-            Login
-          </Link>
-        </span>
-      </p>
     </LoginRegister>
   );
 };

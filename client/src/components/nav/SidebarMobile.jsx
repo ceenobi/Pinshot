@@ -16,7 +16,7 @@ const SidebarMobile = () => {
     <>
       <Icon
         icon="ant-design:menu-outlined"
-        className="display-3 d-xl-none cursor"
+        className="fs-1 d-none d-md-block d-xl-none cursor"
         onClick={handleShow}
       />
       <Offcanvas
@@ -34,7 +34,7 @@ const SidebarMobile = () => {
                 src={loggedInUser?.profilePhoto}
                 roundedCircle
                 className="me-2 object-fit-cover"
-                style={{ width: "40px", height: "40px" }}
+                style={{ width: "30px", height: "30px" }}
                 alt={loggedInUser?.userName}
               />
               <span>Hi, {loggedInUser?.userName}</span>
@@ -58,8 +58,8 @@ const SidebarMobile = () => {
                 title={link.label}
                 onClick={handleClose}
               >
-                <div className="display-3 mb-0">{link.icon}</div>
-                <p style={{ fontSize: "14px" }}>{link.label}</p>
+                <div className="fs-1 mb-0">{link.icon}</div>
+                <p>{link.label}</p>
               </NavLink>
             ))}
             <NavLink
@@ -69,8 +69,8 @@ const SidebarMobile = () => {
               }
               onClick={handleClose}
             >
-              <Icon icon="iconamoon:profile-light" className="display-1" />
-              <p style={{ fontSize: "14px" }}>Profile</p>
+              <Icon icon="iconamoon:profile-light" className="fs-1" />
+              <p>Profile</p>
             </NavLink>
             <Nav.Link
               href="https://github.com/ceenobi/Pinshot"
@@ -78,12 +78,12 @@ const SidebarMobile = () => {
               rel="noreferrer"
               className="mt-4"
             >
-              <Icon icon="ri:github-fill" className="display-3 mb-0" />
-              <p style={{ fontSize: "14px" }}>Github</p>
+              <Icon icon="ri:github-fill" className="fs-1 mb-0" />
+              <p>Github</p>
             </Nav.Link>
             <Icon
-              icon="ic:outline-power-settings-new"
-              className="display-3 mt-4 logout"
+              icon="prime:power-off"
+              className="fs-1 mt-4 logout"
               title="logout"
               onClick={() => userService.logout()}
             />

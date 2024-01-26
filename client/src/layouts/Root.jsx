@@ -1,9 +1,9 @@
 import { useLocation, useOutlet, useParams } from "react-router-dom";
-import { Container } from "react-bootstrap";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import PropTypes from "prop-types";
 import Header from "../components/nav/Header";
 import Sidebar from "../components/nav/Sidebar";
+import Footer from "../components/Footer";
 
 const Root = ({ routes }) => {
   const { id } = useParams();
@@ -22,9 +22,8 @@ const Root = ({ routes }) => {
     routes.find((route) => route.path === location.pathname) ?? {};
 
   return (
-    <Container fluid className="m-0 p-0">
+    <div>
       {!matchPaths.includes(location.pathname) && <Sidebar />}
-      {!matchPaths.includes(location.pathname) && <Header />}
       <SwitchTransition>
         <CSSTransition
           key={location.pathname}
@@ -33,12 +32,14 @@ const Root = ({ routes }) => {
           classNames="fade"
           unmountOnExit
         >
-          <main ref={nodeRef}>
+          <main ref={nodeRef} className="min-vh-100 mainOutlet">
+            {!matchPaths.includes(location.pathname) && <Header />}
             {currentOutlet}
           </main>
         </CSSTransition>
       </SwitchTransition>
-    </Container>
+      {!matchPaths.includes(location.pathname) && <Footer />}
+    </div>
   );
 };
 

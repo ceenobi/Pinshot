@@ -10,8 +10,8 @@ const MyModal = ({ children, title, handleClose, show, ...props }) => {
     <Modal show={show} onHide={handleClose} centered {...props}>
       <Modal.Header
         style={{
-          backgroundColor: isDark ? "var(--color-backgroundDark)" : "white",
-          color: isDark ? "var(--color-backgroundLight)" : "black",
+          backgroundColor: isDark ? "var(--color-Dark)" : "var(--color-Light)",
+          color: isDark ? "var(--color-Light)" : "black",
         }}
       >
         <Modal.Title className="fs-5">{title}</Modal.Title>
@@ -23,8 +23,8 @@ const MyModal = ({ children, title, handleClose, show, ...props }) => {
       </Modal.Header>
       <Modal.Body
         style={{
-          backgroundColor: isDark ? "var(--color-backgroundDark)" : "white",
-          color: isDark ? "var(--color-backgroundLight)" : "black",
+          backgroundColor: isDark ? "var(--color-Dark)" : "var(--color-Light)",
+          color: isDark ? "var(--color-Light)" : "black",
         }}
       >
         {children}

@@ -2,20 +2,33 @@ import { Icon } from "@iconify/react";
 
 const links = [
   {
-    icon: <Icon icon="ic:sharp-home" />,
+    icon: <Icon icon="iconamoon:home-light" />,
     path: "",
     label: "Home",
   },
   {
-    icon: <Icon icon="material-symbols:explore-outline-rounded" />,
+    icon: <Icon icon="material-symbols-light:explore-outline" />,
     path: "explore",
     label: "Explore",
   },
 ];
 
-// [...file].forEach((file, i) => {
-//   formData.append("file", file, file[i]);
-//   formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
-// });
+const footerLinks = [
+  {
+    icon: <Icon icon="iconamoon:home-light" />,
+    path: "",
+    label: "Home",
+  },
+  {
+    icon: <Icon icon="material-symbols-light:explore-outline" />,
+    path: "explore",
+    label: "Explore",
+  },
+  {
+    icon: <Icon icon="solar:camera-linear" />,
+    path: "create",
+    label: "Create",
+  },
+];
 
-export default links;
+export { links, footerLinks };

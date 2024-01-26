@@ -210,7 +210,7 @@ const Pindetails = () => {
                           : "Follow"
                       }
                       className="border-0 fw-bold"
-                      style={{ backgroundColor: "var(--blue100)" }}
+                      style={{ backgroundColor: "var(--orange100)" }}
                       onClick={
                         loggedInUser.subscribedUsers?.includes(pin.userId?._id)
                           ? () => unfollow(pin.userId?._id)

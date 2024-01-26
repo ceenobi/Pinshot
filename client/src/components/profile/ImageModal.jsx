@@ -59,7 +59,7 @@ const ImageModal = ({
                   <div className="my-3 d-flex justify-content-center">
                     <MyButton
                       text="Delete pin"
-                      style={{ backgroundColor: "var(--blue200)" }}
+                      style={{ backgroundColor: "var(--orange100)" }}
                       className="border-0 fw-medium"
                       onClick={() => deletePost(item._id)}
                     />

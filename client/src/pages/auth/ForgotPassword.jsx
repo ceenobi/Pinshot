@@ -36,7 +36,7 @@ const ForgotPassword = () => {
     <LoginRegister
       onSubmit={handleSubmit(onFormSubmit)}
       isSubmitting={isSubmitting}
-      title="Enter email to recover password"
+      title="Recover Password"
       btnText="Submit"
     >
       <Formfields

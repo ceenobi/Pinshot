@@ -1,17 +1,26 @@
 import express from "express";
 import * as AuthController from "../controllers/user.js";
 import { verifyAuth, Roles } from "../middleware/authVerify.js";
+import {
+  loginLimiter,
+  registerLimiter,
+  verifyLimiter,
+} from "../middleware/rateLimit.js";
 
 const router = express.Router();
 
 //user
-router.post("/signup", AuthController.signUp);
-router.post("/login", AuthController.login);
-
+router.post("/signup", registerLimiter, AuthController.signUp);
+router.post("/login", loginLimiter, AuthController.login);
 
 //verify user account
 router.patch("/verify-account/:id/:token", AuthController.verifyAccount);
-router.post("/resend-token/:id", verifyAuth(Roles.All), AuthController.sendVerificationLink);
+router.post(
+  "/resend-token/:id",
+  verifyLimiter,
+  verifyAuth(Roles.All),
+  AuthController.sendVerificationLink
+);
 
 //password reset and recovery
 router.post("/verify-email", AuthController.recoverPasswordLink);
