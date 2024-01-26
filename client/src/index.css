@@ -49,7 +49,7 @@ a {
 }
 
 .nav-tabs .nav-link {
-  color: var(--dark100);
+  color: var(--blue200);
 }
 .nav-tabs .nav-link:hover {
   color: gray;
@@ -101,6 +101,11 @@ a {
 
 .no-activeIcon {
   color: var(--dark100);
+}
+.no-activeIcon:hover {
+  color: var(--orange100) !important;
+  transition: 0.3s ease-in-out;
+  filter: brightness(80%);
 }
 
 .logout:hover {

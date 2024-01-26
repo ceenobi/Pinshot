@@ -10,7 +10,7 @@ const Footer = () => {
   const footerIcons = [
     ...footerLinks,
     {
-      icon: <Icon icon="iconamoon:profile-light" />,
+      icon: <Icon icon="mdi:person-outline" />,
       path: `profile/${loggedInUser?.userName}`,
       label: "Profile",
     },
@@ -40,7 +40,7 @@ const Footer = () => {
         ))}
         <div className="mt-2">
           <Icon
-            icon="prime:power-off"
+            icon="mdi:power-standby"
             className="fs-1 mb-1 logout"
             title="logout"
             onClick={() => userService.logout()}

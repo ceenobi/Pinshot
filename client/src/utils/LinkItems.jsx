@@ -7,7 +7,7 @@ const links = [
     label: "Home",
   },
   {
-    icon: <Icon icon="material-symbols-light:explore-outline" />,
+    icon: <Icon icon="material-symbols:explore-outline" />,
     path: "explore",
     label: "Explore",
   },
@@ -20,7 +20,7 @@ const footerLinks = [
     label: "Home",
   },
   {
-    icon: <Icon icon="material-symbols-light:explore-outline" />,
+    icon: <Icon icon="material-symbols:explore-outline" />,
     path: "explore",
     label: "Explore",
   },

@@ -11,7 +11,7 @@ const Sidebar = () => {
   const sideBarLinks = [
     ...links,
     {
-      icon: <Icon icon="iconamoon:profile-light" />,
+      icon: <Icon icon="mdi:person-outline" />,
       path: `profile/${loggedInUser?.userName}`,
       label: "Profile",
     },
@@ -58,7 +58,7 @@ const Sidebar = () => {
         </div>
         <div title="logout" type="button">
           <Icon
-            icon="prime:power-off"
+            icon="mdi:power-standby"
             className="fs-4 logout"
             onClick={() => userService.logout()}
           />

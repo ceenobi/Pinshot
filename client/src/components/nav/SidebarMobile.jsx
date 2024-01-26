@@ -42,7 +42,7 @@ const SidebarMobile = () => {
           </Offcanvas.Title>
           <Icon
             icon="line-md:menu-to-close-alt-transition"
-            className="display-6 cursor"
+            className="fs-4 cursor"
             onClick={handleClose}
           />
         </Offcanvas.Header>
@@ -69,7 +69,7 @@ const SidebarMobile = () => {
               }
               onClick={handleClose}
             >
-              <Icon icon="iconamoon:profile-light" className="fs-1" />
+              <Icon icon="mdi:person-outline" className="fs-1" />
               <p>Profile</p>
             </NavLink>
             <Nav.Link
@@ -82,7 +82,7 @@ const SidebarMobile = () => {
               <p>Github</p>
             </Nav.Link>
             <Icon
-              icon="prime:power-off"
+              icon="mdi:power-standby"
               className="fs-1 mt-4 logout"
               title="logout"
               onClick={() => userService.logout()}
