@@ -77,6 +77,7 @@ const SidebarMobile = () => {
               target="_blank"
               rel="noreferrer"
               className="mt-4"
+              title="View code base"
             >
               <Icon icon="ri:github-fill" className="fs-1 mb-0" />
               <p>Github</p>

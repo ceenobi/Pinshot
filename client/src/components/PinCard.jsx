@@ -26,38 +26,47 @@ const PinCard = ({ _id, title, image }) => {
   });
 
   return (
-    <div className="cardBox w-100 h-auto rounded-4">
-      <Link to={`/pin/${_id}`}>
-        <LazyLoadImage
-          alt={title}
-          effect="blur"
-          src={image[0]}
-          className="w-100 h-100 rounded-4 object-fit-cover"
-        />
-      </Link>
-      <div className="d-none d-xl-block focus-heart p-2">
-        <Icon
-          icon="mdi:cards-heart"
-          className="fs-5 cursor"
-          style={{
-            color: data.likes?.includes(loggedInUser._id)
-              ? "red"
-              : "var(--cream200)",
-          }}
-          onClick={
-            data.likes?.includes(loggedInUser._id) ? handleDislike : handleLike
-          }
-        />
+    <>
+      <div className="cardBox w-100 h-auto rounded-4 mb-0">
+        <Link to={`/pin/${_id}`}>
+          <LazyLoadImage
+            alt={title}
+            effect="blur"
+            src={image[0]}
+            className="w-100 h-100 rounded-4 object-fit-cover"
+            title={title}
+          />
+        </Link>
+
+        <div className="d-none d-xl-block focus-heart p-2">
+          <Icon
+            icon="mdi:cards-heart"
+            className="fs-5 cursor"
+            style={{
+              color: data.likes?.includes(loggedInUser._id)
+                ? "red"
+                : "var(--cream200)",
+            }}
+            onClick={
+              data.likes?.includes(loggedInUser._id)
+                ? handleDislike
+                : handleLike
+            }
+          />
+        </div>
+        <div className="d-none d-xl-flex p-3 focus-content">
+          <Icon
+            icon="material-symbols:download-2-outline"
+            className="fs-5 cursor"
+            style={{ color: "var(--cream200)" }}
+            onClick={() => downloadImage(_id, image[0])}
+          />
+        </div>
       </div>
-      <div className="d-none d-xl-flex p-3 focus-content">
-        <Icon
-          icon="material-symbols:download-2-outline"
-          className="fs-5 cursor"
-          style={{ color: "var(--cream200)" }}
-          onClick={() => downloadImage(_id, image[0])}
-        />
-      </div>
-    </div>
+        <p className="fw-medium">
+          {title?.length > 50 ? title.slice(0, 20) + "..." : title}
+        </p>
+    </>
   );
 };
 

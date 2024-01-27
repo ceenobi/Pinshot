@@ -56,6 +56,7 @@ const Sidebar = () => {
             target="_blank"
             rel="noreferrer"
             className="my-4"
+            title="View code base"
           >
             <Icon icon="ri:github-fill" className="fs-4 mb-0" />
             <p className="small">Github</p>

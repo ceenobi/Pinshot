@@ -55,6 +55,11 @@ const UserPins = ({ userId }) => {
                         height={"100%"}
                         onClick={() => openModal(i)}
                       />
+                      <p className="fw-medium text-black">
+                        {pin.title?.length > 50
+                          ? pin.title.slice(0, 30) + "..."
+                          : pin.title}
+                      </p>
                       {showPicModal && (
                         <ImageModal
                           setShowPicModal={setShowPicModal}

@@ -105,6 +105,7 @@ const Header = () => {
                     ? "activeIcon d-none d-md-block"
                     : "no-activeIcon d-none d-md-block"
                 }
+                title="Create pin"
               >
                 <Icon icon="solar:camera-linear" className="fs-4" />
               </NavLink>
