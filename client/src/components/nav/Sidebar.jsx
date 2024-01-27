@@ -3,10 +3,10 @@ import { Image, Nav } from "react-bootstrap";
 import { Icon } from "@iconify/react";
 import { links } from "@utils";
 import { userService } from "@services";
-import { useAuthContext } from "@config";
+import { useAuthContext, tryCatch } from "@config";
 
 const Sidebar = () => {
-  const { loggedInUser } = useAuthContext();
+  const { loggedInUser, setLoggedInUser } = useAuthContext();
 
   const sideBarLinks = [
     ...links,
@@ -16,6 +16,11 @@ const Sidebar = () => {
       label: "Profile",
     },
   ];
+
+  const logoutUser = tryCatch(async () => {
+    await userService.logout();
+    setLoggedInUser("");
+  });
 
   return (
     <div
@@ -60,7 +65,7 @@ const Sidebar = () => {
           <Icon
             icon="mdi:power-standby"
             className="fs-4 logout"
-            onClick={() => userService.logout()}
+            onClick={logoutUser}
           />
         </div>
       </div>

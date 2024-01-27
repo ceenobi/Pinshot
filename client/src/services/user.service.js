@@ -71,9 +71,9 @@ const updateProfile = async (userName, email, password, profilePhoto, bio) => {
   );
 };
 
-const logout = async () => {
+const logout = () => {
   localStorage.removeItem("usertoken");
-  window.location.replace("/");
+  window.location.reload();
 };
 
 export default {

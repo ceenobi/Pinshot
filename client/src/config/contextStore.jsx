@@ -1,12 +1,5 @@
 import PropTypes from "prop-types";
-import {
-  createContext,
-  useCallback,
-  useEffect,
-  useState,
-  useMemo,
-  useRef,
-} from "react";
+import { createContext, useEffect, useState, useMemo, useRef } from "react";
 import toast from "react-hot-toast";
 import { jwtDecode } from "jwt-decode";
 import { userService } from "@services";
@@ -41,21 +34,24 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const checkJwtExpiry = useCallback(async () => {
-    const token = JSON.parse(localStorage.getItem("usertoken"));
-    if (token) {
-      const { exp } = jwtDecode(token);
-      if (exp * 1000 < Date.now()) {
-        localStorage.removeItem("usertoken");
-        location.replace("/");
-        toast.error("Credentials expired, sign in to get access");
-      }
-    }
-  }, []);
-
   useEffect(() => {
-    checkJwtExpiry();
-  }, [checkJwtExpiry]);
+    const interval = setInterval(() => {
+      const checkJwtExpiry = async () => {
+        const token = JSON.parse(localStorage.getItem("usertoken"));
+        if (token) {
+          const { exp } = jwtDecode(token);
+          if (exp * 1000 < Date.now()) {
+            toast.error("Login session expired, sign in to get access");
+            localStorage.removeItem("usertoken");
+            window.location.replace("/");
+          }
+        }
+      };
+      checkJwtExpiry();
+    }, 2 * 60 * 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <AuthContext.Provider
