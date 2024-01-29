@@ -36,6 +36,9 @@ const Pindetails = () => {
   const [showPicModal, setShowPicModal] = useState(false);
   useTitle(pin?.title);
 
+  console.log(pin);
+  console.log(loggedInUser);
+
   const handleLike = tryCatch(async () => {
     const res = await pinService.likeAPin(pinId, loggedInUser._id);
     toast.success(res.data);
