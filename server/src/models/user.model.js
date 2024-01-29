@@ -25,8 +25,7 @@ const userSchema = new Schema(
     },
     role: { type: String, default: "user" },
     subscribers: {
-      type: Number,
-      default: 0,
+      type: [String],
     },
     subscribedUsers: { type: [String] },
   },

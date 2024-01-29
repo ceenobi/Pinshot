@@ -37,20 +37,25 @@ const resendVerificationLink = async (userId) => {
   });
 };
 
-const followUser = async (pinUserId, userId) => {
-  return await connect.put(`/user/sub/${pinUserId}`, userId, {
+const followUser = async (profileUserId, userId) => {
+  return await connect.put(`/user/sub/${profileUserId}`, userId, {
     headers: authHeader(),
   });
 };
 
-const unFollowUser = async (pinUserId, userId) => {
-  return await connect.put(`/user/unsub/${pinUserId}`, userId, {
+const unFollowUser = async (profileUserId, userId) => {
+  return await connect.put(`/user/unsub/${profileUserId}`, userId, {
     headers: authHeader(),
   });
 };
 
 const getSubscribedUsers = async (userId) => {
   return await connect.get(`/user/${userId}/subbedusers`, {
+    headers: authHeader(),
+  });
+};
+const getMySubscribers = async (userId) => {
+  return await connect.get(`/user/${userId}/mysubscribers`, {
     headers: authHeader(),
   });
 };
@@ -85,6 +90,7 @@ export default {
   unFollowUser,
   updateProfile,
   getSubscribedUsers,
+  getMySubscribers,
   recoverPassword,
   resetPassword,
   verifyUserAccount,

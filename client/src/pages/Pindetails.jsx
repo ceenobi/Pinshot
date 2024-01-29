@@ -199,7 +199,7 @@ const Pindetails = () => {
                       >
                         {pin.userId?.userName}
                       </Link>
-                      <div>{pin.userId?.subscribers} followers</div>
+                      <div>{pin.userId?.subscribers?.length} followers</div>
                     </div>
                   </div>
                   {loggedInUser._id !== pin.userId?._id && (

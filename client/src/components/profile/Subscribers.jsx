@@ -5,13 +5,14 @@ import { useFetch } from "@hooks";
 import { userService } from "@services";
 import { Loading } from "@utils";
 
-const SubscribedUsers = ({ userId }) => {
+const Subscribers = ({ userId }) => {
   const {
-    data: following,
+    data: followers,
     error,
     loading,
-  } = useFetch(userService.getSubscribedUsers, userId);
+  } = useFetch(userService.getMySubscribers, userId);
 
+  console.log(followers);
   return (
     <div className="mt-5">
       {error ? (
@@ -22,18 +23,18 @@ const SubscribedUsers = ({ userId }) => {
             <Loading text="Fetching users..." />
           ) : (
             <>
-              {following?.length > 0 ? (
+              {followers?.length > 0 ? (
                 <div className="d-flex flex-wrap gap-3">
-                  {following.map((followed) => (
+                  {followers.map((follower) => (
                     <Link
-                      to={`/profile/${followed.userName}`}
+                      to={`/profile/${follower.userName}`}
                       className="mb-2 p-2 hovershade text-center"
-                      key={followed._id}
+                      key={follower._id}
                     >
                       <Image
                         className="rounded-4 object-fit-cover mb-2"
-                        src={followed.profilePhoto}
-                        alt={followed.userName}
+                        src={follower.profilePhoto}
+                        alt={follower.userName}
                         loading="lazy"
                         style={{
                           width: "50px",
@@ -42,16 +43,16 @@ const SubscribedUsers = ({ userId }) => {
                         roundedCircle
                       />
                       <p
-                        to={`/profile/${followed.userName}`}
+                        to={`/profile/${follower.userName}`}
                         className="fw-bold small"
                       >
-                        {followed.userName}
+                        {follower.userName}
                       </p>
                     </Link>
                   ))}
                 </div>
               ) : (
-                <p>Not following anyone yet.</p>
+                <p>No followers yet</p>
               )}
             </>
           )}
@@ -61,8 +62,8 @@ const SubscribedUsers = ({ userId }) => {
   );
 };
 
-export default SubscribedUsers;
+export default Subscribers;
 
-SubscribedUsers.propTypes = {
+Subscribers.propTypes = {
   userId: PropTypes.string,
 };

@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }) => {
         }
       };
       checkJwtExpiry();
-    }, 2 * 60 * 60 * 1000);
+    }, 5 * 60 * 1000);
 
     return () => clearInterval(interval);
   }, []);

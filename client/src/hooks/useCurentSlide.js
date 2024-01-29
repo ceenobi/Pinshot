@@ -11,6 +11,7 @@ const useCurentSlide = (data) => {
   const prevSlide = () => {
     setCurrent(current === 0 ? imgLength - 1 : current - 1);
   };
+
   return { nextSlide, prevSlide, current, setCurrent };
 };
 

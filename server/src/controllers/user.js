@@ -1,14 +1,14 @@
 import { isValidObjectId } from "mongoose";
 import createHttpError from "http-errors";
 import crypto from "crypto";
-import NodeCache from "node-cache";
+// import NodeCache from "node-cache";
 import { myUserService } from "../service/index.js";
 import generateToken from "../config/generateToken.js";
 import env from "../utils/validateEnv.js";
 import sendEmail from "../config/mailVerify.js";
 import tryCatch from "../config/tryCatch.js";
 
-const cache = new NodeCache({ stdTTL: 600 });
+// const cache = new NodeCache({ stdTTL: 600 });
 
 export const signUp = tryCatch(async (req, res) => {
   const { userName, email, password } = req.body;
@@ -109,16 +109,16 @@ export const authenticateUser = tryCatch(async (req, res) => {
   if (!isValidObjectId(userId)) {
     throw createHttpError(400, `Invalid user id: ${userId}`);
   }
-  const cacheKey = `authUser_${userId}`;
-  const cachedUser = cache.get(cacheKey);
-  if (cachedUser) {
-    return res.status(200).json(cachedUser);
-  }
+  // const cacheKey = `authUser_${userId}`;
+  // const cachedUser = cache.get(cacheKey);
+  // if (cachedUser) {
+  //   return res.status(200).json(cachedUser);
+  // }
   const user = await myUserService.getAuthUser(userId);
   if (!user) {
     throw createHttpError(404, `User not found with id: ${userId}`);
   }
-  cache.set(cacheKey, user);
+  // cache.set(cacheKey, user);
   res.status(200).json(user);
 });
 
@@ -135,35 +135,35 @@ export const authenticateUser = tryCatch(async (req, res) => {
 //   res.status(200).json(user);
 // });
 
-export const getProfileUser = tryCatch(async (req, res) => {
-  const { userName } = req.params;
-  if (!userName) {
-    throw createHttpError(400, `Invalid params`);
-  }
-  const cacheKey = `profileUser_${userName}`;
-  const cachedUser = cache.get(cacheKey);
-  if (cachedUser) {
-    return res.status(200).json(cachedUser);
-  }
-  const user = await myUserService.getUserProfile({ userName });
-  if (!user) {
-    throw createHttpError(404, `User not found: ${userName}`);
-  }
-  cache.set(cacheKey, user);
-  res.status(200).json(user);
-});
-
 // export const getProfileUser = tryCatch(async (req, res) => {
 //   const { userName } = req.params;
 //   if (!userName) {
 //     throw createHttpError(400, `Invalid params`);
 //   }
+//   const cacheKey = `profileUser_${userName}`;
+//   const cachedUser = cache.get(cacheKey);
+//   if (cachedUser) {
+//     return res.status(200).json(cachedUser);
+//   }
 //   const user = await myUserService.getUserProfile({ userName });
 //   if (!user) {
 //     throw createHttpError(404, `User not found: ${userName}`);
 //   }
+//   cache.set(cacheKey, user);
 //   res.status(200).json(user);
 // });
+
+export const getProfileUser = tryCatch(async (req, res) => {
+  const { userName } = req.params;
+  if (!userName) {
+    throw createHttpError(400, `Invalid params`);
+  }
+  const user = await myUserService.getUserProfile({ userName });
+  if (!user) {
+    throw createHttpError(404, `User not found: ${userName}`);
+  }
+  res.status(200).json(user);
+});
 
 export const updateUserdata = tryCatch(async (req, res) => {
   const { id: userId } = req.user;
@@ -267,33 +267,33 @@ export const resetUserPassword = tryCatch(async (req, res, next) => {
 
 export const subAUser = tryCatch(async (req, res, next) => {
   const { id: userId } = req.user;
-  const { id: sub } = req.params;
+  const { id: subId } = req.params;
   if (!isValidObjectId(userId)) {
     throw createHttpError(400, "Invalid user id");
   }
   if (!userId) {
     return next(createHttpError(401, "Unable to find this user"));
   }
-  if (!sub) {
+  if (!subId) {
     return next(createHttpError(401, "Unable to find this user"));
   }
-  await myUserService.subscribeUser(userId, sub);
+  await myUserService.subscribeUser(userId, subId);
   res.status(200).json("Following user successfull.");
 });
 
 export const unSubAUser = tryCatch(async (req, res) => {
   const { id: userId } = req.user;
-  const { id: sub } = req.params;
+  const { id: subId } = req.params;
   if (!isValidObjectId(userId)) {
     return next(createHttpError(400, "Invalid user id"));
   }
   if (!userId) {
     return next(createHttpError(401, "401,Unable to find this user"));
   }
-  if (!sub) {
+  if (!subId) {
     return next(createHttpError(401, "Unable to find this user"));
   }
-  await myUserService.unSubscribeUser(userId, sub);
+  await myUserService.unSubscribeUser(userId, subId);
   res.status(200).json("Unfollowed user successfull.");
 });
 
@@ -303,6 +303,18 @@ export const getSubcribedUsers = tryCatch(async (req, res) => {
     return next(createHttpError(400, "Invalid user id"));
   }
   const user = await myUserService.getSubbedUsers(userId);
+  if (!user) {
+    return next(createHttpError(400, "Invalid user"));
+  }
+  res.status(200).json(user);
+});
+
+export const getMySubcribers = tryCatch(async (req, res) => {
+  const { id: userId } = req.params;
+  if (!isValidObjectId(userId)) {
+    return next(createHttpError(400, "Invalid user id"));
+  }
+  const user = await myUserService.getSubcribers(userId);
   if (!user) {
     return next(createHttpError(400, "Invalid user"));
   }

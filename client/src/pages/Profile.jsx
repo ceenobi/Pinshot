@@ -8,6 +8,7 @@ import {
   EditProfileModal,
   MyButton,
   SubscribedUsers,
+  Subscribers,
   UserLikedPins,
   UserPins,
 } from "@components";
@@ -92,11 +93,11 @@ const Profile = () => {
                     <div className="d-flex flex-wrap align-items-center gap-2">
                       <span className="text-secondary">
                         {" "}
-                        * {user?.subscribedUsers?.length} followers
+                        * {user?.subscribedUsers?.length} following
                       </span>
                       <span className="text-secondary">
                         {" "}
-                        * {user?.subscribers} following
+                        * {user?.subscribers?.length} followers
                       </span>
                     </div>
                   </div>
@@ -113,7 +114,8 @@ const Profile = () => {
                         {!user?.isVerified && (
                           <MyButton
                             text={isloading ? "Sending..." : "Resend link"}
-                            className="mx-2 rounded-4"
+                            className="mx-2 rounded-4 border-0 btn-style"
+                            style={{backgroundColor: "var(--blue200)"}}
                             onClick={resendTokenLink}
                           />
                         )}
@@ -155,14 +157,17 @@ const Profile = () => {
                 className="mt-5"
                 fill
               >
-                <Tab eventKey="user" title="Pins" style={{color: "red"}}>
+                <Tab eventKey="user" title="Pins">
                   <UserPins userId={userId} />
                 </Tab>
                 <Tab eventKey="likedpins" title="Liked pins">
                   <UserLikedPins userId={userId} />
                 </Tab>
-                <Tab eventKey="Subscribedusers" title="Followers">
+                <Tab eventKey="Subscribedusers" title="Following">
                   <SubscribedUsers userId={userId} />
+                </Tab>
+                <Tab eventKey="Subscribers" title="Followers">
+                  <Subscribers userId={userId} />
                 </Tab>
               </Tabs>
             </div>

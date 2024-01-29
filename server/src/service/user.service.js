@@ -105,22 +105,22 @@ const updateVerifyUserStatus = (User) => async (id) => {
 };
 
 //subscribe a user
-const subscribeUser = (User) => async (userId, sub) => {
+const subscribeUser = (User) => async (userId, subId) => {
   await User.findByIdAndUpdate(userId, {
-    $push: { subscribedUsers: sub },
+    $push: { subscribedUsers: subId },
   });
-  await User.findByIdAndUpdate(sub, {
-    $inc: { subscribers: 1 },
+  await User.findByIdAndUpdate(subId, {
+    $push: { subscribers: userId },
   });
   return;
 };
 
-const unSubscribeUser = (User) => async (userId, sub) => {
+const unSubscribeUser = (User) => async (userId, subId) => {
   await User.findByIdAndUpdate(userId, {
-    $pull: { subscribedUsers: sub },
+    $pull: { subscribedUsers: subId },
   });
-  await User.findByIdAndUpdate(sub, {
-    $inc: { subscribers: -1 },
+  await User.findByIdAndUpdate(subId, {
+    $pull: { subscribers: userId },
   });
   return;
 };
@@ -128,6 +128,12 @@ const unSubscribeUser = (User) => async (userId, sub) => {
 const getSubbedUsers = (User) => async (userId) => {
   const findUser = await User.findById(userId);
   const getSubbedIds = findUser.subscribedUsers.map((user) => user);
+  return await User.find({ _id: getSubbedIds });
+};
+
+const getSubcribers = (User) => async (userId) => {
+  const findUser = await User.findById(userId);
+  const getSubbedIds = findUser.subscribers.map((user) => user);
   return await User.find({ _id: getSubbedIds });
 };
 
@@ -149,5 +155,6 @@ export default (User, Token) => {
     subscribeUser: subscribeUser(User),
     unSubscribeUser: unSubscribeUser(User),
     getSubbedUsers: getSubbedUsers(User),
+    getSubcribers: getSubcribers(User),
   };
 };

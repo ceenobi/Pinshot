@@ -8,6 +8,7 @@ import UserPins from "./profile/UserPins";
 import EditPost from "./pindetails/EditPost";
 import UserLikedPins from "./profile/UserLikedPins";
 import SubscribedUsers from "./profile/SubscribedUsers";
+import Subscribers from "./profile/Subscribers";
 import SearchTags from "./nav/SearchTags";
 import ImageModal from "./profile/ImageModal";
 import MyModal from "./MyModal";
@@ -25,6 +26,7 @@ export {
   EditPost,
   UserLikedPins,
   SubscribedUsers,
+  Subscribers,
   SearchTags,
   ImageModal,
   MyModal,
