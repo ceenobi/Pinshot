@@ -13,10 +13,10 @@ import {
   UserPins,
 } from "@components";
 import { PageLayout } from "@layouts";
-import { useFetch, useTitle } from "@hooks";
+import { useFetch, useTitle, useAuthContext } from "@hooks";
 import { userService } from "@services";
 import { Loading } from "@utils";
-import { tryCatch, useAuthContext } from "@config";
+import { tryCatch} from "@config";
 
 const Profile = () => {
   const { userName } = useParams();

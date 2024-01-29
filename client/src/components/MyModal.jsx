@@ -1,7 +1,7 @@
 import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { Icon } from "@iconify/react";
-import { useAuthContext } from "@config";
+import { useAuthContext } from "@hooks";
 
 const MyModal = ({ children, title, handleClose, show, ...props }) => {
   const { isDark } = useAuthContext();

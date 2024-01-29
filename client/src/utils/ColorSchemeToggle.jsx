@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import { useAuthContext } from "../config";
+import { useAuthContext } from "@hooks";
 
 const ColorSchemeToggle = () => {
   const { isDark, toggleColorScheme } = useAuthContext();

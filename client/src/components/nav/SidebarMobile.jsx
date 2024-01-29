@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react";
 import { Image, Offcanvas, Stack, Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { links } from "@utils";
-import { useAuthContext } from "@config";
+import { useAuthContext } from "@hooks";
 import { userService } from "@services";
 
 const SidebarMobile = () => {

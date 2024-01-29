@@ -4,6 +4,7 @@ import useScroll from "./useScroll";
 import useCurentSlide from "./useCurentSlide";
 import usePersistedState from "./usePersistedState";
 import useColorScheme from "./useColorScheme";
+import { useAuthContext } from "../hooks/useContextStore";
 
 export {
   useFetch,
@@ -12,4 +13,5 @@ export {
   useCurentSlide,
   usePersistedState,
   useColorScheme,
+  useAuthContext,
 };

@@ -1,5 +1,5 @@
 import { PageLayout } from "@layouts";
-import { useAuthContext } from "@config";
+import { useAuthContext } from "@hooks";
 import { footerLinks } from "@utils";
 import { NavLink } from "react-router-dom";
 import { Icon } from "@iconify/react";

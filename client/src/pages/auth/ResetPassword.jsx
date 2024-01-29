@@ -4,9 +4,9 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Formfields, LoginRegister } from "@layouts";
 import { registerOptions } from "@utils";
-import { tryCatch, useAuthContext } from "@config";
+import { tryCatch } from "@config";
 import { userService } from "@services";
-import { useTitle } from "@hooks";
+import { useTitle, useAuthContext } from "@hooks";
 
 const ResetPassword = () => {
   const [showPassword, setShowPassword] = useState(false);

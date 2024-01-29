@@ -9,9 +9,9 @@ import { MyButton } from "@components";
 import { PageLayout, Formfields } from "@layouts";
 import ImageUpload from "@components/ImageUpload";
 import { Loading, registerOptions } from "@utils";
-import { useFetch, useTitle } from "@hooks";
+import { useFetch, useTitle, useAuthContext } from "@hooks";
 import { pinService, searchService } from "@services";
-import { tryCatch, uploadToCloudinary, useAuthContext } from "@config";
+import { tryCatch, uploadToCloudinary } from "@config";
 
 const CreatePin = () => {
   const { data: fetchTags } = useFetch(searchService.getAllTags);

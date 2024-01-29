@@ -16,7 +16,8 @@ import {
 } from "@components";
 import { PageLayout } from "@layouts";
 import { Loading, downloadImage } from "@utils";
-import { tryCatch, useAuthContext } from "@config";
+import { tryCatch } from "@config";
+import { useAuthContext } from "@hooks";
 
 const Pindetails = () => {
   const { pinId } = useParams();

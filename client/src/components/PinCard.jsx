@@ -4,9 +4,9 @@ import { Icon } from "@iconify/react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import toast from "react-hot-toast";
 import { downloadImage } from "@utils";
-import { tryCatch, useAuthContext } from "@config";
+import { tryCatch } from "@config";
 import { pinService } from "@services";
-import { useFetch } from "@hooks";
+import { useFetch, useAuthContext } from "@hooks";
 
 const PinCard = ({ _id, title, image }) => {
   const { data, setData } = useFetch(pinService.getAPin, _id);
@@ -63,9 +63,9 @@ const PinCard = ({ _id, title, image }) => {
           />
         </div>
       </div>
-        <p className="fw-medium">
-          {title?.length > 50 ? title.slice(0, 20) + "..." : title}
-        </p>
+      <p className="fw-medium">
+        {title?.length > 50 ? title.slice(0, 20) + "..." : title}
+      </p>
     </>
   );
 };

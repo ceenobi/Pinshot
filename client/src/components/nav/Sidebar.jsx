@@ -3,7 +3,8 @@ import { Image, Nav } from "react-bootstrap";
 import { Icon } from "@iconify/react";
 import { links } from "@utils";
 import { userService } from "@services";
-import { useAuthContext, tryCatch } from "@config";
+import { tryCatch } from "@config";
+import { useAuthContext} from "@hooks";
 
 const Sidebar = () => {
   const { loggedInUser, setLoggedInUser } = useAuthContext();

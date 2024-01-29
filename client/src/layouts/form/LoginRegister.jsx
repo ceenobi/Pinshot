@@ -1,7 +1,7 @@
 import { Container, Form, Image } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { ClipLoader } from "react-spinners";
-import { useAuthContext } from "@config";
+import { useAuthContext } from "@hooks";
 import { Link } from "react-router-dom";
 import MyButton from "../../components/MyButton";
 
