@@ -13,12 +13,15 @@ export const AuthProvider = ({ children }) => {
   const { isDark, setIsDark } = useColorScheme();
   const getUserRef = useRef();
 
+  const token = localStorage.getItem("usertoken");
+
   const toggleColorScheme = () => {
     setIsDark(!isDark);
   };
 
   useEffect(() => {
     getUserRef.current = async () => {
+      if (!token) return;
       try {
         const { data } = await userService.authUser();
         setLoggedInUser(data);
@@ -26,7 +29,7 @@ export const AuthProvider = ({ children }) => {
         console.error(error);
       }
     };
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     if (getUserRef.current) {

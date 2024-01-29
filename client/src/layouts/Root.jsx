@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useLocation, useOutlet, useParams } from "react-router-dom";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import PropTypes from "prop-types";
@@ -10,6 +11,7 @@ const Root = ({ routes }) => {
   const { token } = useParams();
   const location = useLocation();
   const currentOutlet = useOutlet();
+  const mainRef = useRef(null);
   const paths = [
     "/login",
     "/register",
@@ -18,7 +20,7 @@ const Root = ({ routes }) => {
   ];
   const matchPaths = paths.map((path) => path);
 
-  const { nodeRef } =
+  const { mainRef: routeMainRef } =
     routes.find((route) => route.path === location.pathname) ?? {};
 
   return (
@@ -27,12 +29,12 @@ const Root = ({ routes }) => {
       <SwitchTransition>
         <CSSTransition
           key={location.pathname}
-          nodeRef={nodeRef}
+          nodeRef={mainRef}
           timeout={300}
           classNames="fade"
           unmountOnExit
         >
-          <main ref={nodeRef} className="min-vh-100 mainOutlet">
+          <main ref={routeMainRef} className="min-vh-100 mainOutlet">
             {!matchPaths.includes(location.pathname) && <Header />}
             {currentOutlet}
           </main>

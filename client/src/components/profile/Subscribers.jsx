@@ -12,7 +12,6 @@ const Subscribers = ({ userId }) => {
     loading,
   } = useFetch(userService.getMySubscribers, userId);
 
-  console.log(followers);
   return (
     <div className="mt-5">
       {error ? (
