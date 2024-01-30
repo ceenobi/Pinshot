@@ -59,8 +59,9 @@ const Header = () => {
                 src={
                   "https://res.cloudinary.com/ceenobi/image/upload/v1706179614/pintube/Frame_16_ecr4pq.svg"
                 }
-                style={{ width: "100px" }}
+                style={{ width: "100px", height: "auto" }}
                 className="d-lg-none"
+                alt="logo"
               />
             </NavLink>
             <Form className="w-100" onSubmit={handleSubmit}>

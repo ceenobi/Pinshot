@@ -4,7 +4,7 @@ import { Icon } from "@iconify/react";
 import { links } from "@utils";
 import { userService } from "@services";
 import { tryCatch } from "@config";
-import { useAuthContext} from "@hooks";
+import { useAuthContext } from "@hooks";
 
 const Sidebar = () => {
   const { loggedInUser, setLoggedInUser } = useAuthContext();
@@ -35,8 +35,9 @@ const Sidebar = () => {
               src={
                 "https://res.cloudinary.com/ceenobi/image/upload/v1706179614/pintube/Frame_16_ecr4pq.svg"
               }
-              style={{ width: "95px" }}
+              style={{ width: "95px", height: "auto" }}
               className="mb-4"
+              alt="logo"
             />
           </NavLink>
           {sideBarLinks.map((link, i) => (

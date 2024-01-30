@@ -18,7 +18,7 @@ const userSchema = new Schema(
       default:
         "https://res.cloudinary.com/ceenobi/image/upload/v1698666381/icons/user-avatar-profile-icon-black-vector-illustration_mpn3ef.jpg",
     },
-    bio: { type: String, default: "Nothing to show yet" },
+    bio: { type: String, default: "Nothing to say yet" },
     isVerified: {
       type: Boolean,
       default: false,

@@ -24,7 +24,7 @@ const LoginRegister = ({
       <Form
         className={`form shadow-lg ${
           isDark ? "bg-dark" : "bg-light"
-        } bg-opacity-50`}
+        } bg-opacity-75`}
         onSubmit={onSubmit}
       >
         <div className="z-3">
@@ -33,6 +33,8 @@ const LoginRegister = ({
               src={
                 "https://res.cloudinary.com/ceenobi/image/upload/v1706179614/pintube/Frame_16_ecr4pq.svg"
               }
+              style={{ width: "130px", height: "auto" }}
+              alt="logo"
             />
           </div>
           <p className="mb-4 text-center text-uppercase fw-bold fs-4">

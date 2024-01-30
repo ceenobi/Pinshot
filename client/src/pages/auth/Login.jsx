@@ -58,7 +58,7 @@ const Login = () => {
         register={register}
         errors={errors?.userName}
         registerOptions={registerOptions?.userName}
-        className="my-3 text-black"
+        className="my-4 text-black"
         id="userName"
         name="userName"
         label="Username"
@@ -82,7 +82,7 @@ const Login = () => {
         togglePassword={togglePassword}
       />
       <div
-        className="w-100 text-end mb-1"
+        className="w-100 text-end mb-2"
         style={{
           color: "var(--orange100)",
           fontWeight: 500,

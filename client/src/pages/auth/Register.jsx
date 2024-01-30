@@ -59,7 +59,7 @@ const Register = () => {
         register={register}
         errors={errors?.userName}
         registerOptions={registerOptions?.userName}
-        className="my-3 text-black"
+        className="my-4 text-black"
         id="userName"
         name="userName"
         label="Username"
@@ -71,7 +71,7 @@ const Register = () => {
         register={register}
         errors={errors?.email}
         registerOptions={registerOptions?.email}
-        className="my-3 text-black"
+        className="my-4 text-black"
         id="email"
         name="email"
         label="Email"
