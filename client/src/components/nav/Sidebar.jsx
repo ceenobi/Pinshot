@@ -35,7 +35,7 @@ const Sidebar = () => {
               src={
                 "https://res.cloudinary.com/ceenobi/image/upload/v1706179614/pintube/Frame_16_ecr4pq.svg"
               }
-              style={{ width: "95px", height: "auto" }}
+              style={{ width: "95px", height: "fit-content" }}
               className="mb-4"
               alt="logo"
             />

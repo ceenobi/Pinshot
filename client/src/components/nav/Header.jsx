@@ -59,7 +59,7 @@ const Header = () => {
                 src={
                   "https://res.cloudinary.com/ceenobi/image/upload/v1706179614/pintube/Frame_16_ecr4pq.svg"
                 }
-                style={{ width: "100px", height: "auto" }}
+                style={{ width: "100px", height: "fit-content" }}
                 className="d-lg-none"
                 alt="logo"
               />

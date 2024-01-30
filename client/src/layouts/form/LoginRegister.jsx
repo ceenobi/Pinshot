@@ -33,7 +33,7 @@ const LoginRegister = ({
               src={
                 "https://res.cloudinary.com/ceenobi/image/upload/v1706179614/pintube/Frame_16_ecr4pq.svg"
               }
-              style={{ width: "130px", height: "auto" }}
+              style={{ width: "130px", height: "fit-content" }}
               alt="logo"
             />
           </div>

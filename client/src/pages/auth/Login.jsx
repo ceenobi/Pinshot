@@ -82,7 +82,7 @@ const Login = () => {
         togglePassword={togglePassword}
       />
       <div
-        className="w-100 text-end mb-2"
+        className="w-100 text-end my-2"
         style={{
           color: "var(--orange100)",
           fontWeight: 500,
